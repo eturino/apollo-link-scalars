@@ -15,6 +15,7 @@
     "**/*_test.go",
     "**/*.d.ts",
     "**/*.spec.ts",
+    "**/*.fixtures.ts",
     ".circleci/*",
     ".editorconfig",
     ".github/*",
