@@ -83,14 +83,18 @@ class Parser {
     const key = fieldNode.alias ? fieldNode.alias.value : fieldNode.name.value;
 
     if (isNonNullType(field.type) && isNone(data[key])) {
-      const where = fieldNode.alias
-        ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
-        : `"${fieldNode.name.value}"`;
-      throw new GraphQLError(`non-null field ${where} with null value`);
+      this.failNull(fieldNode);
     }
 
     const type = getNullableType(field.type);
     return this.treatType(data, key, type);
+  }
+
+  protected failNull(fieldNode: FieldNode): void {
+    const where = fieldNode.alias
+      ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
+      : `"${fieldNode.name.value}"`;
+    throw new GraphQLError(`non-null field ${where} with null value`);
   }
 
   protected treatType(data: Data, key: string, type: GraphQLOutputType): Data {
