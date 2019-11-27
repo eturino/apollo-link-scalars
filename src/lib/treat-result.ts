@@ -2,16 +2,26 @@ import { FetchResult, Operation } from "apollo-link";
 import {
   FieldNode,
   getNullableType,
+  GraphQLEnumType,
+  GraphQLError,
   GraphQLFieldMap,
   GraphQLObjectType,
+  GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
+  isEnumType,
+  isNonNullType,
   isScalarType,
   OperationDefinitionNode
 } from "graphql";
+import { isNull, isUndefined } from "lodash";
 import { FunctionsMap } from "..";
 import { fragmentReducer } from "./fragment-reducer";
 import { isFieldNode } from "./node-types";
+
+function isNone(x: any): x is null | undefined {
+  return isUndefined(x) || isNull(x);
+}
 
 function rootTypeFor(
   operationDefinitionNode: OperationDefinitionNode,
@@ -37,7 +47,8 @@ type Data = { [key: string]: any };
 class Parser {
   constructor(
     readonly schema: GraphQLSchema,
-    readonly functionsMap: FunctionsMap
+    readonly functionsMap: FunctionsMap,
+    readonly validateEnums: boolean
   ) {}
 
   public parseResponseData(
@@ -68,11 +79,32 @@ class Parser {
     const name = fieldNode.name.value;
     const field = fieldMap[name];
     if (!field) return data;
-    const type = getNullableType(field.type);
 
     const key = fieldNode.alias ? fieldNode.alias.value : fieldNode.name.value;
+
+    if (isNonNullType(field.type) && isNone(data[key])) {
+      this.failNull(fieldNode);
+    }
+
+    const type = getNullableType(field.type);
+    return this.treatType(data, key, type);
+  }
+
+  protected failNull(fieldNode: FieldNode): void {
+    const where = fieldNode.alias
+      ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
+      : `"${fieldNode.name.value}"`;
+    throw new GraphQLError(`non-null field ${where} with null value`);
+  }
+
+  protected treatType(data: Data, key: string, type: GraphQLOutputType): Data {
     if (isScalarType(type)) {
       data[key] = this.parseScalar(data[key], type);
+      return data;
+    }
+
+    if (isEnumType(type)) {
+      this.validateEnum(data[key], type);
       return data;
     }
 
@@ -80,31 +112,49 @@ class Parser {
     return data;
   }
 
-  protected parseScalar(value: any, type: GraphQLScalarType) {
+  protected parseScalar(value: any, type: GraphQLScalarType): any {
     const fns = this.functionsMap[type.name] || type;
     return fns.parseValue(value);
   }
+
+  protected validateEnum(value: any, type: GraphQLEnumType): void {
+    if (!this.validateEnums || !value) return;
+
+    const enumValues = type.getValues().map(v => v.value);
+    if (!enumValues.includes(value)) {
+      throw new GraphQLError(`enum "${type.name}" with invalid value`);
+    }
+  }
 }
 
-export function treatResult(
-  schema: GraphQLSchema,
-  functionsMap: FunctionsMap,
-  operation: Operation,
-  response: FetchResult
-): FetchResult {
-  const data = response.data;
-  if (!data) return response;
+type TreatResultParams = {
+  schema: GraphQLSchema;
+  functionsMap: FunctionsMap;
+  operation: Operation;
+  result: FetchResult;
+  validateEnums: boolean;
+};
+
+export function treatResult({
+  schema,
+  functionsMap,
+  operation,
+  result,
+  validateEnums
+}: TreatResultParams): FetchResult {
+  const data = result.data;
+  if (!data) return result;
 
   const operationDefinitionNode = fragmentReducer(operation.query);
-  if (!operationDefinitionNode) return response;
+  if (!operationDefinitionNode) return result;
 
   const rootType = rootTypeFor(operationDefinitionNode, schema);
-  if (!rootType) return response;
+  if (!rootType) return result;
 
-  const parser = new Parser(schema, functionsMap);
+  const parser = new Parser(schema, functionsMap, validateEnums);
   const rootSelections = operationDefinitionNode.selectionSet.selections.filter(
     isFieldNode
   );
   const newData = parser.parseResponseData(data, rootType, rootSelections);
-  return { ...response, data: newData };
+  return { ...result, data: newData };
 }

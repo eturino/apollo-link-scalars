@@ -5,10 +5,15 @@ import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { treatResult } from "./treat-result";
 
-export const withScalars = (
-  schema: GraphQLSchema,
-  typesMap: FunctionsMap = {}
-): ApolloLink => {
+export const withScalars = ({
+  schema,
+  typesMap = {},
+  validateEnums = false
+}: {
+  schema: GraphQLSchema;
+  typesMap?: FunctionsMap;
+  validateEnums?: boolean;
+}): ApolloLink => {
   const leafTypesMap = pickBy(schema.getTypeMap(), isLeafType);
   const functionsMap: FunctionsMap = { ...leafTypesMap, ...typesMap };
 
@@ -22,7 +27,20 @@ export const withScalars = (
       try {
         sub = forward(operation).subscribe({
           next: result => {
-            observer.next(treatResult(schema, functionsMap, operation, result));
+            try {
+              const treated = treatResult({
+                schema,
+                functionsMap,
+                operation,
+                result,
+                validateEnums
+              });
+
+              observer.next(treated);
+            } catch (treatError) {
+              const errors = result.errors || [];
+              observer.next({ errors: [...errors, treatError] });
+            }
           },
           error: observer.error.bind(observer),
           complete: observer.complete.bind(observer)

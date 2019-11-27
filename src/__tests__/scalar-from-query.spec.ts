@@ -101,13 +101,13 @@ const schema = makeExecutableSchema({
 });
 
 const querySource = `
-      query MyQuery {
-        day
-        morning
-        someDay: day
-        someMorning: morning
-      }
-    `;
+  query MyQuery {
+    day
+    morning
+    someDay: day
+    someMorning: morning
+  }
+`;
 
 const queryDocument: DocumentNode = gql`
   ${querySource}
@@ -147,7 +147,7 @@ describe("scalar returned directly from first level queries", () => {
 
   it("use the scalar resolvers in the schema to parse back", done => {
     const link = ApolloLink.from([
-      withScalars(schema),
+      withScalars({ schema }),
       new ApolloLink(() => {
         return Observable.of(response);
       })
@@ -171,7 +171,7 @@ describe("scalar returned directly from first level queries", () => {
 
   it("override the scala resolvers with the custom functions map", done => {
     const link = ApolloLink.from([
-      withScalars(schema, typesMap),
+      withScalars({ schema, typesMap }),
       new ApolloLink(() => {
         return Observable.of(response);
       })
