@@ -11,7 +11,8 @@ import {
   isEnumType,
   isNonNullType,
   isScalarType,
-  OperationDefinitionNode
+  OperationDefinitionNode,
+  GraphQLOutputType
 } from "graphql";
 import { isNull, isUndefined } from "lodash";
 import { FunctionsMap } from "..";
@@ -89,7 +90,10 @@ class Parser {
     }
 
     const type = getNullableType(field.type);
+    return this.treatType(data, key, type);
+  }
 
+  protected treatType(data: Data, key: string, type: GraphQLOutputType): Data {
     if (isScalarType(type)) {
       data[key] = this.parseScalar(data[key], type);
       return data;
@@ -119,26 +123,34 @@ class Parser {
   }
 }
 
-export function treatResult(
-  schema: GraphQLSchema,
-  functionsMap: FunctionsMap,
-  operation: Operation,
-  response: FetchResult,
-  validateEnums: boolean
-): FetchResult {
-  const data = response.data;
-  if (!data) return response;
+type TreatResultParams = {
+  schema: GraphQLSchema;
+  functionsMap: FunctionsMap;
+  operation: Operation;
+  result: FetchResult;
+  validateEnums: boolean;
+};
+
+export function treatResult({
+  schema,
+  functionsMap,
+  operation,
+  result,
+  validateEnums
+}: TreatResultParams): FetchResult {
+  const data = result.data;
+  if (!data) return result;
 
   const operationDefinitionNode = fragmentReducer(operation.query);
-  if (!operationDefinitionNode) return response;
+  if (!operationDefinitionNode) return result;
 
   const rootType = rootTypeFor(operationDefinitionNode, schema);
-  if (!rootType) return response;
+  if (!rootType) return result;
 
   const parser = new Parser(schema, functionsMap, validateEnums);
   const rootSelections = operationDefinitionNode.selectionSet.selections.filter(
     isFieldNode
   );
   const newData = parser.parseResponseData(data, rootType, rootSelections);
-  return { ...response, data: newData };
+  return { ...result, data: newData };
 }

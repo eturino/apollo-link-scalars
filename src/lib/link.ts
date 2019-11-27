@@ -28,13 +28,13 @@ export const withScalars = ({
         sub = forward(operation).subscribe({
           next: result => {
             try {
-              const treated = treatResult(
+              const treated = treatResult({
                 schema,
                 functionsMap,
                 operation,
                 result,
                 validateEnums
-              );
+              });
 
               observer.next(treated);
             } catch (treatError) {
