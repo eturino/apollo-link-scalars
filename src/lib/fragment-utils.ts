@@ -21,25 +21,28 @@ export function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
   );
 }
 
-export function replaceFragmentsOn(
+function getCleanedSelections(
   selections: MutOrRO<SelectionNode[]>,
   fragmentMap: Dictionary<FragmentDefinitionNode | ReducedFieldNode[]>
-): ReducedFieldNode[] {
-  const cleaned: SelectionNode[] = flatMap(selections, sn => {
+): SelectionNode[] {
+  return flatMap(selections, sn => {
     if (isFieldNode(sn)) return [sn];
     if (isInlineFragmentNode(sn)) return sn.selectionSet.selections;
+
     const nodeOrSelectionList = fragmentMap[sn.name.value];
     if (!nodeOrSelectionList) return [];
-    if (isArray(nodeOrSelectionList)) return nodeOrSelectionList; // selection
-    return nodeOrSelectionList.selectionSet.selections; // fragment node
+
+    return isArray(nodeOrSelectionList)
+      ? nodeOrSelectionList
+      : nodeOrSelectionList.selectionSet.selections; // fragment node
   });
+}
 
-  if (!every(cleaned, isFieldNode)) {
-    return replaceFragmentsOn(cleaned, fragmentMap);
-  }
-
-  const fieldNodes = cleaned as FieldNode[];
-  const resolved = fieldNodes.map(fn => {
+function getResolvedFieldNodes(
+  fieldNodes: FieldNode[],
+  fragmentMap: Dictionary<FragmentDefinitionNode | ReducedFieldNode[]>
+): ReducedFieldNode[] {
+  return fieldNodes.map(fn => {
     const { selectionSet, ...restFn } = fn;
     if (
       !selectionSet ||
@@ -58,7 +61,19 @@ export function replaceFragmentsOn(
       selectionSet: { ...selectionSet, selections: replacedSelections }
     };
   });
+}
 
+export function replaceFragmentsOn(
+  selections: MutOrRO<SelectionNode[]>,
+  fragmentMap: Dictionary<FragmentDefinitionNode | ReducedFieldNode[]>
+): ReducedFieldNode[] {
+  const cleaned = getCleanedSelections(selections, fragmentMap);
+
+  if (!every(cleaned, isFieldNode)) {
+    return replaceFragmentsOn(cleaned, fragmentMap);
+  }
+
+  const resolved = getResolvedFieldNodes(cleaned as FieldNode[], fragmentMap);
   return uniqueNodes(resolved);
 }
 
