@@ -1,13 +1,13 @@
 import { FetchResult, Operation } from "apollo-link";
 import {
   FieldNode,
+  getNullableType,
   GraphQLFieldMap,
   GraphQLObjectType,
   GraphQLScalarType,
   GraphQLSchema,
   isScalarType,
-  OperationDefinitionNode,
-  getNullableType
+  OperationDefinitionNode
 } from "graphql";
 import { FunctionsMap } from "..";
 import { fragmentReducer } from "./fragment-reducer";
