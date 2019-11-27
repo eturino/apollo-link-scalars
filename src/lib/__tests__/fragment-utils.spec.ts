@@ -1,6 +1,7 @@
 import { FragmentDefinitionNode } from "graphql";
 import { Dictionary } from "lodash";
-import { fragmentMapFrom, ResolvedFieldNode } from "../fragment-utils";
+import { fragmentMapFrom } from "../fragment-utils";
+import { ReducedFieldNode } from "../node-types";
 
 export const fragments: FragmentDefinitionNode[] = [
   {
@@ -353,7 +354,7 @@ export const fragments: FragmentDefinitionNode[] = [
   }
 ];
 
-export const flatten: Dictionary<ResolvedFieldNode[]> = {
+export const flatten: Dictionary<ReducedFieldNode[]> = {
   Client: [
     {
       kind: "Field",
@@ -746,7 +747,7 @@ export const flatten: Dictionary<ResolvedFieldNode[]> = {
   ]
 };
 
-describe("fragmentMapFrom(fragmentList: FragmentDefinitionNode[]): Dictionary<ResolvedFieldNode[]>", () => {
+describe("fragmentMapFrom(fragmentList: FragmentDefinitionNode[]): Dictionary<ReducedFieldNode[]>", () => {
   it("returns an object with each Fragment name as key, and as value the list of all FieldNodes, replacing all fragment spreads for the actual Field nodes, deeply", () => {
     expect(fragmentMapFrom(fragments)).toEqual(flatten);
   });

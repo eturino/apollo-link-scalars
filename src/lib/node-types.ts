@@ -5,8 +5,22 @@ import {
   FragmentSpreadNode,
   InlineFragmentNode,
   OperationDefinitionNode,
-  SelectionNode
+  SelectionNode,
+  SelectionSetNode
 } from "graphql";
+import { MutOrRO } from "../types/mut-or-ro";
+
+type ReducedSelectionSetNode = SelectionSetNode & {
+  selections: MutOrRO<ReducedFieldNode[]>;
+};
+
+export type ReducedFieldNode = FieldNode & {
+  selectionSet?: ReducedSelectionSetNode;
+};
+
+export type ReducedOperationDefinitionNode = OperationDefinitionNode & {
+  readonly selectionSet: SelectionSetNode & ReducedSelectionSetNode;
+};
 
 export function isOperationDefinitionNode(
   node: DefinitionNode

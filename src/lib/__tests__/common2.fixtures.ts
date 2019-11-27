@@ -107,7 +107,7 @@ export const operationQuery: DocumentNode = {
 };
 
 // 1. resolve fragments
-export const expectedFragmentsResolved: OperationDefinitionNode = {
+export const expectedFragmentsReduced: OperationDefinitionNode = {
   kind: "OperationDefinition",
   operation: "query",
   name: { kind: "Name", value: "GetClients" },

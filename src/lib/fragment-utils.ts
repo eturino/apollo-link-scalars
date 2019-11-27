@@ -1,32 +1,41 @@
+import { FieldNode, FragmentDefinitionNode, SelectionNode } from "graphql";
 import {
-  FieldNode,
-  FragmentDefinitionNode,
-  SelectionNode,
-  SelectionSetNode
-} from "graphql";
-import { Dictionary, every, flatMap, fromPairs, map, uniqBy } from "lodash";
-import { isFieldNode, isInlineFragmentNode } from "./node-types";
-import { MutOrRO } from "./types/mut-or-ro";
+  Dictionary,
+  every,
+  flatMap,
+  fromPairs,
+  isArray,
+  map,
+  uniqBy
+} from "lodash";
+import { MutOrRO } from "../types/mut-or-ro";
+import {
+  isFieldNode,
+  isInlineFragmentNode,
+  ReducedFieldNode
+} from "./node-types";
 
-export type ResolvedFieldNode = FieldNode & {
-  selectionSet?: SelectionSetNode & {
-    selections: MutOrRO<ResolvedFieldNode[]>;
-  };
-};
+export function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
+  return uniqBy(nodes, fn =>
+    JSON.stringify([fn.alias && fn.alias.value, fn.name.value])
+  );
+}
 
 export function replaceFragmentsOn(
   selections: MutOrRO<SelectionNode[]>,
-  list: FragmentDefinitionNode[]
-): ResolvedFieldNode[] {
+  fragmentMap: Dictionary<FragmentDefinitionNode | ReducedFieldNode[]>
+): ReducedFieldNode[] {
   const cleaned: SelectionNode[] = flatMap(selections, sn => {
     if (isFieldNode(sn)) return [sn];
     if (isInlineFragmentNode(sn)) return sn.selectionSet.selections;
-    const fragment = list.find(f => f.name.value === sn.name.value);
-    return fragment ? fragment.selectionSet.selections : [];
+    const nodeOrSelectionList = fragmentMap[sn.name.value];
+    if (!nodeOrSelectionList) return [];
+    if (isArray(nodeOrSelectionList)) return nodeOrSelectionList; // selection
+    return nodeOrSelectionList.selectionSet.selections; // fragment node
   });
 
   if (!every(cleaned, isFieldNode)) {
-    return replaceFragmentsOn(cleaned, list);
+    return replaceFragmentsOn(cleaned, fragmentMap);
   }
 
   const fieldNodes = cleaned as FieldNode[];
@@ -42,7 +51,7 @@ export function replaceFragmentsOn(
 
     const replacedSelections = replaceFragmentsOn(
       selectionSet.selections,
-      list
+      fragmentMap
     );
     return {
       ...restFn,
@@ -50,17 +59,18 @@ export function replaceFragmentsOn(
     };
   });
 
-  return uniqBy(resolved, fn => fn.name.value);
+  return uniqueNodes(resolved);
 }
 
 export function fragmentMapFrom(
   fragments: FragmentDefinitionNode[]
-): Dictionary<ResolvedFieldNode[]> {
+): Dictionary<ReducedFieldNode[]> {
+  const initialMap = fromPairs(map(fragments, f => [f.name.value, f]));
   return fromPairs(
     map(fragments, f => {
       const fieldNodes = replaceFragmentsOn(
         f.selectionSet.selections,
-        fragments
+        initialMap
       );
       return [f.name.value, fieldNodes];
     })
