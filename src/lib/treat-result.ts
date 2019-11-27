@@ -6,13 +6,13 @@ import {
   GraphQLError,
   GraphQLFieldMap,
   GraphQLObjectType,
+  GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
   isEnumType,
   isNonNullType,
   isScalarType,
-  OperationDefinitionNode,
-  GraphQLOutputType
+  OperationDefinitionNode
 } from "graphql";
 import { isNull, isUndefined } from "lodash";
 import { FunctionsMap } from "..";
