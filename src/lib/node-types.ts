@@ -10,16 +10,19 @@ import {
 } from "graphql";
 import { MutOrRO } from "../types/mut-or-ro";
 
-type ReducedSelectionSetNode = SelectionSetNode & {
+type ReducedSelectionSetNode = Omit<SelectionSetNode, "selections"> & {
   selections: MutOrRO<ReducedFieldNode[]>;
 };
 
-export type ReducedFieldNode = FieldNode & {
+export type ReducedFieldNode = Omit<FieldNode, "selectionSet"> & {
   selectionSet?: ReducedSelectionSetNode;
 };
 
-export type ReducedOperationDefinitionNode = OperationDefinitionNode & {
-  readonly selectionSet: SelectionSetNode & ReducedSelectionSetNode;
+export type ReducedOperationDefinitionNode = Omit<
+  OperationDefinitionNode,
+  "selectionSet"
+> & {
+  readonly selectionSet: ReducedSelectionSetNode;
 };
 
 export function isOperationDefinitionNode(
