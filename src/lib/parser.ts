@@ -4,32 +4,38 @@ import {
   GraphQLEnumType,
   GraphQLError,
   GraphQLFieldMap,
+  GraphQLInputFieldMap,
   GraphQLInputObjectType,
-  GraphQLInterfaceType,
+  GraphQLInputType,
   GraphQLList,
   GraphQLNullableType,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
-  GraphQLUnionType,
   isEnumType,
+  isInputObjectType,
   isListType,
   isNonNullType,
+  isObjectType,
   isScalarType
 } from "graphql";
-import { isArray } from "lodash";
+import { isArray, reduce } from "lodash";
 import { FunctionsMap } from "..";
+import { MutOrRO } from "../types/mut-or-ro";
 import { isNone } from "./is-none";
+import { ReducedFieldNode } from "./node-types";
 
 type Data = { [key: string]: any };
 
 function ensureNullableType(
   value: any,
-  type: GraphQLOutputType,
+  type: GraphQLOutputType | GraphQLInputType,
   fieldNode: FieldNode
 ): GraphQLNullableType {
-  if (isNonNullType(type) && isNone(value)) {
+  if (!isNonNullType(type)) return type;
+
+  if (isNone(value)) {
     const where = fieldNode.alias
       ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
       : `"${fieldNode.name.value}"`;
@@ -48,20 +54,19 @@ export class Parser {
 
   public parseObjectWithSelections(
     data: Data,
-    type: GraphQLObjectType,
-    selections: FieldNode[]
+    type: GraphQLObjectType | GraphQLInputObjectType,
+    selections: MutOrRO<ReducedFieldNode[]>
   ): Data {
     const fieldMap = type.getFields();
-    return selections.reduce(
-      (acc, fn) => this.treatSelection(acc, fieldMap, fn),
-      data
-    );
+    const fn = (d: Data, fieldNode: ReducedFieldNode) =>
+      this.treatSelection(d, fieldMap, fieldNode);
+    return reduce(selections, fn, data);
   }
 
   protected treatSelection(
     data: Data,
-    fieldMap: GraphQLFieldMap<any, any, any>,
-    fieldNode: FieldNode
+    fieldMap: GraphQLInputFieldMap | GraphQLFieldMap<any, any, any>,
+    fieldNode: ReducedFieldNode
   ): Data {
     const name = fieldNode.name.value;
     const field = fieldMap[name];
@@ -75,8 +80,8 @@ export class Parser {
 
   protected treatValue(
     value: any,
-    givenType: GraphQLOutputType,
-    fieldNode: FieldNode
+    givenType: GraphQLOutputType | GraphQLInputType,
+    fieldNode: ReducedFieldNode
   ): any {
     const type = ensureNullableType(value, givenType, fieldNode);
     if (isScalarType(type)) {
@@ -94,7 +99,7 @@ export class Parser {
       return this.parseArray(value, type, fieldNode);
     }
 
-    return this.parseNestedObject(value, type, fieldNode);
+    return this.parseNestedObject(value, fieldNode);
   }
 
   protected parseScalar(value: any, type: GraphQLScalarType): any {
@@ -114,23 +119,33 @@ export class Parser {
   protected parseArray(
     value: any,
     type: GraphQLList<GraphQLOutputType>,
-    fieldNode: FieldNode
+    fieldNode: ReducedFieldNode
   ): any {
-    const innerType: GraphQLOutputType = type.ofType;
     return isArray(value)
-      ? value.map(v => this.treatValue(v, innerType, fieldNode))
+      ? value.map(v => this.treatValue(v, type.ofType, fieldNode))
       : value;
   }
 
-  protected parseNestedObject(
-    value: any,
-    _type:
-      | GraphQLObjectType<any, any, Data>
-      | GraphQLInterfaceType
-      | GraphQLUnionType
-      | GraphQLInputObjectType,
-    _fieldNode: FieldNode
-  ): any {
-    return value;
+  protected parseNestedObject(value: any, fieldNode: ReducedFieldNode): any {
+    if (
+      !value ||
+      !fieldNode ||
+      !fieldNode.selectionSet ||
+      !fieldNode.selectionSet.selections.length
+    ) {
+      return value;
+    }
+    const type = value.__typename
+      ? this.schema.getType(value.__typename)
+      : null;
+    if (!type || (!isInputObjectType(type) && !isObjectType(type))) {
+      return value;
+    }
+
+    return this.parseObjectWithSelections(
+      value,
+      type,
+      fieldNode.selectionSet.selections
+    );
   }
 }
