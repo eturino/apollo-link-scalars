@@ -5,16 +5,18 @@ import {
   GraphQLEnumType,
   GraphQLError,
   GraphQLFieldMap,
+  GraphQLNullableType,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
   isEnumType,
+  isListType,
   isNonNullType,
   isScalarType,
   OperationDefinitionNode
 } from "graphql";
-import { isNull, isUndefined } from "lodash";
+import { isArray, isNull, isUndefined } from "lodash";
 import { FunctionsMap } from "..";
 import { fragmentReducer } from "./fragment-reducer";
 import { isFieldNode } from "./node-types";
@@ -82,12 +84,57 @@ class Parser {
 
     const key = fieldNode.alias ? fieldNode.alias.value : fieldNode.name.value;
 
-    if (isNonNullType(field.type) && isNone(data[key])) {
+    return this.treatType(data, key, field.type, fieldNode);
+  }
+
+  protected treatType(
+    data: Data,
+    key: string,
+    type: GraphQLOutputType,
+    fieldNode: FieldNode
+  ): Data {
+    data[key] = this.treatValue(data[key], type, fieldNode);
+    return data;
+  }
+
+  protected treatValue(
+    value: any,
+    givenType: GraphQLOutputType,
+    fieldNode: FieldNode
+  ): any {
+    const type = this.ensureNullableType(value, givenType, fieldNode);
+    if (isScalarType(type)) {
+      return this.parseScalar(value, type);
+    }
+
+    if (isEnumType(type)) {
+      this.validateEnum(value, type);
+      return value;
+    }
+
+    if (isNone(value)) return value;
+
+    if (isListType(type)) {
+      const innerType: GraphQLOutputType = type.ofType;
+      return isArray(value)
+        ? value.map(v => this.treatValue(v, innerType, fieldNode))
+        : value;
+    }
+
+    // TODO: the rest
+    return value;
+  }
+
+  protected ensureNullableType(
+    value: any,
+    type: GraphQLOutputType,
+    fieldNode: FieldNode
+  ): GraphQLNullableType {
+    if (isNonNullType(type) && isNone(value)) {
       this.failNull(fieldNode);
     }
 
-    const type = getNullableType(field.type);
-    return this.treatType(data, key, type);
+    return getNullableType(type);
   }
 
   protected failNull(fieldNode: FieldNode): void {
@@ -95,21 +142,6 @@ class Parser {
       ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
       : `"${fieldNode.name.value}"`;
     throw new GraphQLError(`non-null field ${where} with null value`);
-  }
-
-  protected treatType(data: Data, key: string, type: GraphQLOutputType): Data {
-    if (isScalarType(type)) {
-      data[key] = this.parseScalar(data[key], type);
-      return data;
-    }
-
-    if (isEnumType(type)) {
-      this.validateEnum(data[key], type);
-      return data;
-    }
-
-    // TODO: the rest
-    return data;
   }
 
   protected parseScalar(value: any, type: GraphQLScalarType): any {
