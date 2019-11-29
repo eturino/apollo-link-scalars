@@ -9,7 +9,7 @@ import {
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
-import { withScalars } from "../index";
+import { withScalars } from "..";
 
 const typeDefs = gql`
   type Query {
