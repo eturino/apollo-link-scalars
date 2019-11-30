@@ -1,27 +1,60 @@
-import { ApolloLink, Observable } from "apollo-link";
-import { GraphQLSchema, isLeafType } from "graphql";
-import { pickBy } from "lodash";
+import {
+  ApolloLink,
+  FetchResult,
+  NextLink,
+  Observable,
+  Operation
+} from "apollo-link";
+import {
+  GraphQLSchema,
+  isInputType,
+  isLeafType,
+  NamedTypeNode,
+  TypeNode
+} from "graphql";
+import { isArray, pickBy } from "lodash";
 import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
+import {
+  isListTypeNode,
+  isNonNullTypeNode,
+  isOperationDefinitionNode
+} from "./node-types";
+import { Serializer } from "./serializer";
 import { treatResult } from "./treat-result";
 
-export const withScalars = ({
-  schema,
-  typesMap = {},
-  validateEnums = false
-}: {
+type ScalarApolloLinkParams = {
   schema: GraphQLSchema;
   typesMap?: FunctionsMap;
   validateEnums?: boolean;
-}): ApolloLink => {
-  const leafTypesMap = pickBy(schema.getTypeMap(), isLeafType);
-  const functionsMap: FunctionsMap = { ...leafTypesMap, ...typesMap };
+};
+
+export class ScalarApolloLink extends ApolloLink {
+  public readonly schema: GraphQLSchema;
+  public readonly typesMap: FunctionsMap;
+  public readonly validateEnums: boolean;
+  public readonly functionsMap: FunctionsMap;
+  public readonly serializer: Serializer;
+
+  constructor(pars: ScalarApolloLinkParams) {
+    super();
+    this.schema = pars.schema;
+    this.typesMap = pars.typesMap || {};
+    this.validateEnums = pars.validateEnums || false;
+
+    const leafTypesMap = pickBy(this.schema.getTypeMap(), isLeafType);
+    this.functionsMap = { ...leafTypesMap, ...this.typesMap };
+    this.serializer = new Serializer(this.schema, this.functionsMap);
+  }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
-  return new ApolloLink((operation, forward) => {
+  public request(
+    givenOperation: Operation,
+    forward: NextLink
+  ): Observable<FetchResult> | null {
+    const operation = this.cleanVariables(givenOperation);
+
     return new Observable(observer => {
-      const opts = { schema, typesMap, functionsMap };
-      if (!opts) throw new Error();
       let sub: ZenObservable.Subscription;
 
       try {
@@ -29,11 +62,11 @@ export const withScalars = ({
           next: result => {
             try {
               const treated = treatResult({
-                schema,
-                functionsMap,
                 operation,
                 result,
-                validateEnums
+                functionsMap: this.functionsMap,
+                schema: this.schema,
+                validateEnums: this.validateEnums
               });
 
               observer.next(treated);
@@ -53,5 +86,45 @@ export const withScalars = ({
         if (sub) sub.unsubscribe();
       };
     });
-  });
+  }
+
+  protected cleanVariables(operation: Operation): Operation {
+    const o = operation.query.definitions.find(isOperationDefinitionNode);
+    if (!o || !o.variableDefinitions || !o.variableDefinitions.length) {
+      return operation;
+    }
+    const variables = { ...operation.variables };
+    o.variableDefinitions.forEach(vd => {
+      const key = vd.variable.name.value;
+      variables[key] = this.serialize(variables[key], vd.type);
+    });
+    return { ...operation, variables };
+  }
+
+  protected serialize(value: any, typeNode: TypeNode): any {
+    if (isNonNullTypeNode(typeNode)) {
+      return this.serialize(value, typeNode.type);
+    }
+
+    if (isListTypeNode(typeNode)) {
+      return isArray(value)
+        ? value.map(v => this.serialize(v, typeNode.type))
+        : value;
+    }
+
+    return this.serializeNamed(value, typeNode);
+  }
+
+  protected serializeNamed(value: any, typeNode: NamedTypeNode): any {
+    const typeName = typeNode.name.value;
+    const schemaType = this.schema.getType(typeName);
+
+    return schemaType && isInputType(schemaType)
+      ? this.serializer.serialize(value, schemaType)
+      : value;
+  }
+}
+
+export const withScalars = (pars: ScalarApolloLinkParams): ApolloLink => {
+  return new ScalarApolloLink(pars);
 };

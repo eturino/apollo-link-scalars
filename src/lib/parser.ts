@@ -1,6 +1,4 @@
 import {
-  FieldNode,
-  getNullableType,
   GraphQLEnumType,
   GraphQLError,
   GraphQLFieldMap,
@@ -8,7 +6,6 @@ import {
   GraphQLInputObjectType,
   GraphQLInputType,
   GraphQLList,
-  GraphQLNullableType,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
@@ -16,34 +13,17 @@ import {
   isEnumType,
   isInputObjectType,
   isListType,
-  isNonNullType,
   isObjectType,
   isScalarType
 } from "graphql";
 import { isArray, reduce } from "lodash";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
+import { ensureNullableType } from "./ensure-nullable-type";
 import { isNone } from "./is-none";
 import { ReducedFieldNode } from "./node-types";
 
 type Data = { [key: string]: any };
-
-function ensureNullableType(
-  value: any,
-  type: GraphQLOutputType | GraphQLInputType,
-  fieldNode: FieldNode
-): GraphQLNullableType {
-  if (!isNonNullType(type)) return type;
-
-  if (isNone(value)) {
-    const where = fieldNode.alias
-      ? `"${fieldNode.name.value}" (alias "${fieldNode.alias.value}")`
-      : `"${fieldNode.name.value}"`;
-    throw new GraphQLError(`non-null field ${where} with null value`);
-  }
-
-  return getNullableType(type);
-}
 
 export class Parser {
   constructor(
