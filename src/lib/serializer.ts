@@ -3,7 +3,6 @@ import {
   GraphQLEnumType,
   GraphQLInputObjectType,
   GraphQLInputType,
-  GraphQLNamedType,
   GraphQLScalarType,
   GraphQLSchema,
   isEnumType,
@@ -20,22 +19,19 @@ export class Serializer {
     readonly functionsMap: FunctionsMap
   ) {}
 
-  public serialize(value: any, type: GraphQLInputType): any {
+  public serialize(value: any, givenType: GraphQLInputType): any {
+    const type = getNullableType(givenType);
+    if (isNone(value)) return value;
+
     if (isListType(type)) {
       return isArray(value)
         ? value.map(v => this.serialize(v, type.ofType))
         : value;
     }
 
-    return this.serializeNamed(value, getNullableType(type));
-  }
-
-  public serializeNamed(value: any, type: GraphQLNamedType): any {
     if (isScalarType(type) || isEnumType(type)) {
       return this.serializeLeaf(value, type);
     }
-
-    if (isNone(value)) return value;
 
     return this.serializeInputObject(value, type as GraphQLInputObjectType);
   }

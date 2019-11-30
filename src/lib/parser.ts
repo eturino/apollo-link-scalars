@@ -5,11 +5,13 @@ import {
   GraphQLInputFieldMap,
   GraphQLInputObjectType,
   GraphQLInputType,
+  GraphQLInterfaceType,
   GraphQLList,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
+  GraphQLUnionType,
   isEnumType,
   isInputObjectType,
   isListType,
@@ -79,7 +81,7 @@ export class Parser {
       return this.parseArray(value, type, fieldNode);
     }
 
-    return this.parseNestedObject(value, fieldNode);
+    return this.parseNestedObject(value, type, fieldNode);
   }
 
   protected parseScalar(value: any, type: GraphQLScalarType): any {
@@ -106,7 +108,15 @@ export class Parser {
       : value;
   }
 
-  protected parseNestedObject(value: any, fieldNode: ReducedFieldNode): any {
+  protected parseNestedObject(
+    value: any,
+    givenType:
+      | GraphQLObjectType<any, any, Data>
+      | GraphQLInterfaceType
+      | GraphQLUnionType
+      | GraphQLInputObjectType,
+    fieldNode: ReducedFieldNode
+  ): any {
     if (
       !value ||
       !fieldNode ||
@@ -115,17 +125,32 @@ export class Parser {
     ) {
       return value;
     }
-    const type = value.__typename
-      ? this.schema.getType(value.__typename)
-      : null;
-    if (!type || (!isInputObjectType(type) && !isObjectType(type))) {
-      return value;
-    }
 
-    return this.parseObjectWithSelections(
-      value,
-      type,
-      fieldNode.selectionSet.selections
-    );
+    const type = this.getObjectTypeFrom(value, givenType);
+
+    return type
+      ? this.parseObjectWithSelections(
+          value,
+          type,
+          fieldNode.selectionSet.selections
+        )
+      : value;
+  }
+
+  protected getObjectTypeFrom(
+    value: any,
+    type:
+      | GraphQLObjectType<any, any, Data>
+      | GraphQLInterfaceType
+      | GraphQLUnionType
+      | GraphQLInputObjectType
+  ): GraphQLObjectType<any, any, Data> | GraphQLInputObjectType | null {
+    if (isInputObjectType(type) || isObjectType(type)) return type;
+    if (!value.__typename) return null;
+
+    const valueType = this.schema.getType(value.__typename);
+    return isInputObjectType(valueType) || isObjectType(valueType)
+      ? valueType
+      : null;
   }
 }
