@@ -1,5 +1,4 @@
-import { withScalars } from "./lib/link";
-import { FunctionsMap } from "./types/functions-map";
+import { ScalarApolloLink, withScalars } from "./lib/link";
+import { FunctionsMap, ParsingFunctionsObject } from "./types/functions-map";
 
-export { FunctionsMap };
-export { withScalars };
+export { ParsingFunctionsObject, FunctionsMap, withScalars, ScalarApolloLink };

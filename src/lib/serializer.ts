@@ -9,9 +9,10 @@ import {
   isListType,
   isScalarType
 } from "graphql";
-import { isArray, mapValues } from "lodash";
+import { mapValues } from "lodash";
 import { FunctionsMap } from "..";
 import { isNone } from "./is-none";
+import { mapIfArray } from "./map-if-array";
 
 export class Serializer {
   constructor(
@@ -19,21 +20,22 @@ export class Serializer {
     readonly functionsMap: FunctionsMap
   ) {}
 
-  public serialize(value: any, givenType: GraphQLInputType): any {
-    const type = getNullableType(givenType);
+  public serialize(value: any, type: GraphQLInputType): any {
     if (isNone(value)) return value;
 
-    if (isListType(type)) {
-      return isArray(value)
-        ? value.map(v => this.serialize(v, type.ofType))
-        : value;
-    }
+    return this.serializeNullable(value, getNullableType(type));
+  }
 
+  protected serializeNullable(value: any, type: GraphQLInputType): any {
     if (isScalarType(type) || isEnumType(type)) {
       return this.serializeLeaf(value, type);
     }
 
-    return this.serializeInputObject(value, type as GraphQLInputObjectType);
+    if (isListType(type)) {
+      return mapIfArray(value, v => this.serialize(v, type.ofType));
+    }
+
+    return this.serializeInputObject(value, type);
   }
 
   protected serializeLeaf(

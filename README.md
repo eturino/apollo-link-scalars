@@ -9,7 +9,7 @@
 
 [Github repo here](https://github.com/eturino/apollo-link-scalars)
 
-custom apollo link to allow to parse custom scalars
+Custom apollo link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs.
 
 ## Installation
 
@@ -17,7 +17,81 @@ custom apollo link to allow to parse custom scalars
 
 ## Usage
 
-TBD.
+We need to pass a `GraphQLSchema`, and optionally we can also pass a map of custom serialization/parsing functions for specific types.
+
+You can build the link by calling the `withScalars()` function, passing to it the `schema` and optionally a `typesMap`.
+
+```typescript
+import { withScalars } from "apollo-link-scalars"
+import { ApolloLink } from "apollo-link";
+import { HttpLink } from "apollo-link-http";
+import { schema } from './my-schema'
+
+const link = ApolloLink.from([
+  withScalars({ schema }),
+  new HttpLink({ uri: "http://example.org/graphql" })
+]);
+
+// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.
+const typesMap = {
+  CustomScalar: {
+    serialize: (parsed: CustomScalar) => parsed.toString(),
+    parseValue: (raw: string | number | null): CustomScalar | null => {
+      return raw ? new CustomScalar(raw) : null
+    }
+  }
+};
+
+const link2 = ApolloLink.from([
+  withScalars({ schema, typesMap }),
+  new HttpLink({ uri: "http://example.org/graphql" })
+]);
+
+```
+
+### Example of loading a schema
+```typescript
+import gql from "graphql-tag";
+import { GraphQLScalarType, Kind } from "graphql";
+import { makeExecutableSchema } from "graphql-tools";
+
+// GraphQL Schema definition.
+const typeDefs = gql`
+  type Query {
+    myList: [MyObject!]!
+  }
+
+  type MyObject {
+    day: Date
+    days: [Date]!
+    nested: MyObject
+  }
+
+  "represents a Date with time"
+  scalar Date
+`;
+
+const resolvers = {
+  // example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object 
+  Date: new GraphQLScalarType({
+    name: "Date",
+    serialize: (parsed: CustomDate | null) => parsed && parsed.toISOString(),
+    parseValue: (raw: any) => raw && new CustomDate(new Date(raw)),
+    parseLiteral(ast) {
+      if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
+        return new CustomDate(new Date(ast.value));
+      }
+      return null;
+    }
+  }),
+};
+
+// GraphQL Schema, required to use the link
+const schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});
+```
 
 ## Development, Commits, versioning and publishing
 

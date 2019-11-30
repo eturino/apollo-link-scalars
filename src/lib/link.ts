@@ -12,9 +12,10 @@ import {
   NamedTypeNode,
   TypeNode
 } from "graphql";
-import { isArray, pickBy } from "lodash";
+import { pickBy } from "lodash";
 import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
+import { mapIfArray } from "./map-if-array";
 import {
   isListTypeNode,
   isNonNullTypeNode,
@@ -61,15 +62,7 @@ export class ScalarApolloLink extends ApolloLink {
         sub = forward(operation).subscribe({
           next: result => {
             try {
-              const treated = treatResult({
-                operation,
-                result,
-                functionsMap: this.functionsMap,
-                schema: this.schema,
-                validateEnums: this.validateEnums
-              });
-
-              observer.next(treated);
+              observer.next(this.parse(operation, result));
             } catch (treatError) {
               const errors = result.errors || [];
               observer.next({ errors: [...errors, treatError] });
@@ -85,6 +78,16 @@ export class ScalarApolloLink extends ApolloLink {
       return () => {
         if (sub) sub.unsubscribe();
       };
+    });
+  }
+
+  protected parse(operation: Operation, result: FetchResult): FetchResult {
+    return treatResult({
+      operation,
+      result,
+      functionsMap: this.functionsMap,
+      schema: this.schema,
+      validateEnums: this.validateEnums
     });
   }
 
@@ -107,9 +110,7 @@ export class ScalarApolloLink extends ApolloLink {
     }
 
     if (isListTypeNode(typeNode)) {
-      return isArray(value)
-        ? value.map(v => this.serialize(v, typeNode.type))
-        : value;
+      return mapIfArray(value, v => this.serialize(v, typeNode.type));
     }
 
     return this.serializeNamed(value, typeNode);
