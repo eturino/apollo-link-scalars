@@ -1,0 +1,399 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>apollo-link-scalars</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<link rel="stylesheet" href="assets/css/main.plus.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">apollo-link-scalars</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> apollo-link-scalars</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#codeapollo-link-scalarscode" id="codeapollo-link-scalarscode" style="color: inherit; text-decoration: none;">
+					<h1><code>apollo-link-scalars</code></h1>
+				</a>
+				<p><a href="https://badge.fury.io/js/apollo-link-scalars"><img src="https://badge.fury.io/js/apollo-link-scalars.svg" alt="npm version"></a>
+					<a href="https://travis-ci.org/eturino/apollo-link-scalars"><img src="https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master" alt="Build Status"></a>
+					<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/maintainability"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/maintainability" alt="Maintainability"></a>
+				<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/test_coverage" alt="Test Coverage"></a></p>
+				<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
+				<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
+				<p>Custom apollo link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs.</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p><code>yarn add apollo-link-scalars</code> or <code>npm install apollo-link-scalars</code>.</p>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
+				<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { withScalars } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link-scalars"</span>
+<span class="hljs-keyword">import</span> { ApolloLink } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link"</span>;
+<span class="hljs-keyword">import</span> { HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link-http"</span>;
+<span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">'./my-schema'</span>
+
+<span class="hljs-keyword">const</span> link = ApolloLink.from([
+  withScalars({ schema }),
+  <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">"http://example.org/graphql"</span> })
+]);
+
+<span class="hljs-comment">// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.</span>
+<span class="hljs-keyword">const</span> typesMap = {
+  CustomScalar: {
+    serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomScalar</span>) =&gt;</span> parsed.toString(),
+    parseValue: (raw: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>): CustomScalar | <span class="hljs-function"><span class="hljs-params">null</span> =&gt;</span> {
+      <span class="hljs-keyword">return</span> raw ? <span class="hljs-keyword">new</span> CustomScalar(raw) : <span class="hljs-literal">null</span>
+    }
+  }
+};
+
+<span class="hljs-keyword">const</span> link2 = ApolloLink.from([
+  withScalars({ schema, typesMap }),
+  <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">"http://example.org/graphql"</span> })
+]);
+</code></pre>
+				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
+					<h3>Example of loading a schema</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> gql <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql-tag"</span>;
+<span class="hljs-keyword">import</span> { GraphQLScalarType, Kind } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql"</span>;
+<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql-tools"</span>;
+
+<span class="hljs-comment">// GraphQL Schema definition.</span>
+<span class="hljs-keyword">const</span> typeDefs = gql<span class="hljs-string">`
+  type Query {
+    myList: [MyObject!]!
+  }
+
+  type MyObject {
+    day: Date
+    days: [Date]!
+    nested: MyObject
+  }
+
+  "represents a Date with time"
+  scalar Date
+`</span>;
+
+<span class="hljs-keyword">const</span> resolvers = {
+  <span class="hljs-comment">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object </span>
+  <span class="hljs-built_in">Date</span>: <span class="hljs-keyword">new</span> GraphQLScalarType({
+    name: <span class="hljs-string">"Date"</span>,
+    serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomDate | <span class="hljs-literal">null</span></span>) =&gt;</span> parsed &amp;&amp; parsed.toISOString(),
+    parseValue: <span class="hljs-function">(<span class="hljs-params">raw: <span class="hljs-built_in">any</span></span>) =&gt;</span> raw &amp;&amp; <span class="hljs-keyword">new</span> CustomDate(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(raw)),
+    parseLiteral(ast) {
+      <span class="hljs-keyword">if</span> (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CustomDate(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(ast.value));
+      }
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    }
+  }),
+};
+
+<span class="hljs-comment">// GraphQL Schema, required to use the link</span>
+<span class="hljs-keyword">const</span> schema = makeExecutableSchema({
+  typeDefs,
+  resolvers
+});</code></pre>
+				<a href="#development-commits-versioning-and-publishing" id="development-commits-versioning-and-publishing" style="color: inherit; text-decoration: none;">
+					<h2>Development, Commits, versioning and publishing</h2>
+				</a>
+				<details><summary>See documentation for development</summary>
+					<p>
+						<p>See <a href="https://github.com/bitjson/typescript-starter#bump-version-update-changelog-commit--tag-release">The Typescript-Starter docs</a>.</p>
+						<a href="#commits-and-changelog" id="commits-and-changelog" style="color: inherit; text-decoration: none;">
+							<h3>Commits and CHANGELOG</h3>
+						</a>
+						<p>For commits, you should use <a href="https://github.com/commitizen/cz-cli"><code>commitizen</code></a></p>
+						<pre><code class="language-sh">yarn global add commitizen
+
+<span class="hljs-comment">#commit your changes:</span>
+git cz</code></pre>
+						<p>As typescript-starter docs state:</p>
+						<p>This project is tooled for <a href="https://github.com/conventional-changelog/conventional-changelog">conventional changelog</a> to make managing releases easier. See the <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> documentation for more information on the workflow, or <a href="CHANGELOG.md"><code>CHANGELOG.md</code></a> for an example.</p>
+						<pre><code class="language-sh"><span class="hljs-comment"># bump package.json version, update CHANGELOG.md, git tag the release</span>
+yarn run version</code></pre>
+						<p>You may find a tool like <a href="https://github.com/bitjson/wip"><strong><code>wip</code></strong></a> helpful for managing work in progress before you&#39;re ready to create a meaningful commit.</p>
+						<a href="#creating-the-first-version" id="creating-the-first-version" style="color: inherit; text-decoration: none;">
+							<h3>Creating the first version</h3>
+						</a>
+						<p>Once you are ready to create the first version, run the following (note that <code>reset</code> is destructive and will remove all files not in the git repo from the directory).</p>
+						<pre><code class="language-sh"><span class="hljs-comment"># Reset the repo to the latest commit and build everything</span>
+yarn run reset &amp;&amp; yarn run <span class="hljs-built_in">test</span> &amp;&amp; yarn run doc:html
+
+<span class="hljs-comment"># Then version it with standard-version options. e.g.:</span>
+<span class="hljs-comment"># don't bump package.json version</span>
+yarn run version -- --first-release
+
+<span class="hljs-comment"># Other popular options include:</span>
+
+<span class="hljs-comment"># PGP sign it:</span>
+<span class="hljs-comment"># $ yarn run version -- --sign</span>
+
+<span class="hljs-comment"># alpha release:</span>
+<span class="hljs-comment"># $ yarn run version -- --prerelease alpha</span></code></pre>
+						<p>And after that, remember to <a href="#publish-the-docs">publish the docs</a>.</p>
+						<p>And finally push the new tags to github and publish the package to npm.</p>
+						<pre><code class="language-sh"><span class="hljs-comment"># Push to git</span>
+git push --follow-tags origin master
+
+<span class="hljs-comment"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span>
+yarn publish --access public</code></pre>
+						<a href="#publish-the-docs" id="publish-the-docs" style="color: inherit; text-decoration: none;">
+							<h3>Publish the Docs</h3>
+						</a>
+						<pre><code class="language-sh">yarn run doc:html &amp;&amp; yarn run doc:publish</code></pre>
+						<p>This will generate the docs and publish them in github pages.</p>
+						<a href="#generate-a-version" id="generate-a-version" style="color: inherit; text-decoration: none;">
+							<h3>Generate a version</h3>
+						</a>
+						<p>There is a single yarn command for preparing a new release. See <a href="https://github.com/bitjson/typescript-starter#one-step-publish-preparation-script">One-step publish preparation script in TypeScript-Starter</a></p>
+						<pre><code class="language-sh"><span class="hljs-comment"># Prepare a standard release</span>
+yarn prepare-release
+
+<span class="hljs-comment"># Push to git</span>
+git push --follow-tags origin master
+
+<span class="hljs-comment"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span>
+yarn publish --access public</code></pre>
+					</p>
+				</details>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li><a href="index.html" class="title">README</a></li>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class">
+						<a href="classes/parser.html" class="tsd-kind-icon">Parser</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/scalarapollolink.html" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/serializer.html" class="tsd-kind-icon">Serializer</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#data" class="tsd-kind-icon">Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#functionsmap" class="tsd-kind-icon">Functions<wbr>Map</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#parsingfunctionsobject" class="tsd-kind-icon">Parsing<wbr>Functions<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reducedfieldnode" class="tsd-kind-icon">Reduced<wbr>Field<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="globals.html#reducedoperationdefinitionnode" class="tsd-kind-icon">Reduced<wbr>Operation<wbr>Definition<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#reducedselectionsetnode" class="tsd-kind-icon">Reduced<wbr>Selection<wbr>Set<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#scalarapollolinkparams" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#treatresultparams" class="tsd-kind-icon">Treat<wbr>Result<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="globals.html#graphqlschemaobj" class="tsd-kind-icon">graphql<wbr>Schema<wbr>Obj</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#ensurenullabletype" class="tsd-kind-icon">ensure<wbr>Nullable<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#fragmentmapfrom" class="tsd-kind-icon">fragment<wbr>Map<wbr>From</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#fragmentreducer" class="tsd-kind-icon">fragment<wbr>Reducer</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getcleanedselections" class="tsd-kind-icon">get<wbr>Cleaned<wbr>Selections</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getresolvedfieldnodes" class="tsd-kind-icon">get<wbr>Resolved<wbr>Field<wbr>Nodes</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isfieldnode" class="tsd-kind-icon">is<wbr>Field<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isfragmentdefinitionnode" class="tsd-kind-icon">is<wbr>Fragment<wbr>Definition<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isfragmentspreadnode" class="tsd-kind-icon">is<wbr>Fragment<wbr>Spread<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isinlinefragmentnode" class="tsd-kind-icon">is<wbr>Inline<wbr>Fragment<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#islisttypenode" class="tsd-kind-icon">is<wbr>List<wbr>Type<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isnamedtypenode" class="tsd-kind-icon">is<wbr>Named<wbr>Type<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isnonnulltypenode" class="tsd-kind-icon">is<wbr>Non<wbr>Null<wbr>Type<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#isoperationdefinitionnode" class="tsd-kind-icon">is<wbr>Operation<wbr>Definition<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#replacefragmentson" class="tsd-kind-icon">replace<wbr>Fragments<wbr>On</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#roottypefor" class="tsd-kind-icon">root<wbr>Type<wbr>For</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#treatresult" class="tsd-kind-icon">treat<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#uniquenodes" class="tsd-kind-icon">unique<wbr>Nodes</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#withscalars" class="tsd-kind-icon">with<wbr>Scalars</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#expectedfragmentsreduced" class="tsd-kind-icon">expected<wbr>Fragments<wbr>Reduced</a>
+					</li>
+					<li class=" tsd-kind-object-literal">
+						<a href="globals.html#operationquery" class="tsd-kind-icon">operation<wbr>Query</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

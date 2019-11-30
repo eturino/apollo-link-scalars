@@ -1,0 +1,63 @@
+// Created by user on 2018/6/23/023.
+
+@import "main.css";
+
+html { font-size: 9pt; }
+
+body , html, :root { font-family: LigaConsolas, 'Source Sans Pro', Consolas, 'Lucida Grande', sans-serif }
+code, pre { font-family: LigaConsolas, Menlo, Monaco, Consolas, "Courier New", monospace }
+
+body , html, :root { font-size: 9pt;  }
+code, pre { font-size: 1rem; }
+footer .tsd-legend { font-size: 1rem; }
+
+body { background: #333; background: #2b2c47; }
+
+.tsd-panel { border-radius: 1rem; }
+.tsd-breadcrumb a { color: #222; }
+.tsd-page-title { background: rgba(255, 255, 255, 0.5); }
+
+.tsd-navigation
+{
+	a { color: #3b75c0; }
+	&.primary li
+	{
+		&.current > a { color: #83b9ff; }
+		&:hover > a { color: #83b9ff; }
+	}
+}
+
+.tsd-panel-group > h2 { color: #b4b4b4; }
+
+footer { opacity: 0.80; }
+
+code, pre { border-radius: 3px; }
+
+ul.tsd-descriptions h4, ul.tsd-descriptions .tsd-index-panel h3, .tsd-index-panel ul.tsd-descriptions h3 { font-size: 1.3rem; }
+
+.tsd-signature, .tsd-sources { font-size: 1rem; }
+
+pre {
+	border: #ffffff00 solid 1px;
+	&:hover {
+		border: #353a5099 solid 1px;
+	}
+}
+
+.tsd-panel {
+	border: #ffffff00 solid 3px;
+
+	&:hover
+	{
+		border: #008aff80 solid 3px;
+	}
+}
+
+.tsd-comment-tags
+{
+	dd[data-tag-name="example"]
+	{
+		padding-top: 5px;
+		clear: both;
+	}
+}
