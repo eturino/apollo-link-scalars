@@ -93,6 +93,14 @@ const schema = makeExecutableSchema({
 });
 ```
 
+## Acknowledges
+
+The link code is heavily based on [`apollo-link-response-resolver`](https://github.com/with-heart/apollo-link-response-resolver) by [will-heart](https://github.com/with-heart). 
+
+While the approach in `apollo-link-response-resolver` is to apply resolvers based on the types taken from `__typename`, this follows the query and the schema to parse based on scalar types.
+
+I started working on this after following the Apollo feature request https://github.com/apollographql/apollo-feature-requests/issues/2 
+
 ## Development, Commits, versioning and publishing
 
 <details><summary>See documentation for development</summary>
