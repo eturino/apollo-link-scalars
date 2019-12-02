@@ -1,4 +1,13 @@
+import { isNone } from "./lib/is-none";
 import { ScalarApolloLink, withScalars } from "./lib/link";
+import { mapIfArray } from "./lib/map-if-array";
 import { FunctionsMap, ParsingFunctionsObject } from "./types/functions-map";
 
-export { ParsingFunctionsObject, FunctionsMap, withScalars, ScalarApolloLink };
+export {
+  FunctionsMap,
+  isNone,
+  mapIfArray,
+  ParsingFunctionsObject,
+  ScalarApolloLink,
+  withScalars
+};
