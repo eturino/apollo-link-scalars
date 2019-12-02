@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/eturino/apollo-link-scalars/compare/v0.1.0...v0.1.1) (2019-12-02)
+
+
+### Features
+
+* exporting `isNone` and `mapIfArray` utils ([031a6d1](https://github.com/eturino/apollo-link-scalars/commit/031a6d1612d4ced48b932fc74490f4004e933eb1))
+
 ## 0.1.0 (2019-11-30)
 
 
