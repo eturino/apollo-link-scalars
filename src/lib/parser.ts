@@ -66,6 +66,8 @@ export class Parser {
     fieldNode: ReducedFieldNode
   ): any {
     const type = ensureNullableType(value, givenType, fieldNode);
+    if (isNone(value)) return value;
+
     if (isScalarType(type)) {
       return this.parseScalar(value, type);
     }
@@ -74,8 +76,6 @@ export class Parser {
       this.validateEnum(value, type);
       return value;
     }
-
-    if (isNone(value)) return value;
 
     if (isListType(type)) {
       return this.parseArray(value, type, fieldNode);
