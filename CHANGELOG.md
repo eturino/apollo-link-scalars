@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/eturino/apollo-link-scalars/compare/v0.1.1...v0.1.2) (2019-12-04)
+
+
+### Bug Fixes
+
+* mutate the operation with serialized vars (avoid shallow copy with wrong prototype errors) ([ab9a107](https://github.com/eturino/apollo-link-scalars/commit/ab9a10797c28d84b48ab9fb416f103a0a7ca640c))
+
 ### [0.1.1](https://github.com/eturino/apollo-link-scalars/compare/v0.1.0...v0.1.1) (2019-12-02)
 
 
