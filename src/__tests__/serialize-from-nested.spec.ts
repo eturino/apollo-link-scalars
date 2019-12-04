@@ -239,8 +239,13 @@ const request: GraphQLRequest = {
   query: queryDocument,
   variables: {
     input: {
+      __typename: "MyInput",
       first: parsedDay,
-      second: { morning: parsedMorning, list: [parsedMorning, parsedMorning2] }
+      second: {
+        __typename: "MyNested",
+        morning: parsedMorning,
+        list: [parsedMorning, parsedMorning2]
+      }
     }
   },
   operationName: queryOperationName
@@ -255,7 +260,7 @@ const response = {
   }
 };
 
-describe("scalar returned directly from first level queries", () => {
+describe("scalars in nested input objects", () => {
   it("stringify of custom dates is not the same as toISOString()", () => {
     expect(JSON.stringify(parsedDay)).not.toEqual(rawDay);
   });
@@ -290,9 +295,44 @@ describe("scalar returned directly from first level queries", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to serialize", done => {
+  it("use the scalar resolvers in the schema to serialize (without removeTypenameFromInputs)", done => {
     const link = ApolloLink.from([
       withScalars({ schema }),
+      new ApolloLink(operation => {
+        expect(operation.variables).toEqual({
+          input: {
+            __typename: "MyInput",
+            first: rawDay,
+            second: {
+              __typename: "MyNested",
+              morning: rawMorning,
+              list: [rawMorning, rawMorning2]
+            }
+          }
+        });
+        return Observable.of(cloneDeep(response));
+      })
+    ]);
+    const expectedResponse = {
+      data: {
+        convert: {
+          first: parsedMorning,
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
+        }
+      }
+    };
+
+    const observable = execute(link, cloneDeep(request));
+    observable.subscribe(value => {
+      expect(value).toEqual(expectedResponse);
+      done();
+    });
+    expect.assertions(2);
+  });
+
+  it("use the scalar resolvers in the schema to serialize (with removeTypenameFromInputs -> removes __typename)", done => {
+    const link = ApolloLink.from([
+      withScalars({ schema, removeTypenameFromInputs: true }),
       new ApolloLink(operation => {
         expect(operation.variables).toEqual({
           input: {
@@ -323,23 +363,44 @@ describe("scalar returned directly from first level queries", () => {
     expect.assertions(2);
   });
 
-  it("override the scala resolvers with the custom functions map", done => {
-    const customRequest: GraphQLRequest = {
-      query: { ...queryDocument },
-      variables: {
-        input: {
-          first: parsedDay,
-          second: {
-            morning: parsedMorning,
-            list: [parsedMorning, parsedMorning2]
-          }
-        }
-      },
-      operationName: queryOperationName
-    };
-
+  it("override the scala resolvers with the custom functions map (without removeTypenameFromInputs)", done => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
+      new ApolloLink(operation => {
+        expect(operation.variables).toEqual({
+          input: {
+            __typename: "MyInput",
+            first: rawDay,
+            second: {
+              __typename: "MyNested",
+              morning: rawMorning,
+              list: [rawMorning, rawMorning2]
+            }
+          }
+        });
+        return Observable.of(cloneDeep(response));
+      })
+    ]);
+    const expectedResponse = {
+      data: {
+        convert: {
+          first: parsedMorningCustom,
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
+        }
+      }
+    };
+
+    const observable = execute(link, cloneDeep(request));
+    observable.subscribe(value => {
+      expect(value).toEqual(expectedResponse);
+      done();
+    });
+    expect.assertions(2);
+  });
+
+  it("override the scala resolvers with the custom functions map (with removeTypenameFromInputs -> removes __typename)", done => {
+    const link = ApolloLink.from([
+      withScalars({ schema, typesMap, removeTypenameFromInputs: true }),
       new ApolloLink(operation => {
         expect(operation.variables).toEqual({
           input: {
@@ -359,7 +420,7 @@ describe("scalar returned directly from first level queries", () => {
       }
     };
 
-    const observable = execute(link, cloneDeep(customRequest));
+    const observable = execute(link, cloneDeep(request));
     observable.subscribe(value => {
       expect(value).toEqual(expectedResponse);
       done();

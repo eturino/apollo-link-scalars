@@ -9,7 +9,7 @@ import {
   isListType,
   isScalarType
 } from "graphql";
-import { mapValues } from "lodash";
+import { has, mapValues } from "lodash";
 import { FunctionsMap } from "..";
 import { isNone } from "./is-none";
 import { mapIfArray } from "./map-if-array";
@@ -17,7 +17,8 @@ import { mapIfArray } from "./map-if-array";
 export class Serializer {
   constructor(
     readonly schema: GraphQLSchema,
-    readonly functionsMap: FunctionsMap
+    readonly functionsMap: FunctionsMap,
+    readonly removeTypenameFromInputs: boolean
   ) {}
 
   public serialize(value: any, type: GraphQLInputType): any {
@@ -50,6 +51,10 @@ export class Serializer {
     value: any,
     type: GraphQLInputObjectType
   ): any {
+    if (this.removeTypenameFromInputs && has(value, "__typename")) {
+      delete value.__typename;
+    }
+
     const fields = type.getFields();
     return mapValues(value, (v, key) => {
       const f = fields[key];

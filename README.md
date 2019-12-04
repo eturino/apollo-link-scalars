@@ -49,6 +49,17 @@ const link2 = ApolloLink.from([
 
 ```
 
+### Options
+
+We can pass extra options to `withScalars()` to modify the behaviour
+
+- **`removeTypenameFromInputs`** (`Boolean`, default `false`): when enabled, it will remove from the inputs the `__typename` if it is found. This could be useful if we are using data received from a query as an input on another query.
+- **`validateEnums`** (`Boolean`, default `false`): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.
+
+```typescript
+withScalars({ schema, typesMap, validateEnums: true, removeTypenameFromInputs: true })
+```
+
 ### Example of loading a schema
 ```typescript
 import gql from "graphql-tag";

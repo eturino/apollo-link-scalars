@@ -394,7 +394,7 @@ describe("scalar returned directly from first level queries", () => {
     expect.assertions(1);
   });
 
-  it("override the scala resolvers with the custom functions map", done => {
+  it("override the scala resolvers with the custom functions map (removes `__typename` of inputs)", done => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink(() => {

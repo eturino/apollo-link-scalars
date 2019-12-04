@@ -28,12 +28,14 @@ type ScalarApolloLinkParams = {
   schema: GraphQLSchema;
   typesMap?: FunctionsMap;
   validateEnums?: boolean;
+  removeTypenameFromInputs?: boolean;
 };
 
 export class ScalarApolloLink extends ApolloLink {
   public readonly schema: GraphQLSchema;
   public readonly typesMap: FunctionsMap;
   public readonly validateEnums: boolean;
+  public readonly removeTypenameFromInputs: boolean;
   public readonly functionsMap: FunctionsMap;
   public readonly serializer: Serializer;
 
@@ -42,10 +44,15 @@ export class ScalarApolloLink extends ApolloLink {
     this.schema = pars.schema;
     this.typesMap = pars.typesMap || {};
     this.validateEnums = pars.validateEnums || false;
+    this.removeTypenameFromInputs = pars.removeTypenameFromInputs || false;
 
     const leafTypesMap = pickBy(this.schema.getTypeMap(), isLeafType);
     this.functionsMap = { ...leafTypesMap, ...this.typesMap };
-    this.serializer = new Serializer(this.schema, this.functionsMap);
+    this.serializer = new Serializer(
+      this.schema,
+      this.functionsMap,
+      this.removeTypenameFromInputs
+    );
   }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
