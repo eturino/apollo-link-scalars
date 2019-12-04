@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/eturino/apollo-link-scalars/compare/v0.1.2...v0.1.3) (2019-12-04)
+
+
+### Features
+
+* `removeTypenameFromInputs` option to remove __typename from inputs ([d9a194f](https://github.com/eturino/apollo-link-scalars/commit/d9a194f11bcc1f26b2a6125e366fa812295ebd1d))
+
 ### [0.1.2](https://github.com/eturino/apollo-link-scalars/compare/v0.1.1...v0.1.2) (2019-12-04)
 
 
