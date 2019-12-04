@@ -91,17 +91,21 @@ export class ScalarApolloLink extends ApolloLink {
     });
   }
 
+  /**
+   * mutate the operation object with the serialized variables
+   * @param operation
+   */
   protected cleanVariables(operation: Operation): Operation {
     const o = operation.query.definitions.find(isOperationDefinitionNode);
-    if (!o || !o.variableDefinitions || !o.variableDefinitions.length) {
-      return operation;
-    }
-    const variables = { ...operation.variables };
-    o.variableDefinitions.forEach(vd => {
+    const varDefs = (o && o.variableDefinitions) || [];
+    varDefs.forEach(vd => {
       const key = vd.variable.name.value;
-      variables[key] = this.serialize(variables[key], vd.type);
+      operation.variables[key] = this.serialize(
+        operation.variables[key],
+        vd.type
+      );
     });
-    return { ...operation, variables };
+    return operation;
   }
 
   protected serialize(value: any, typeNode: TypeNode): any {
