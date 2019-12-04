@@ -109,6 +109,15 @@
   <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">"http://example.org/graphql"</span> })
 ]);
 </code></pre>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h3>Options</h3>
+				</a>
+				<p>We can pass extra options to <code>withScalars()</code> to modify the behaviour</p>
+				<ul>
+					<li><strong><code>removeTypenameFromInputs</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will remove from the inputs the <code>__typename</code> if it is found. This could be useful if we are using data received from a query as an input on another query.</li>
+					<li><strong><code>validateEnums</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.</li>
+				</ul>
+				<pre><code class="language-typescript">withScalars({ schema, typesMap, validateEnums: <span class="hljs-literal">true</span>, removeTypenameFromInputs: <span class="hljs-literal">true</span> })</code></pre>
 				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
 					<h3>Example of loading a schema</h3>
 				</a>
