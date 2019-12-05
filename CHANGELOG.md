@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Bug Fixes
 
-* Handle null values for optional types #21
+* Handle null values for optional types [#21](https://github.com/eturino/apollo-link-scalars/pull/21)
 
 ### [0.1.3](https://github.com/eturino/apollo-link-scalars/compare/v0.1.2...v0.1.3) (2019-12-04)
 
