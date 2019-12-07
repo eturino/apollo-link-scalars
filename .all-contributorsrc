@@ -36,6 +36,15 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "JakubPetriska",
+      "name": "Jakub Petriska",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5531859?v=4",
+      "profile": "https://twitter.com/JakubPetriska",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
