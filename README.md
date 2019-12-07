@@ -105,6 +105,34 @@ const schema = makeExecutableSchema({
 });
 ```
 
+#### Synchronously creating a link instance with `graphql-code-generator` setup
+
+> Warning: Be sure to watch your bundle size and know what you are doing.
+
+Codegen config to generate introspection data:
+```
+// codegen.yml
+…
+  src/introspection.json:
+    plugins:
+      - introspection
+…
+```
+
+Synchronous code to create link instance in common scenario:
+```
+import introspectionResult from './introspection.json';
+import { buildClientSchema } from 'graphql';
+
+const schema = buildClientSchema(introspectionResult);
+
+const scalarsLink = withScalars({
+  schema,
+  typesMap: { … },
+});
+
+```
+
 ## Acknowledges
 
 The link code is heavily based on [`apollo-link-response-resolver`](https://github.com/with-heart/apollo-link-response-resolver) by [will-heart](https://github.com/with-heart). 
