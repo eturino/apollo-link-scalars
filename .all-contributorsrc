@@ -15,6 +15,15 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "brabeji",
+      "name": "Jiří Brabec",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2237954?v=4",
+      "profile": "https://github.com/brabeji",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
