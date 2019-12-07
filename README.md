@@ -105,41 +105,49 @@ const schema = makeExecutableSchema({
 });
 ```
 
-#### Synchronously creating a link instance with `graphql-code-generator` setup
+#### Synchronously creating a link instance with [`graphql-code-generator`](https://graphql-code-generator.com/) setup
 
 > Warning: Be sure to watch your bundle size and know what you are doing.
 
 Codegen config to generate introspection data:
-```
-// codegen.yml
-…
-  src/introspection.json:
+
+`codegen.yml`
+```yml
+...
+generates:
+  src/__generated__/graphql.schema.json:
     plugins:
-      - introspection
-…
+      - "introspection"
+    config:
+      minify: true
+...
 ```
 
 Synchronous code to create link instance in common scenario:
-```
-import introspectionResult from './introspection.json';
-import { buildClientSchema } from 'graphql';
 
-const schema = buildClientSchema(introspectionResult);
+```typescript
+import introspectionResult from "./__generated__/graphql.schema.json";
+import { buildClientSchema, IntrospectionQuery } from "graphql";
+
+const schema = buildClientSchema(introspectionResult)
+// note: sometimes it seems to be needed to cast it as Introspection Query
+// `const schema = buildClientSchema((introspectionResult as unknown) as IntrospectionQuery)`
 
 const scalarsLink = withScalars({
   schema,
   typesMap: { … },
 });
-
 ```
 
-## Acknowledges
+## Acknowledgements
 
 The link code is heavily based on [`apollo-link-response-resolver`](https://github.com/with-heart/apollo-link-response-resolver) by [will-heart](https://github.com/with-heart). 
 
 While the approach in `apollo-link-response-resolver` is to apply resolvers based on the types taken from `__typename`, this follows the query and the schema to parse based on scalar types. Note that [`apollo-link-response-resolver` is archived now](https://github.com/with-heart/apollo-link-response-resolver/issues/18)
 
 I started working on this after following the Apollo feature request https://github.com/apollographql/apollo-feature-requests/issues/2.
+
+
 
 ## Development, Commits, versioning and publishing
 
