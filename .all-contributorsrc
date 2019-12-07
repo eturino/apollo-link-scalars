@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "gsamokovarov",
+      "name": "Genadi Samokovarov",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/604618?v=4",
+      "profile": "http://gsamokovarov.com",
+      "contributions": [
+        "bug",
+        "test",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "apollo-link-scalars",
+  "projectOwner": "eturino",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
