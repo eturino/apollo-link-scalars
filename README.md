@@ -1,5 +1,6 @@
 # `apollo-link-scalars`
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
 [![Build Status](https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master)](https://travis-ci.org/eturino/apollo-link-scalars)
@@ -24,10 +25,10 @@ We need to pass a `GraphQLSchema`, and optionally we can also pass a map of cust
 You can build the link by calling the `withScalars()` function, passing to it the `schema` and optionally a `typesMap`.
 
 ```typescript
-import { withScalars } from "apollo-link-scalars"
+import { withScalars } from "apollo-link-scalars";
 import { ApolloLink } from "apollo-link";
 import { HttpLink } from "apollo-link-http";
-import { schema } from './my-schema'
+import { schema } from "./my-schema";
 
 const link = ApolloLink.from([
   withScalars({ schema }),
@@ -39,7 +40,7 @@ const typesMap = {
   CustomScalar: {
     serialize: (parsed: CustomScalar) => parsed.toString(),
     parseValue: (raw: string | number | null): CustomScalar | null => {
-      return raw ? new CustomScalar(raw) : null
+      return raw ? new CustomScalar(raw) : null;
     }
   }
 };
@@ -48,7 +49,6 @@ const link2 = ApolloLink.from([
   withScalars({ schema, typesMap }),
   new HttpLink({ uri: "http://example.org/graphql" })
 ]);
-
 ```
 
 ### Options
@@ -59,10 +59,16 @@ We can pass extra options to `withScalars()` to modify the behaviour
 - **`validateEnums`** (`Boolean`, default `false`): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.
 
 ```typescript
-withScalars({ schema, typesMap, validateEnums: true, removeTypenameFromInputs: true })
+withScalars({
+  schema,
+  typesMap,
+  validateEnums: true,
+  removeTypenameFromInputs: true
+});
 ```
 
 ### Example of loading a schema
+
 ```typescript
 import gql from "graphql-tag";
 import { GraphQLScalarType, Kind } from "graphql";
@@ -85,7 +91,7 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-  // example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object 
+  // example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object
   Date: new GraphQLScalarType({
     name: "Date",
     serialize: (parsed: CustomDate | null) => parsed && parsed.toISOString(),
@@ -96,7 +102,7 @@ const resolvers = {
       }
       return null;
     }
-  }),
+  })
 };
 
 // GraphQL Schema, required to use the link
@@ -113,15 +119,16 @@ const schema = makeExecutableSchema({
 Codegen config to generate introspection data:
 
 `codegen.yml`
+
 ```yml
-...
+
+---
 generates:
   src/__generated__/graphql.schema.json:
     plugins:
       - "introspection"
     config:
       minify: true
-...
 ```
 
 Synchronous code to create link instance in common scenario:
@@ -142,13 +149,11 @@ const scalarsLink = withScalars({
 
 ## Acknowledgements
 
-The link code is heavily based on [`apollo-link-response-resolver`](https://github.com/with-heart/apollo-link-response-resolver) by [will-heart](https://github.com/with-heart). 
+The link code is heavily based on [`apollo-link-response-resolver`](https://github.com/with-heart/apollo-link-response-resolver) by [will-heart](https://github.com/with-heart).
 
 While the approach in `apollo-link-response-resolver` is to apply resolvers based on the types taken from `__typename`, this follows the query and the schema to parse based on scalar types. Note that [`apollo-link-response-resolver` is archived now](https://github.com/with-heart/apollo-link-response-resolver/issues/18)
 
 I started working on this after following the Apollo feature request https://github.com/apollographql/apollo-feature-requests/issues/2.
-
-
 
 ## Development, Commits, versioning and publishing
 
@@ -247,6 +252,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
+    <td align="center"><a href="http://eturino.com"><img src="https://avatars3.githubusercontent.com/u/1095800?v=4" width="100px;" alt="Eduardo Turiño"/><br /><sub><b>Eduardo Turiño</b></sub></a><br /><a href="#ideas-eturino" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-eturino" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Code">💻</a></td>
     <td align="center"><a href="http://gsamokovarov.com"><img src="https://avatars0.githubusercontent.com/u/604618?v=4" width="100px;" alt="Genadi Samokovarov"/><br /><sub><b>Genadi Samokovarov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Agsamokovarov" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/brabeji"><img src="https://avatars3.githubusercontent.com/u/2237954?v=4" width="100px;" alt="Jiří Brabec"/><br /><sub><b>Jiří Brabec</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Documentation">📖</a></td>
   </tr>
@@ -254,6 +260,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

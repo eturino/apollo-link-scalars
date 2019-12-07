@@ -24,6 +24,18 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "eturino",
+      "name": "Eduardo Turiño",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1095800?v=4",
+      "profile": "http://eturino.com",
+      "contributions": [
+        "ideas",
+        "infra",
+        "test",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
