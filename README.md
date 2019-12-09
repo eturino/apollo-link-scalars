@@ -14,7 +14,15 @@
 
 [Github repo here](https://github.com/eturino/apollo-link-scalars)
 
-Custom apollo link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs.
+Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup `__typename` from inputs. (see [Usage](#usage) and [Options](#options)).
+
+## Disclaimer: Potential cache interaction
+
+Parsing scalars at link level means that Apollo cache will receive them already parsed. Depending on what kind of parsing is performed, this may interact with the cache JSON serialization of, for example,`apollo-cache-persist`. While `apollo-cache-persist` has an option to turn that serialisation off, others may have similar issues.
+
+In the [original Apollo Client Github issue thread about scalar parsing](https://github.com/apollographql/apollo-client/issues/585), [this situation](https://github.com/apollographql/apollo-client/issues/585#issuecomment-400792837) [was discussed](https://github.com/apollographql/apollo-client/issues/585#issuecomment-400777797).
+
+At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.
 
 ## Installation
 
