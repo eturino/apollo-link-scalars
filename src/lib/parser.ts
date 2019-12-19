@@ -16,7 +16,8 @@ import {
   isInputObjectType,
   isListType,
   isObjectType,
-  isScalarType
+  isScalarType,
+  getNullableType
 } from "graphql";
 import { isArray, reduce } from "lodash";
 import { FunctionsMap } from "..";
@@ -56,7 +57,11 @@ export class Parser {
 
     const key = fieldNode.alias ? fieldNode.alias.value : fieldNode.name.value;
 
-    data[key] = this.treatValue(data[key], field.type, fieldNode);
+    data[key] = this.treatValue(
+      data[key],
+      getNullableType(field.type),
+      fieldNode
+    );
     return data;
   }
 
