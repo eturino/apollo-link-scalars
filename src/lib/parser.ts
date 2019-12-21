@@ -1,4 +1,5 @@
 import {
+  getNullableType,
   GraphQLEnumType,
   GraphQLError,
   GraphQLFieldMap,
@@ -7,6 +8,7 @@ import {
   GraphQLInputType,
   GraphQLInterfaceType,
   GraphQLList,
+  GraphQLNullableType,
   GraphQLObjectType,
   GraphQLOutputType,
   GraphQLScalarType,
@@ -16,13 +18,11 @@ import {
   isInputObjectType,
   isListType,
   isObjectType,
-  isScalarType,
-  getNullableType
+  isScalarType
 } from "graphql";
 import { isArray, reduce } from "lodash";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
-import { ensureNullableType } from "./ensure-nullable-type";
 import { isNone } from "./is-none";
 import { ReducedFieldNode } from "./node-types";
 
@@ -57,11 +57,7 @@ export class Parser {
 
     const key = fieldNode.alias ? fieldNode.alias.value : fieldNode.name.value;
 
-    data[key] = this.treatValue(
-      data[key],
-      getNullableType(field.type),
-      fieldNode
-    );
+    data[key] = this.treatValue(data[key], field.type, fieldNode);
     return data;
   }
 
@@ -70,7 +66,7 @@ export class Parser {
     givenType: GraphQLOutputType | GraphQLInputType,
     fieldNode: ReducedFieldNode
   ): any {
-    const type = ensureNullableType(value, givenType, fieldNode);
+    const type = getNullableType(givenType) as GraphQLNullableType;
     if (isNone(value)) return value;
 
     if (isScalarType(type)) {

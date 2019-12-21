@@ -18,6 +18,7 @@ const typeDefs = gql`
 
   type Item {
     title: String
+    subItem: Item!
   }
 `;
 
@@ -34,8 +35,14 @@ const schema = makeExecutableSchema({
 
 const querySource = `
   query MyQuery($skip: Boolean!) {
-    item @skip(if: $skip) {
+    item1: item @skip(if: $skip) {
 		title
+	}
+    item2: item {
+		title
+		subItem @skip(if: $skip) {
+			title
+		}
 	}
   }
 `;
@@ -53,7 +60,11 @@ const request: GraphQLRequest = {
 };
 
 const response = {
-  data: {}
+  data: {
+    item2: {
+      title: null
+    }
+  }
 };
 
 describe("skip directive on non-nullable field", () => {
@@ -77,7 +88,11 @@ describe("skip directive on non-nullable field", () => {
       })
     ]);
     const expectedResponse = {
-      data: {}
+      data: {
+        item2: {
+          title: null
+        }
+      }
     };
 
     const observable = execute(link, request);
