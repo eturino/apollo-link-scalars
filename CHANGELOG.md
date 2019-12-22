@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.1.5](https://github.com/eturino/apollo-link-scalars/compare/v0.1.4...v0.1.5) (2019-12-22)
 
+### Bug Fixes
+
+* Avoid parsing issues with null/non-null fields: stop producing graphql errors on parsing when a null is encounter on a non-null value. That is not the responsibility of this link, and it clashes with usages of directives like `@skip` [#28](https://github.com/eturino/apollo-link-scalars/pull/28) [#29](https://github.com/eturino/apollo-link-scalars/issues/29)
+
 ### [0.1.4](https://github.com/eturino/apollo-link-scalars/compare/v0.1.3...v0.1.4) (2019-12-05)
 
 ### Bug Fixes
