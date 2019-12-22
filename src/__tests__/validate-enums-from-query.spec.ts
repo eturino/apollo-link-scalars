@@ -83,27 +83,6 @@ const invalidResponse = {
   }
 };
 
-const badNullsWithAliasResponse = {
-  data: {
-    first: null,
-    second: "b",
-    third: null,
-    otherFirst: null,
-    otherSecond: null,
-    otherThird: null
-  }
-};
-const badNullsResponse = {
-  data: {
-    first: null,
-    second: null,
-    third: null,
-    otherFirst: null,
-    otherSecond: "b",
-    otherThird: null
-  }
-};
-
 describe("enum returned directly from first level queries", () => {
   it("ensure the response fixture is valid (ensure that in the response we have the RAW, the Server is converting from Date to STRING)", async () => {
     expect.assertions(1);
@@ -176,52 +155,6 @@ describe("enum returned directly from first level queries", () => {
           errors: [
             {
               message: `enum "MyEnum" with invalid value`
-            }
-          ]
-        });
-        done();
-      });
-      expect.assertions(1);
-    });
-  });
-
-  describe("null values on non-null field", () => {
-    it("no alias", done => {
-      const link = ApolloLink.from([
-        withScalars({ schema, validateEnums: true }),
-        new ApolloLink(() => {
-          return Observable.of(badNullsResponse);
-        })
-      ]);
-
-      const observable = execute(link, request);
-      observable.subscribe(value => {
-        expect(value).toEqual({
-          errors: [
-            {
-              message: `non-null field "second" with null value`
-            }
-          ]
-        });
-        done();
-      });
-      expect.assertions(1);
-    });
-
-    it("with alias", done => {
-      const link = ApolloLink.from([
-        withScalars({ schema, validateEnums: true }),
-        new ApolloLink(() => {
-          return Observable.of(badNullsWithAliasResponse);
-        })
-      ]);
-
-      const observable = execute(link, request);
-      observable.subscribe(value => {
-        expect(value).toEqual({
-          errors: [
-            {
-              message: `non-null field "second" (alias "otherSecond") with null value`
             }
           ]
         });
