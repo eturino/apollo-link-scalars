@@ -68,13 +68,23 @@
 				<a href="#codeapollo-link-scalarscode" id="codeapollo-link-scalarscode" style="color: inherit; text-decoration: none;">
 					<h1><code>apollo-link-scalars</code></h1>
 				</a>
+				<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+				<p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square" alt="All Contributors"></a></p>
+				<!-- ALL-CONTRIBUTORS-BADGE:END -->
 				<p><a href="https://badge.fury.io/js/apollo-link-scalars"><img src="https://badge.fury.io/js/apollo-link-scalars.svg" alt="npm version"></a>
 					<a href="https://travis-ci.org/eturino/apollo-link-scalars"><img src="https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master" alt="Build Status"></a>
+					<a href="https://codebeat.co/projects/github-com-eturino-apollo-link-scalars-master"><img src="https://codebeat.co/badges/a90150b8-7456-4f39-af0e-773f6fbf4324" alt="codebeat badge"></a>
 					<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/maintainability"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/maintainability" alt="Maintainability"></a>
 				<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/test_coverage" alt="Test Coverage"></a></p>
 				<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
 				<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
-				<p>Custom apollo link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs.</p>
+				<p>Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup <code>__typename</code> from inputs. (see <a href="#usage">Usage</a> and <a href="#options">Options</a>).</p>
+				<a href="#disclaimer-potential-cache-interaction" id="disclaimer-potential-cache-interaction" style="color: inherit; text-decoration: none;">
+					<h2>Disclaimer: Potential cache interaction</h2>
+				</a>
+				<p>Parsing scalars at link level means that Apollo cache will receive them already parsed. Depending on what kind of parsing is performed, this may interact with the cache JSON serialization of, for example,<code>apollo-cache-persist</code>. While <code>apollo-cache-persist</code> has an option to turn that serialisation off, others may have similar issues.</p>
+				<p>In the <a href="https://github.com/apollographql/apollo-client/issues/585">original Apollo Client Github issue thread about scalar parsing</a>, <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400792837">this situation</a> <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400777797">was discussed</a>.</p>
+				<p>At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.</p>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
@@ -84,10 +94,10 @@
 				</a>
 				<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
 				<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { withScalars } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link-scalars"</span>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { withScalars } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link-scalars"</span>;
 <span class="hljs-keyword">import</span> { ApolloLink } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link"</span>;
 <span class="hljs-keyword">import</span> { HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">"apollo-link-http"</span>;
-<span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">'./my-schema'</span>
+<span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">"./my-schema"</span>;
 
 <span class="hljs-keyword">const</span> link = ApolloLink.from([
   withScalars({ schema }),
@@ -99,7 +109,7 @@
   CustomScalar: {
     serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomScalar</span>) =&gt;</span> parsed.toString(),
     parseValue: (raw: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>): CustomScalar | <span class="hljs-function"><span class="hljs-params">null</span> =&gt;</span> {
-      <span class="hljs-keyword">return</span> raw ? <span class="hljs-keyword">new</span> CustomScalar(raw) : <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">return</span> raw ? <span class="hljs-keyword">new</span> CustomScalar(raw) : <span class="hljs-literal">null</span>;
     }
   }
 };
@@ -107,8 +117,7 @@
 <span class="hljs-keyword">const</span> link2 = ApolloLink.from([
   withScalars({ schema, typesMap }),
   <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">"http://example.org/graphql"</span> })
-]);
-</code></pre>
+]);</code></pre>
 				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
 					<h3>Options</h3>
 				</a>
@@ -117,7 +126,12 @@
 					<li><strong><code>removeTypenameFromInputs</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will remove from the inputs the <code>__typename</code> if it is found. This could be useful if we are using data received from a query as an input on another query.</li>
 					<li><strong><code>validateEnums</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.</li>
 				</ul>
-				<pre><code class="language-typescript">withScalars({ schema, typesMap, validateEnums: <span class="hljs-literal">true</span>, removeTypenameFromInputs: <span class="hljs-literal">true</span> })</code></pre>
+				<pre><code class="language-typescript">withScalars({
+  schema,
+  typesMap,
+  validateEnums: <span class="hljs-literal">true</span>,
+  removeTypenameFromInputs: <span class="hljs-literal">true</span>
+});</code></pre>
 				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
 					<h3>Example of loading a schema</h3>
 				</a>
@@ -142,7 +156,7 @@
 `</span>;
 
 <span class="hljs-keyword">const</span> resolvers = {
-  <span class="hljs-comment">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object </span>
+  <span class="hljs-comment">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object</span>
   <span class="hljs-built_in">Date</span>: <span class="hljs-keyword">new</span> GraphQLScalarType({
     name: <span class="hljs-string">"Date"</span>,
     serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomDate | <span class="hljs-literal">null</span></span>) =&gt;</span> parsed &amp;&amp; parsed.toISOString(),
@@ -153,7 +167,7 @@
       }
       <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
     }
-  }),
+  })
 };
 
 <span class="hljs-comment">// GraphQL Schema, required to use the link</span>
@@ -161,10 +175,37 @@
   typeDefs,
   resolvers
 });</code></pre>
-				<a href="#acknowledges" id="acknowledges" style="color: inherit; text-decoration: none;">
-					<h2>Acknowledges</h2>
+				<a href="#synchronously-creating-a-link-instance-with-a-hrefhttpsgraphql-code-generatorcomcodegraphql-code-generatorcodea-setup" id="synchronously-creating-a-link-instance-with-a-hrefhttpsgraphql-code-generatorcomcodegraphql-code-generatorcodea-setup" style="color: inherit; text-decoration: none;">
+					<h4>Synchronously creating a link instance with <a href="https://graphql-code-generator.com/"><code>graphql-code-generator</code></a> setup</h4>
 				</a>
-				<p>The link code is heavily based on <a href="https://github.com/with-heart/apollo-link-response-resolver"><code>apollo-link-response-resolver</code></a> by <a href="https://github.com/with-heart">will-heart</a>. </p>
+				<blockquote>
+					<p>Warning: Be sure to watch your bundle size and know what you are doing.</p>
+				</blockquote>
+				<p>Codegen config to generate introspection data:</p>
+				<p><code>codegen.yml</code></p>
+				<pre><code class="language-yml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">generates:</span>
+  <span class="hljs-string">src/__generated__/graphql.schema.json:</span>
+<span class="hljs-attr">    plugins:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">"introspection"</span>
+<span class="hljs-attr">    config:</span>
+<span class="hljs-attr">      minify:</span> <span class="hljs-literal">true</span></code></pre>
+				<p>Synchronous code to create link instance in common scenario:</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> introspectionResult <span class="hljs-keyword">from</span> <span class="hljs-string">"./__generated__/graphql.schema.json"</span>;
+<span class="hljs-keyword">import</span> { buildClientSchema, IntrospectionQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql"</span>;
+
+<span class="hljs-keyword">const</span> schema = buildClientSchema(introspectionResult)
+<span class="hljs-comment">// note: sometimes it seems to be needed to cast it as Introspection Query</span>
+<span class="hljs-comment">// `const schema = buildClientSchema((introspectionResult as unknown) as IntrospectionQuery)`</span>
+
+<span class="hljs-keyword">const</span> scalarsLink = withScalars({
+  schema,
+  typesMap: { … },
+});</code></pre>
+				<a href="#acknowledgements" id="acknowledgements" style="color: inherit; text-decoration: none;">
+					<h2>Acknowledgements</h2>
+				</a>
+				<p>The link code is heavily based on <a href="https://github.com/with-heart/apollo-link-response-resolver"><code>apollo-link-response-resolver</code></a> by <a href="https://github.com/with-heart">will-heart</a>.</p>
 				<p>While the approach in <code>apollo-link-response-resolver</code> is to apply resolvers based on the types taken from <code>__typename</code>, this follows the query and the schema to parse based on scalar types. Note that <a href="https://github.com/with-heart/apollo-link-response-resolver/issues/18"><code>apollo-link-response-resolver</code> is archived now</a></p>
 				<p>I started working on this after following the Apollo feature request <a href="https://github.com/apollographql/apollo-feature-requests/issues/2">https://github.com/apollographql/apollo-feature-requests/issues/2</a>.</p>
 				<a href="#development-commits-versioning-and-publishing" id="development-commits-versioning-and-publishing" style="color: inherit; text-decoration: none;">
@@ -230,6 +271,25 @@ git push --follow-tags origin master
 yarn publish --access public</code></pre>
 					</p>
 				</details>
+				<a href="#contributors-✨" id="contributors-✨" style="color: inherit; text-decoration: none;">
+					<h2>Contributors ✨</h2>
+				</a>
+				<p>Thanks goes to these wonderful people (<a href="https://allcontributors.org/docs/en/emoji-key">emoji key</a>):</p>
+				<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+				<!-- prettier-ignore-start -->
+				<!-- markdownlint-disable -->
+				<table>
+					<tr>
+						<td align="center"><a href="http://eturino.com"><img src="https://avatars3.githubusercontent.com/u/1095800?v=4" width="100px;" alt=""/><br /><sub><b>Eduardo Turiño</b></sub></a><br /><a href="#ideas-eturino" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-eturino" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Code">💻</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Documentation">📖</a></td>
+						<td align="center"><a href="http://gsamokovarov.com"><img src="https://avatars0.githubusercontent.com/u/604618?v=4" width="100px;" alt=""/><br /><sub><b>Genadi Samokovarov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Agsamokovarov" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Code">💻</a></td>
+						<td align="center"><a href="https://github.com/brabeji"><img src="https://avatars3.githubusercontent.com/u/2237954?v=4" width="100px;" alt=""/><br /><sub><b>Jiří Brabec</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Documentation">📖</a> <a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Abrabeji" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Code">💻</a> <a href="#ideas-brabeji" title="Ideas, Planning, & Feedback">🤔</a></td>
+						<td align="center"><a href="https://twitter.com/JakubPetriska"><img src="https://avatars3.githubusercontent.com/u/5531859?v=4" width="100px;" alt=""/><br /><sub><b>Jakub Petriska</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJakubPetriska" title="Bug reports">🐛</a></td>
+					</tr>
+				</table>
+				<!-- markdownlint-enable -->
+				<!-- prettier-ignore-end -->
+				<!-- ALL-CONTRIBUTORS-LIST:END -->
+				<p>This project follows the <a href="https://github.com/all-contributors/all-contributors">all-contributors</a> specification. Contributions of any kind welcome!</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -279,8 +339,8 @@ yarn publish --access public</code></pre>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#graphqlschemaobj" class="tsd-kind-icon">graphql<wbr>Schema<wbr>Obj</a>
 					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#ensurenullabletype" class="tsd-kind-icon">ensure<wbr>Nullable<wbr>Type</a>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#ensurenullable" class="tsd-kind-icon">ensure<wbr>Nullable</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#fragmentmapfrom" class="tsd-kind-icon">fragment<wbr>Map<wbr>From</a>
