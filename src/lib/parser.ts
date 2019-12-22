@@ -1,5 +1,4 @@
 import {
-  getNullableType,
   GraphQLEnumType,
   GraphQLError,
   GraphQLFieldMap,
@@ -17,6 +16,7 @@ import {
   isEnumType,
   isInputObjectType,
   isListType,
+  isNonNullType,
   isObjectType,
   isScalarType
 } from "graphql";
@@ -27,6 +27,12 @@ import { isNone } from "./is-none";
 import { ReducedFieldNode } from "./node-types";
 
 type Data = { [key: string]: any };
+
+function ensureNullable(
+  type: GraphQLOutputType | GraphQLInputType
+): GraphQLNullableType {
+  return isNonNullType(type) ? type.ofType : type;
+}
 
 export class Parser {
   constructor(
@@ -66,7 +72,7 @@ export class Parser {
     givenType: GraphQLOutputType | GraphQLInputType,
     fieldNode: ReducedFieldNode
   ): any {
-    const type = getNullableType(givenType) as GraphQLNullableType;
+    const type = ensureNullable(givenType);
     if (isNone(value)) return value;
 
     if (isScalarType(type)) {
