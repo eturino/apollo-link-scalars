@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/eturino/apollo-link-scalars/compare/v0.1.5...v0.1.6) (2019-12-31)
+
+
+### Features
+
+* Target es6 environment for better browser support. ([#31](https://github.com/eturino/apollo-link-scalars/issues/31)) ([d202bd7](https://github.com/eturino/apollo-link-scalars/commit/d202bd7909e66c152c4813985905b40dc3dbf051))
+
 ### [0.1.5](https://github.com/eturino/apollo-link-scalars/compare/v0.1.4...v0.1.5) (2019-12-22)
 
 ### Bug Fixes
