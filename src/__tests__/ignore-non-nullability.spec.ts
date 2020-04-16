@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -24,13 +17,13 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    item: () => ({})
-  }
+    item: () => ({}),
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -56,47 +49,41 @@ if (!queryOperationName) throw new Error("invalid query operation name");
 const request: GraphQLRequest = {
   query: queryDocument,
   variables: { skip: true },
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
   data: {
     item2: {
-      title: null
-    }
-  }
+      title: null,
+    },
+  },
 };
 
 describe("skip directive on non-nullable field", () => {
   it("ensure the response fixture is valid", async () => {
     expect.assertions(1);
-    const queryResponse = await graphql(
-      schema,
-      querySource,
-      {},
-      {},
-      { skip: true }
-    );
+    const queryResponse = await graphql(schema, querySource, {}, {}, { skip: true });
     expect(queryResponse).toEqual(response);
   });
 
-  it("disregards field type non-nullability", done => {
+  it("disregards field type non-nullability", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         item2: {
-          title: null
-        }
-      }
+          title: null,
+        },
+      },
     };
 
     const observable = execute(link, request);
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });

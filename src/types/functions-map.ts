@@ -1,9 +1,5 @@
 /* tslint:disable:interface-over-type-literal */
-import {
-  GraphQLLeafType,
-  GraphQLScalarSerializer,
-  GraphQLScalarValueParser
-} from "graphql";
+import { GraphQLLeafType, GraphQLScalarSerializer, GraphQLScalarValueParser } from "graphql";
 
 export type ParsingFunctionsObject<TParsed = any, TRaw = any> = {
   serialize: GraphQLScalarSerializer<TRaw>;

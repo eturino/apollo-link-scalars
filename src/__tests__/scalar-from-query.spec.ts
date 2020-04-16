@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -45,7 +38,7 @@ const parsedMorningCustom = new CustomDate(parsedMorning);
 const resolvers = {
   Query: {
     day: () => parsedDay,
-    morning: () => parsedMorning
+    morning: () => parsedMorning,
   },
   Date: new GraphQLScalarType({
     name: "Date",
@@ -56,7 +49,7 @@ const resolvers = {
         return new Date(ast.value);
       }
       return null;
-    }
+    },
   }),
   StartOfDay: new GraphQLScalarType({
     name: "StartOfDay",
@@ -75,14 +68,13 @@ const resolvers = {
         return new Date(ast.value);
       }
       return null;
-    }
-  })
+    },
+  }),
 };
 
 const typesMap = {
   StartOfDay: {
-    serialize: (parsed: CustomDate | Date | null) =>
-      parsed && parsed.toISOString(),
+    serialize: (parsed: CustomDate | Date | null) => parsed && parsed.toISOString(),
     parseValue: (raw: any): CustomDate | null => {
       if (!raw) return null;
       const d = new Date(raw);
@@ -91,13 +83,13 @@ const typesMap = {
       d.setUTCSeconds(0);
       d.setUTCMilliseconds(0);
       return new CustomDate(d);
-    }
-  }
+    },
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -118,7 +110,7 @@ if (!queryOperationName) throw new Error("invalid query operation name");
 const request: GraphQLRequest = {
   query: queryDocument,
   variables: {},
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
@@ -126,8 +118,8 @@ const response = {
     day: rawDay,
     morning: rawMorning,
     someDay: rawDay,
-    someMorning: rawMorning
-  }
+    someMorning: rawMorning,
+  },
 };
 
 describe("scalar returned directly from first level queries", () => {
@@ -145,48 +137,48 @@ describe("scalar returned directly from first level queries", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to parse back", done => {
+  it("use the scalar resolvers in the schema to parse back", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         day: parsedDay,
         morning: parsedMorning,
         someDay: parsedDay,
-        someMorning: parsedMorning
-      }
+        someMorning: parsedMorning,
+      },
     };
 
     const observable = execute(link, request);
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(1);
   });
 
-  it("override the scalar resolvers with the custom functions map", done => {
+  it("override the scalar resolvers with the custom functions map", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         day: parsedDay,
         morning: parsedMorningCustom,
         someDay: parsedDay,
-        someMorning: parsedMorningCustom
-      }
+        someMorning: parsedMorningCustom,
+      },
     };
 
     const observable = execute(link, request);
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });

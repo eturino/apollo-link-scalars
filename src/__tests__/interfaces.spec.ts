@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -87,8 +80,8 @@ const resolvers = {
           __typename: "TypeB",
           morning: parsedMorning,
           extraB: parsedDay2,
-          nestedA: null
-        }
+          nestedA: null,
+        },
       },
       {
         __typename: "TypeOtherA",
@@ -100,17 +93,17 @@ const resolvers = {
             __typename: "TypeA",
             day: parsedDay2,
             extraA: parsedDay,
-            nestedB: null
-          }
-        ]
-      }
+            nestedB: null,
+          },
+        ],
+      },
     ],
     listB: () => [
       null,
       {
         __typename: "TypeOtherB",
         morning: parsedMorning2,
-        stop: "STOP"
+        stop: "STOP",
       },
       {
         __typename: "TypeB",
@@ -125,19 +118,19 @@ const resolvers = {
               __typename: "TypeOtherA",
               day: parsedDay2,
               morning: parsedMorning,
-              nestedList: []
-            }
-          ]
-        }
+              nestedList: [],
+            },
+          ],
+        },
       },
-      null
-    ]
+      null,
+    ],
   },
   IntA: {
-    __resolveType: (x: any) => (x.morning ? "TypeOtherA" : "TypeA")
+    __resolveType: (x: any) => (x.morning ? "TypeOtherA" : "TypeA"),
   },
   IntB: {
-    __resolveType: (x: any) => (x.stop ? "TypeOtherB" : "TypeB")
+    __resolveType: (x: any) => (x.stop ? "TypeOtherB" : "TypeB"),
   },
   Date: new GraphQLScalarType({
     name: "Date",
@@ -148,7 +141,7 @@ const resolvers = {
         return new Date(ast.value);
       }
       return null;
-    }
+    },
   }),
   StartOfDay: new GraphQLScalarType({
     name: "StartOfDay",
@@ -167,14 +160,13 @@ const resolvers = {
         return new Date(ast.value);
       }
       return null;
-    }
-  })
+    },
+  }),
 };
 
 const typesMap = {
   StartOfDay: {
-    serialize: (parsed: CustomDate | Date | null) =>
-      parsed && parsed.toISOString(),
+    serialize: (parsed: CustomDate | Date | null) => parsed && parsed.toISOString(),
     parseValue: (raw: any): CustomDate | null => {
       if (!raw) return null;
       const d = new Date(raw);
@@ -183,13 +175,13 @@ const typesMap = {
       d.setUTCSeconds(0);
       d.setUTCMilliseconds(0);
       return new CustomDate(d);
-    }
-  }
+    },
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -261,7 +253,7 @@ if (!queryOperationName) throw new Error("invalid query operation name");
 const request: GraphQLRequest = {
   query: queryDocument,
   variables: {},
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
@@ -275,8 +267,8 @@ const response = {
         nestedB: {
           __typename: "TypeB",
           morning: rawMorning,
-          extraB: rawDay2
-        }
+          extraB: rawDay2,
+        },
       },
       {
         __typename: "TypeOtherA",
@@ -287,17 +279,17 @@ const response = {
           {
             __typename: "TypeA",
             day: rawDay2,
-            extraA: rawDay
-          }
-        ]
-      }
+            extraA: rawDay,
+          },
+        ],
+      },
     ],
     listB: [
       null,
       {
         __typename: "TypeOtherB",
         morning: rawMorning2,
-        stop: "STOP"
+        stop: "STOP",
       },
       {
         __typename: "TypeB",
@@ -306,12 +298,12 @@ const response = {
         nestedA: {
           __typename: "TypeOtherA",
           day: rawDay,
-          morning: rawMorning2
-        }
+          morning: rawMorning2,
+        },
       },
-      null
-    ]
-  }
+      null,
+    ],
+  },
 };
 
 describe("scalar returned directly from first level queries", () => {
@@ -329,12 +321,12 @@ describe("scalar returned directly from first level queries", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to parse back", done => {
+  it("use the scalar resolvers in the schema to parse back", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
@@ -347,8 +339,8 @@ describe("scalar returned directly from first level queries", () => {
             nestedB: {
               __typename: "TypeB",
               morning: parsedMorning,
-              extraB: parsedDay2
-            }
+              extraB: parsedDay2,
+            },
           },
           {
             __typename: "TypeOtherA",
@@ -359,17 +351,17 @@ describe("scalar returned directly from first level queries", () => {
               {
                 __typename: "TypeA",
                 day: parsedDay2,
-                extraA: parsedDay
-              }
-            ]
-          }
+                extraA: parsedDay,
+              },
+            ],
+          },
         ],
         listB: [
           null,
           {
             __typename: "TypeOtherB",
             morning: parsedMorning2,
-            stop: "STOP"
+            stop: "STOP",
           },
           {
             __typename: "TypeB",
@@ -378,28 +370,28 @@ describe("scalar returned directly from first level queries", () => {
             nestedA: {
               __typename: "TypeOtherA",
               day: parsedDay,
-              morning: parsedMorning2
-            }
+              morning: parsedMorning2,
+            },
           },
-          null
-        ]
-      }
+          null,
+        ],
+      },
     };
 
     const observable = execute(link, request);
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(1);
   });
 
-  it("override the scala resolvers with the custom functions map (removes `__typename` of inputs)", done => {
+  it("override the scala resolvers with the custom functions map (removes `__typename` of inputs)", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
@@ -412,8 +404,8 @@ describe("scalar returned directly from first level queries", () => {
             nestedB: {
               __typename: "TypeB",
               morning: parsedMorningCustom,
-              extraB: parsedDay2
-            }
+              extraB: parsedDay2,
+            },
           },
           {
             __typename: "TypeOtherA",
@@ -424,17 +416,17 @@ describe("scalar returned directly from first level queries", () => {
               {
                 __typename: "TypeA",
                 day: parsedDay2,
-                extraA: parsedDay
-              }
-            ]
-          }
+                extraA: parsedDay,
+              },
+            ],
+          },
         ],
         listB: [
           null,
           {
             __typename: "TypeOtherB",
             morning: parsedMorningCustom2,
-            stop: "STOP"
+            stop: "STOP",
           },
           {
             __typename: "TypeB",
@@ -443,16 +435,16 @@ describe("scalar returned directly from first level queries", () => {
             nestedA: {
               __typename: "TypeOtherA",
               day: parsedDay,
-              morning: parsedMorningCustom2
-            }
+              morning: parsedMorningCustom2,
+            },
           },
-          null
-        ]
-      }
+          null,
+        ],
+      },
     };
 
     const observable = execute(link, request);
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });

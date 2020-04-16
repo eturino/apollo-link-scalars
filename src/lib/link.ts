@@ -1,26 +1,10 @@
-import {
-  ApolloLink,
-  FetchResult,
-  NextLink,
-  Observable,
-  Operation
-} from "apollo-link";
-import {
-  GraphQLSchema,
-  isInputType,
-  isLeafType,
-  NamedTypeNode,
-  TypeNode
-} from "graphql";
+import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "apollo-link";
+import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { pickBy } from "lodash";
 import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { mapIfArray } from "./map-if-array";
-import {
-  isListTypeNode,
-  isNonNullTypeNode,
-  isOperationDefinitionNode
-} from "./node-types";
+import { isListTypeNode, isNonNullTypeNode, isOperationDefinitionNode } from "./node-types";
 import { Serializer } from "./serializer";
 import { treatResult } from "./treat-result";
 
@@ -48,26 +32,19 @@ export class ScalarApolloLink extends ApolloLink {
 
     const leafTypesMap = pickBy(this.schema.getTypeMap(), isLeafType);
     this.functionsMap = { ...leafTypesMap, ...this.typesMap };
-    this.serializer = new Serializer(
-      this.schema,
-      this.functionsMap,
-      this.removeTypenameFromInputs
-    );
+    this.serializer = new Serializer(this.schema, this.functionsMap, this.removeTypenameFromInputs);
   }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
-  public request(
-    givenOperation: Operation,
-    forward: NextLink
-  ): Observable<FetchResult> | null {
+  public request(givenOperation: Operation, forward: NextLink): Observable<FetchResult> | null {
     const operation = this.cleanVariables(givenOperation);
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       let sub: ZenObservable.Subscription;
 
       try {
         sub = forward(operation).subscribe({
-          next: result => {
+          next: (result) => {
             try {
               observer.next(this.parse(operation, result));
             } catch (treatError) {
@@ -76,7 +53,7 @@ export class ScalarApolloLink extends ApolloLink {
             }
           },
           error: observer.error.bind(observer),
-          complete: observer.complete.bind(observer)
+          complete: observer.complete.bind(observer),
         });
       } catch (e) {
         observer.error(e);
@@ -94,7 +71,7 @@ export class ScalarApolloLink extends ApolloLink {
       result,
       functionsMap: this.functionsMap,
       schema: this.schema,
-      validateEnums: this.validateEnums
+      validateEnums: this.validateEnums,
     });
   }
 
@@ -105,12 +82,9 @@ export class ScalarApolloLink extends ApolloLink {
   protected cleanVariables(operation: Operation): Operation {
     const o = operation.query.definitions.find(isOperationDefinitionNode);
     const varDefs = (o && o.variableDefinitions) || [];
-    varDefs.forEach(vd => {
+    varDefs.forEach((vd) => {
       const key = vd.variable.name.value;
-      operation.variables[key] = this.serialize(
-        operation.variables[key],
-        vd.type
-      );
+      operation.variables[key] = this.serialize(operation.variables[key], vd.type);
     });
     return operation;
   }
@@ -121,7 +95,7 @@ export class ScalarApolloLink extends ApolloLink {
     }
 
     if (isListTypeNode(typeNode)) {
-      return mapIfArray(value, v => this.serialize(v, typeNode.type));
+      return mapIfArray(value, (v) => this.serialize(v, typeNode.type));
     }
 
     return this.serializeNamed(value, typeNode);
@@ -131,9 +105,7 @@ export class ScalarApolloLink extends ApolloLink {
     const typeName = typeNode.name.value;
     const schemaType = this.schema.getType(typeName);
 
-    return schemaType && isInputType(schemaType)
-      ? this.serializer.serialize(value, schemaType)
-      : value;
+    return schemaType && isInputType(schemaType) ? this.serializer.serialize(value, schemaType) : value;
   }
 }
 

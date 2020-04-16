@@ -7,7 +7,7 @@ import {
   GraphQLSchema,
   isEnumType,
   isListType,
-  isScalarType
+  isScalarType,
 } from "graphql";
 import { has, mapValues } from "lodash";
 import { FunctionsMap } from "..";
@@ -33,24 +33,18 @@ export class Serializer {
     }
 
     if (isListType(type)) {
-      return mapIfArray(value, v => this.serialize(v, type.ofType));
+      return mapIfArray(value, (v) => this.serialize(v, type.ofType));
     }
 
     return this.serializeInputObject(value, type);
   }
 
-  protected serializeLeaf(
-    value: any,
-    type: GraphQLScalarType | GraphQLEnumType
-  ): any {
+  protected serializeLeaf(value: any, type: GraphQLScalarType | GraphQLEnumType): any {
     const fns = this.functionsMap[type.name] || type;
     return fns.serialize(value);
   }
 
-  protected serializeInputObject(
-    value: any,
-    type: GraphQLInputObjectType
-  ): any {
+  protected serializeInputObject(value: any, type: GraphQLInputObjectType): any {
     if (this.removeTypenameFromInputs && has(value, "__typename")) {
       delete value.__typename;
     }

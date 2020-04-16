@@ -12,14 +12,14 @@ export const operationQuery: DocumentNode = {
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "clientKey" }
+            name: { kind: "Name", value: "clientKey" },
           },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "String" } }
+            type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
           },
-          directives: []
-        }
+          directives: [],
+        },
       ],
       directives: [],
       selectionSet: {
@@ -34,9 +34,9 @@ export const operationQuery: DocumentNode = {
                 name: { kind: "Name", value: "clientKey" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "clientKey" }
-                }
-              }
+                  name: { kind: "Name", value: "clientKey" },
+                },
+              },
             ],
             directives: [],
             selectionSet: {
@@ -45,11 +45,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "Client" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -60,9 +60,9 @@ export const operationQuery: DocumentNode = {
                 name: { kind: "Name", value: "clientKey" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "clientKey" }
-                }
-              }
+                  name: { kind: "Name", value: "clientKey" },
+                },
+              },
             ],
             directives: [],
             selectionSet: {
@@ -71,11 +71,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "DashboardInfo" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -86,9 +86,9 @@ export const operationQuery: DocumentNode = {
                 name: { kind: "Name", value: "clientKey" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "clientKey" }
-                }
-              }
+                  name: { kind: "Name", value: "clientKey" },
+                },
+              },
             ],
             directives: [],
             selectionSet: {
@@ -97,21 +97,21 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "Focus" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
-          }
-        ]
-      }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
+          },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "Client" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "Client" }
+        name: { kind: "Name", value: "Client" },
       },
       directives: [],
       selectionSet: {
@@ -121,36 +121,36 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "id" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "clientKey" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "name" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "status" },
             arguments: [],
-            directives: []
+            directives: [],
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "DashboardInfo" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "Dashboard" }
+        name: { kind: "Name", value: "Dashboard" },
       },
       directives: [],
       selectionSet: {
@@ -160,37 +160,37 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "id" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "clientKey" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "dashboardKey" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "name" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "visibility" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "description" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
@@ -203,11 +203,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "UserProfile" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -220,22 +220,22 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "UserProfile" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "UserProfile" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "UserProfile" }
+        name: { kind: "Name", value: "UserProfile" },
       },
       directives: [],
       selectionSet: {
@@ -245,42 +245,42 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "id" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "email" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "name" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "nickname" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "picture" },
             arguments: [],
-            directives: []
+            directives: [],
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "Focus" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "Focus" }
+        name: { kind: "Name", value: "Focus" },
       },
       directives: [],
       selectionSet: {
@@ -290,43 +290,43 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "id" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "clientKey" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "focusKey" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "name" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "visibility" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "boardKeys" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "peopleIds" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
@@ -339,11 +339,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "MultiFilter" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -356,11 +356,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "BoolFilter" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -373,11 +373,11 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "UserProfile" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
           {
             kind: "Field",
@@ -390,22 +390,22 @@ export const operationQuery: DocumentNode = {
                 {
                   kind: "FragmentSpread",
                   name: { kind: "Name", value: "UserProfile" },
-                  directives: []
+                  directives: [],
                 },
-                { kind: "Field", name: { kind: "Name", value: "__typename" } }
-              ]
-            }
+                { kind: "Field", name: { kind: "Name", value: "__typename" } },
+              ],
+            },
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "MultiFilter" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "MultiFilter" }
+        name: { kind: "Name", value: "MultiFilter" },
       },
       directives: [],
       selectionSet: {
@@ -415,24 +415,24 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "key" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "values" },
             arguments: [],
-            directives: []
+            directives: [],
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
     },
     {
       kind: "FragmentDefinition",
       name: { kind: "Name", value: "BoolFilter" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "BoolFilter" }
+        name: { kind: "Name", value: "BoolFilter" },
       },
       directives: [],
       selectionSet: {
@@ -442,19 +442,19 @@ export const operationQuery: DocumentNode = {
             kind: "Field",
             name: { kind: "Name", value: "key" },
             arguments: [],
-            directives: []
+            directives: [],
           },
           {
             kind: "Field",
             name: { kind: "Name", value: "value" },
             arguments: [],
-            directives: []
+            directives: [],
           },
-          { kind: "Field", name: { kind: "Name", value: "__typename" } }
-        ]
-      }
-    }
-  ]
+          { kind: "Field", name: { kind: "Name", value: "__typename" } },
+        ],
+      },
+    },
+  ],
   // loc: { start: 0, end: 1171 }
 };
 
@@ -468,14 +468,14 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
       kind: "VariableDefinition",
       variable: {
         kind: "Variable",
-        name: { kind: "Name", value: "clientKey" }
+        name: { kind: "Name", value: "clientKey" },
       },
       type: {
         kind: "NonNullType",
-        type: { kind: "NamedType", name: { kind: "Name", value: "String" } }
+        type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
       },
-      directives: []
-    }
+      directives: [],
+    },
   ],
   directives: [],
   selectionSet: {
@@ -490,9 +490,9 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
             name: { kind: "Name", value: "clientKey" },
             value: {
               kind: "Variable",
-              name: { kind: "Name", value: "clientKey" }
-            }
-          }
+              name: { kind: "Name", value: "clientKey" },
+            },
+          },
         ],
         directives: [],
         selectionSet: {
@@ -502,29 +502,29 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
               kind: "Field",
               name: { kind: "Name", value: "id" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "clientKey" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "name" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "status" },
               arguments: [],
-              directives: []
+              directives: [],
             },
-            { kind: "Field", name: { kind: "Name", value: "__typename" } }
-          ]
-        }
+            { kind: "Field", name: { kind: "Name", value: "__typename" } },
+          ],
+        },
       },
       {
         kind: "Field",
@@ -535,9 +535,9 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
             name: { kind: "Name", value: "clientKey" },
             value: {
               kind: "Variable",
-              name: { kind: "Name", value: "clientKey" }
-            }
-          }
+              name: { kind: "Name", value: "clientKey" },
+            },
+          },
         ],
         directives: [],
         selectionSet: {
@@ -547,37 +547,37 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
               kind: "Field",
               name: { kind: "Name", value: "id" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "clientKey" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "dashboardKey" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "name" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "visibility" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "description" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
@@ -591,35 +591,35 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "id" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "email" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "name" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "nickname" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "picture" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
             {
               kind: "Field",
@@ -633,39 +633,39 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "id" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "email" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "name" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "nickname" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "picture" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
-            { kind: "Field", name: { kind: "Name", value: "__typename" } }
-          ]
-        }
+            { kind: "Field", name: { kind: "Name", value: "__typename" } },
+          ],
+        },
       },
       {
         kind: "Field",
@@ -676,9 +676,9 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
             name: { kind: "Name", value: "clientKey" },
             value: {
               kind: "Variable",
-              name: { kind: "Name", value: "clientKey" }
-            }
-          }
+              name: { kind: "Name", value: "clientKey" },
+            },
+          },
         ],
         directives: [],
         selectionSet: {
@@ -688,43 +688,43 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
               kind: "Field",
               name: { kind: "Name", value: "id" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "clientKey" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "focusKey" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "name" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "visibility" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "boardKeys" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
               name: { kind: "Name", value: "peopleIds" },
               arguments: [],
-              directives: []
+              directives: [],
             },
             {
               kind: "Field",
@@ -738,17 +738,17 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "key" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "values" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
             {
               kind: "Field",
@@ -762,17 +762,17 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "key" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "value" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
             {
               kind: "Field",
@@ -786,35 +786,35 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "id" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "email" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "name" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "nickname" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "picture" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
             {
               kind: "Field",
@@ -828,40 +828,40 @@ export const expectedFragmentsReduced: OperationDefinitionNode = {
                     kind: "Field",
                     name: { kind: "Name", value: "id" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "email" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "name" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "nickname" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
                   {
                     kind: "Field",
                     name: { kind: "Name", value: "picture" },
                     arguments: [],
-                    directives: []
+                    directives: [],
                   },
-                  { kind: "Field", name: { kind: "Name", value: "__typename" } }
-                ]
-              }
+                  { kind: "Field", name: { kind: "Name", value: "__typename" } },
+                ],
+              },
             },
-            { kind: "Field", name: { kind: "Name", value: "__typename" } }
-          ]
-        }
-      }
-    ]
-  }
+            { kind: "Field", name: { kind: "Name", value: "__typename" } },
+          ],
+        },
+      },
+    ],
+  },
 };

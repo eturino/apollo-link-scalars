@@ -1,9 +1,5 @@
 import { FetchResult, Operation } from "apollo-link";
-import {
-  GraphQLObjectType,
-  GraphQLSchema,
-  OperationDefinitionNode
-} from "graphql";
+import { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
 import { FunctionsMap } from "..";
 import { fragmentReducer } from "./fragment-reducer";
 import { isFieldNode } from "./node-types";
@@ -41,7 +37,7 @@ export function treatResult({
   functionsMap,
   operation,
   result,
-  validateEnums
+  validateEnums,
 }: TreatResultParams): FetchResult {
   const data = result.data;
   if (!data) return result;
@@ -53,13 +49,7 @@ export function treatResult({
   if (!rootType) return result;
 
   const parser = new Parser(schema, functionsMap, validateEnums);
-  const rootSelections = operationDefinitionNode.selectionSet.selections.filter(
-    isFieldNode
-  );
-  const newData = parser.parseObjectWithSelections(
-    data,
-    rootType,
-    rootSelections
-  );
+  const rootSelections = operationDefinitionNode.selectionSet.selections.filter(isFieldNode);
+  const newData = parser.parseObjectWithSelections(data, rootType, rootSelections);
   return { ...result, data: newData };
 }

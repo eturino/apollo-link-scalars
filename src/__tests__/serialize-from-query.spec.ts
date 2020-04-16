@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -91,7 +84,7 @@ const resolvers = {
       return new MainDate(d.toISOString());
     },
     convertToDays: (_root: any, { dates }: { dates: MainDate[] }) => {
-      return dates.map(date => {
+      return dates.map((date) => {
         const d = date.getNewDate();
         d.setUTCHours(12);
         d.setUTCMinutes(13);
@@ -99,7 +92,7 @@ const resolvers = {
         d.setUTCMilliseconds(0);
         return new MainDate(d.toISOString());
       });
-    }
+    },
   },
   Date: new GraphQLScalarType({
     name: "Date",
@@ -117,16 +110,14 @@ const resolvers = {
         return new MainDate(raw);
       }
 
-      throw new Error(
-        `given date to parse is not a string or a number!!: ${raw}`
-      );
+      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
         return new MainDate(ast.value);
       }
       return null;
-    }
+    },
   }),
   StartOfDay: new GraphQLScalarType({
     name: "StartOfDay",
@@ -149,9 +140,7 @@ const resolvers = {
         return new MainDate(d.toISOString());
       }
 
-      throw new Error(
-        `given date to parse is not a string or a number!!: ${raw}`
-      );
+      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
@@ -163,8 +152,8 @@ const resolvers = {
         return new MainDate(d.toISOString());
       }
       return null;
-    }
-  })
+    },
+  }),
 };
 
 const typesMap = {
@@ -185,13 +174,13 @@ const typesMap = {
       d.setUTCSeconds(0);
       d.setUTCMilliseconds(0);
       return new CustomDate(d.toISOString());
-    }
-  }
+    },
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -213,17 +202,17 @@ const request: GraphQLRequest = {
   variables: {
     day: parsedDay,
     morning: parsedMorning,
-    mornings: [parsedMorning, parsedMorning2]
+    mornings: [parsedMorning, parsedMorning2],
   },
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
   data: {
     convertToMorning: rawMorning,
     convertToDay: rawDay,
-    convertToDays: [rawDay, rawDay2]
-  }
+    convertToDays: [rawDay, rawDay2],
+  },
 };
 
 describe("scalar returned directly from first level queries", () => {
@@ -254,72 +243,72 @@ describe("scalar returned directly from first level queries", () => {
       variableValues: {
         morning: rawMorning,
         day: rawDay,
-        mornings: [rawMorning, rawMorning2]
-      }
+        mornings: [rawMorning, rawMorning2],
+      },
     });
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to serialize", done => {
+  it("use the scalar resolvers in the schema to serialize", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           morning: rawMorning,
           day: rawDay,
-          mornings: [rawMorning, rawMorning2]
+          mornings: [rawMorning, rawMorning2],
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convertToDay: parsedDay,
         convertToDays: [parsedDay, parsedDay2],
-        convertToMorning: parsedMorning
-      }
+        convertToMorning: parsedMorning,
+      },
     };
 
     const observable = execute(link, cloneDeep(request));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(2);
   });
 
-  it("override the scala resolvers with the custom functions map", done => {
+  it("override the scala resolvers with the custom functions map", (done) => {
     const customRequest: GraphQLRequest = {
       query: { ...queryDocument },
       variables: {
         morning: parsedMorningCustom,
         mornings: [parsedMorningCustom, parsedMorningCustom2],
-        day: parsedDay
+        day: parsedDay,
       },
-      operationName: queryOperationName
+      operationName: queryOperationName,
     };
 
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           morning: rawMorning,
           mornings: [rawMorning, rawMorning2],
-          day: rawDay
+          day: rawDay,
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convertToDay: parsedDay,
         convertToDays: [parsedDay, parsedDay2],
-        convertToMorning: parsedMorningCustom
-      }
+        convertToMorning: parsedMorningCustom,
+      },
     };
 
     const observable = execute(link, cloneDeep(customRequest));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });

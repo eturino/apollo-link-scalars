@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -29,13 +22,13 @@ const resolvers = {
   Query: {
     first: () => "a",
     second: () => "b",
-    third: () => null
-  }
+    third: () => null,
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -58,7 +51,7 @@ if (!queryOperationName) throw new Error("invalid query operation name");
 const request: GraphQLRequest = {
   query: queryDocument,
   variables: {},
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const validResponse = {
@@ -68,8 +61,8 @@ const validResponse = {
     third: null,
     otherFirst: "a",
     otherSecond: "b",
-    otherThird: null
-  }
+    otherThird: null,
+  },
 };
 
 const invalidResponse = {
@@ -79,8 +72,8 @@ const invalidResponse = {
     third: null,
     otherFirst: "invalid",
     otherSecond: "b",
-    otherThird: null
-  }
+    otherThird: null,
+  },
 };
 
 describe("enum returned directly from first level queries", () => {
@@ -91,32 +84,32 @@ describe("enum returned directly from first level queries", () => {
   });
 
   describe("with valid enum values", () => {
-    it("validateEnums false (or missing) => return response", done => {
+    it("validateEnums false (or missing) => return response", (done) => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
           return Observable.of(validResponse);
-        })
+        }),
       ]);
 
       const observable = execute(link, request);
-      observable.subscribe(value => {
+      observable.subscribe((value) => {
         expect(value).toEqual(validResponse);
         done();
       });
       expect.assertions(1);
     });
 
-    it("validateEnums false (or missing) => return response", done => {
+    it("validateEnums false (or missing) => return response", (done) => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
           return Observable.of(validResponse);
-        })
+        }),
       ]);
 
       const observable = execute(link, request);
-      observable.subscribe(value => {
+      observable.subscribe((value) => {
         expect(value).toEqual(validResponse);
         done();
       });
@@ -125,38 +118,38 @@ describe("enum returned directly from first level queries", () => {
   });
 
   describe("with invalid enum values", () => {
-    it("validateEnums false (or missing) => return invalid response", done => {
+    it("validateEnums false (or missing) => return invalid response", (done) => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
           return Observable.of(invalidResponse);
-        })
+        }),
       ]);
 
       const observable = execute(link, request);
-      observable.subscribe(value => {
+      observable.subscribe((value) => {
         expect(value).toEqual(invalidResponse);
         done();
       });
       expect.assertions(1);
     });
 
-    it("validateEnums true => return error", done => {
+    it("validateEnums true => return error", (done) => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
           return Observable.of(invalidResponse);
-        })
+        }),
       ]);
 
       const observable = execute(link, request);
-      observable.subscribe(value => {
+      observable.subscribe((value) => {
         expect(value).toEqual({
           errors: [
             {
-              message: `enum "MyEnum" with invalid value`
-            }
-          ]
+              message: `enum "MyEnum" with invalid value`,
+            },
+          ],
         });
         done();
       });

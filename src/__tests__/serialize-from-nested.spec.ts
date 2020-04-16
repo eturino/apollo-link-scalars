@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
@@ -119,10 +112,10 @@ const resolvers = {
         first: toStartOfDay(input.first),
         nested: {
           nestedDay: toDay(input.second.morning),
-          days: input.second.list.map(toDay)
-        }
+          days: input.second.list.map(toDay),
+        },
       };
-    }
+    },
   },
   Date: new GraphQLScalarType({
     name: "Date",
@@ -140,16 +133,14 @@ const resolvers = {
         return new MainDate(raw);
       }
 
-      throw new Error(
-        `given date to parse is not a string or a number!!: ${raw}`
-      );
+      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
         return new MainDate(ast.value);
       }
       return null;
-    }
+    },
   }),
   StartOfDay: new GraphQLScalarType({
     name: "StartOfDay",
@@ -172,9 +163,7 @@ const resolvers = {
         return new MainDate(d.toISOString());
       }
 
-      throw new Error(
-        `given date to parse is not a string or a number!!: ${raw}`
-      );
+      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
@@ -186,8 +175,8 @@ const resolvers = {
         return new MainDate(d.toISOString());
       }
       return null;
-    }
-  })
+    },
+  }),
 };
 
 const typesMap = {
@@ -208,13 +197,13 @@ const typesMap = {
       d.setUTCSeconds(0);
       d.setUTCMilliseconds(0);
       return new CustomDate(d.toISOString());
-    }
-  }
+    },
+  },
 };
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 const querySource = `
@@ -244,20 +233,20 @@ const request: GraphQLRequest = {
       second: {
         __typename: "MyNested",
         morning: parsedMorning,
-        list: [parsedMorning, parsedMorning2]
-      }
-    }
+        list: [parsedMorning, parsedMorning2],
+      },
+    },
   },
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
   data: {
     convert: {
       first: rawMorning,
-      nested: { nestedDay: rawDay, days: [rawDay, rawDay2] }
-    }
-  }
+      nested: { nestedDay: rawDay, days: [rawDay, rawDay2] },
+    },
+  },
 };
 
 describe("scalars in nested input objects", () => {
@@ -288,17 +277,17 @@ describe("scalars in nested input objects", () => {
       variableValues: {
         input: {
           first: rawDay,
-          second: { morning: rawMorning, list: [rawMorning, rawMorning2] }
-        }
-      }
+          second: { morning: rawMorning, list: [rawMorning, rawMorning2] },
+        },
+      },
     });
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to serialize (without removeTypenameFromInputs)", done => {
+  it("use the scalar resolvers in the schema to serialize (without removeTypenameFromInputs)", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           input: {
             __typename: "MyInput",
@@ -306,67 +295,67 @@ describe("scalars in nested input objects", () => {
             second: {
               __typename: "MyNested",
               morning: rawMorning,
-              list: [rawMorning, rawMorning2]
-            }
-          }
+              list: [rawMorning, rawMorning2],
+            },
+          },
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convert: {
           first: parsedMorning,
-          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
-        }
-      }
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] },
+        },
+      },
     };
 
     const observable = execute(link, cloneDeep(request));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(2);
   });
 
-  it("use the scalar resolvers in the schema to serialize (with removeTypenameFromInputs -> removes __typename)", done => {
+  it("use the scalar resolvers in the schema to serialize (with removeTypenameFromInputs -> removes __typename)", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema, removeTypenameFromInputs: true }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           input: {
             first: rawDay,
             second: {
               morning: rawMorning,
-              list: [rawMorning, rawMorning2]
-            }
-          }
+              list: [rawMorning, rawMorning2],
+            },
+          },
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convert: {
           first: parsedMorning,
-          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
-        }
-      }
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] },
+        },
+      },
     };
 
     const observable = execute(link, cloneDeep(request));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(2);
   });
 
-  it("override the scala resolvers with the custom functions map (without removeTypenameFromInputs)", done => {
+  it("override the scala resolvers with the custom functions map (without removeTypenameFromInputs)", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           input: {
             __typename: "MyInput",
@@ -374,54 +363,54 @@ describe("scalars in nested input objects", () => {
             second: {
               __typename: "MyNested",
               morning: rawMorning,
-              list: [rawMorning, rawMorning2]
-            }
-          }
+              list: [rawMorning, rawMorning2],
+            },
+          },
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convert: {
           first: parsedMorningCustom,
-          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
-        }
-      }
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] },
+        },
+      },
     };
 
     const observable = execute(link, cloneDeep(request));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });
     expect.assertions(2);
   });
 
-  it("override the scala resolvers with the custom functions map (with removeTypenameFromInputs -> removes __typename)", done => {
+  it("override the scala resolvers with the custom functions map (with removeTypenameFromInputs -> removes __typename)", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap, removeTypenameFromInputs: true }),
-      new ApolloLink(operation => {
+      new ApolloLink((operation) => {
         expect(operation.variables).toEqual({
           input: {
             first: rawDay,
-            second: { morning: rawMorning, list: [rawMorning, rawMorning2] }
-          }
+            second: { morning: rawMorning, list: [rawMorning, rawMorning2] },
+          },
         });
         return Observable.of(cloneDeep(response));
-      })
+      }),
     ]);
     const expectedResponse = {
       data: {
         convert: {
           first: parsedMorningCustom,
-          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] }
-        }
-      }
+          nested: { nestedDay: parsedDay, days: [parsedDay, parsedDay2] },
+        },
+      },
     };
 
     const observable = execute(link, cloneDeep(request));
-    observable.subscribe(value => {
+    observable.subscribe((value) => {
       expect(value).toEqual(expectedResponse);
       done();
     });

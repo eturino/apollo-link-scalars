@@ -1,11 +1,4 @@
-import {
-  ApolloLink,
-  DocumentNode,
-  execute,
-  getOperationName,
-  GraphQLRequest,
-  Observable
-} from "apollo-link";
+import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
 import { withScalars } from "..";
@@ -29,26 +22,26 @@ if (!queryOperationName) throw new Error("invalid query operation name");
 const request: GraphQLRequest = {
   query: queryDocument,
   variables: {},
-  operationName: queryOperationName
+  operationName: queryOperationName,
 };
 
 const response = {
   data: {
-    day: null
-  }
+    day: null,
+  },
 };
 
 describe("builtin scalars behave like usual", () => {
-  it("parses null values for nullable leaf types", done => {
+  it("parses null values for nullable leaf types", (done) => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
         return Observable.of(response);
-      })
+      }),
     ]);
 
     const observable = execute(link, request);
-    observable.subscribe(result => {
+    observable.subscribe((result) => {
       expect(result).toEqual({ data: { day: null } });
       done();
     });

@@ -1,14 +1,8 @@
 import { DocumentNode } from "graphql";
 import { fragmentMapFrom, replaceFragmentsOn } from "./fragment-utils";
-import {
-  isFragmentDefinitionNode,
-  isOperationDefinitionNode,
-  ReducedOperationDefinitionNode
-} from "./node-types";
+import { isFragmentDefinitionNode, isOperationDefinitionNode, ReducedOperationDefinitionNode } from "./node-types";
 
-export function fragmentReducer(
-  doc: DocumentNode
-): ReducedOperationDefinitionNode | null {
+export function fragmentReducer(doc: DocumentNode): ReducedOperationDefinitionNode | null {
   if (!doc || !doc.definitions || !doc.definitions.length) return null;
   const operationNode = doc.definitions.find(isOperationDefinitionNode) || null;
   if (!operationNode) return null;
@@ -19,6 +13,6 @@ export function fragmentReducer(
   const list = replaceFragmentsOn(selections, fragmentMap);
   return {
     ...operationNode,
-    selectionSet: { ...selectionSet, selections: list }
+    selectionSet: { ...selectionSet, selections: list },
   };
 }
