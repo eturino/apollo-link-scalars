@@ -14,7 +14,7 @@
 	<div class="tsd-page-toolbar">
 		<div class="container">
 			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
 					<div class="field">
 						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
 						<input id="tsd-search-field" type="text" />
@@ -57,7 +57,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> apollo-link-scalars</h1>
+			<h1>apollo-link-scalars</h1>
 		</div>
 	</div>
 </header>
@@ -65,7 +65,7 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#codeapollo-link-scalarscode" id="codeapollo-link-scalarscode" style="color: inherit; text-decoration: none;">
+				<a href="#apollo-link-scalars" id="apollo-link-scalars" style="color: inherit; text-decoration: none;">
 					<h1><code>apollo-link-scalars</code></h1>
 				</a>
 				<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -175,7 +175,7 @@
   typeDefs,
   resolvers
 });</code></pre>
-				<a href="#synchronously-creating-a-link-instance-with-a-hrefhttpsgraphql-code-generatorcomcodegraphql-code-generatorcodea-setup" id="synchronously-creating-a-link-instance-with-a-hrefhttpsgraphql-code-generatorcomcodegraphql-code-generatorcodea-setup" style="color: inherit; text-decoration: none;">
+				<a href="#synchronously-creating-a-link-instance-with-graphql-code-generator-setup" id="synchronously-creating-a-link-instance-with-graphql-code-generator-setup" style="color: inherit; text-decoration: none;">
 					<h4>Synchronously creating a link instance with <a href="https://graphql-code-generator.com/"><code>graphql-code-generator</code></a> setup</h4>
 				</a>
 				<blockquote>
@@ -185,11 +185,11 @@
 				<p><code>codegen.yml</code></p>
 				<pre><code class="language-yml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">generates:</span>
-  <span class="hljs-string">src/__generated__/graphql.schema.json:</span>
-<span class="hljs-attr">    plugins:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">"introspection"</span>
-<span class="hljs-attr">    config:</span>
-<span class="hljs-attr">      minify:</span> <span class="hljs-literal">true</span></code></pre>
+  <span class="hljs-attr">src/__generated__/graphql.schema.json:</span>
+    <span class="hljs-attr">plugins:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">"introspection"</span>
+    <span class="hljs-attr">config:</span>
+      <span class="hljs-attr">minify:</span> <span class="hljs-literal">true</span></code></pre>
 				<p>Synchronous code to create link instance in common scenario:</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> introspectionResult <span class="hljs-keyword">from</span> <span class="hljs-string">"./__generated__/graphql.schema.json"</span>;
 <span class="hljs-keyword">import</span> { buildClientSchema, IntrospectionQuery } <span class="hljs-keyword">from</span> <span class="hljs-string">"graphql"</span>;
@@ -312,7 +312,7 @@ yarn publish --access public</code></pre>
 					<li class=" tsd-kind-class">
 						<a href="classes/serializer.html" class="tsd-kind-icon">Serializer</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#data" class="tsd-kind-icon">Data</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
@@ -327,19 +327,19 @@ yarn publish --access public</code></pre>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#reducedoperationdefinitionnode" class="tsd-kind-icon">Reduced<wbr>Operation<wbr>Definition<wbr>Node</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#reducedselectionsetnode" class="tsd-kind-icon">Reduced<wbr>Selection<wbr>Set<wbr>Node</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#scalarapollolinkparams" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link<wbr>Params</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#treatresultparams" class="tsd-kind-icon">Treat<wbr>Result<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-variable">
 						<a href="globals.html#graphqlschemaobj" class="tsd-kind-icon">graphql<wbr>Schema<wbr>Obj</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#ensurenullable" class="tsd-kind-icon">ensure<wbr>Nullable</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -348,10 +348,10 @@ yarn publish --access public</code></pre>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#fragmentreducer" class="tsd-kind-icon">fragment<wbr>Reducer</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getcleanedselections" class="tsd-kind-icon">get<wbr>Cleaned<wbr>Selections</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getresolvedfieldnodes" class="tsd-kind-icon">get<wbr>Resolved<wbr>Field<wbr>Nodes</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -381,7 +381,7 @@ yarn publish --access public</code></pre>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#replacefragmentson" class="tsd-kind-icon">replace<wbr>Fragments<wbr>On</a>
 					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
+					<li class=" tsd-kind-function">
 						<a href="globals.html#roottypefor" class="tsd-kind-icon">root<wbr>Type<wbr>For</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -409,57 +409,15 @@ yarn publish --access public</code></pre>
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
 			</ul>
 			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
 			</ul>
 		</div>
 	</div>
