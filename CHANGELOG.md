@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.7](https://github.com/eturino/apollo-link-scalars/compare/v0.1.6...v0.1.7) (2020-05-12)
+
+
+### Bug Fixes
+
+* target ES2017 instead of esnext for module, and ES2015 for main ([08a8246](https://github.com/eturino/apollo-link-scalars/commit/08a82460bd39fe59bdf6ae958f83cfb1b6ecd89b))
+
 ### [0.1.6](https://github.com/eturino/apollo-link-scalars/compare/v0.1.5...v0.1.6) (2019-12-31)
 
 
