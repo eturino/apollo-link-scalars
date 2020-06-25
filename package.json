@@ -58,7 +58,7 @@
   },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",
-    "@commitlint/cli": "^8.3.5",
+    "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
     "@types/graphql": "^14.5.0",
     "@types/inquirer": "^6.5.0",
