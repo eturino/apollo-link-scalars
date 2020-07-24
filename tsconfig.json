@@ -8,6 +8,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "inlineSourceMap": true,
+    "skipLibCheck": false,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "strict": true /* Enable all strict type-checking options. */,
     /* Strict Type-Checking Options */

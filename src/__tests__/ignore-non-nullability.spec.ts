@@ -1,6 +1,6 @@
-import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Observable } from "apollo-link";
+import { gql, ApolloLink, DocumentNode, execute, GraphQLRequest, Observable } from "@apollo/client";
+import { getOperationName } from "@apollo/client/utilities";
 import { graphql } from "graphql";
-import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
 import { withScalars } from "..";
 
