@@ -51,7 +51,7 @@
     "node": ">=10.0"
   },
   "dependencies": {
-    "apollo-link": "^1.2.13",
+    "@apollo/client": "^3.0.2",
     "graphql": "^14.5.8",
     "lodash": "^4.17.15",
     "zen-observable-ts": "^0.8.21"
@@ -64,11 +64,11 @@
     "@types/inquirer": "^6.5.0",
     "@types/jest": "^26.0.0",
     "@types/lodash": "^4.14.149",
+    "@types/react": "^16.9.43",
     "apollo-server-testing": "^2.12.0",
     "cz-conventional-changelog": "^3.1.0",
     "gh-pages": "^3.1.0",
     "github-release-from-changelog": "^2.1.1",
-    "graphql-tag": "^2.10.3",
     "graphql-tools": "^6.0.10",
     "husky": "^4.2.5",
     "inquirer": "^7.1.0",

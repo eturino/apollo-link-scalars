@@ -1,4 +1,4 @@
-import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "apollo-link";
+import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { pickBy } from "lodash";
 import { ZenObservable } from "zen-observable-ts";
