@@ -50,6 +50,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "dobrinov",
+      "name": "Deyan Dobrinov",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/996877?v=4",
+      "profile": "https://github.com/dobrinov",
+      "contributions": [
+        "bug",
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
