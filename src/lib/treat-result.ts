@@ -1,4 +1,4 @@
-import { FetchResult, Operation } from "apollo-link";
+import { FetchResult, Operation } from "@apollo/client";
 import { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
 import { FunctionsMap } from "..";
 import { fragmentReducer } from "./fragment-reducer";

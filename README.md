@@ -36,8 +36,7 @@ You can build the link by calling the `withScalars()` function, passing to it th
 
 ```typescript
 import { withScalars } from "apollo-link-scalars";
-import { ApolloLink } from "apollo-link";
-import { HttpLink } from "apollo-link-http";
+import { ApolloLink, HttpLink } from "@apollo/client";
 import { schema } from "./my-schema";
 
 const link = ApolloLink.from([
@@ -80,7 +79,7 @@ withScalars({
 ### Example of loading a schema
 
 ```typescript
-import gql from "graphql-tag";
+import { gql } from "@apollo/client";
 import { GraphQLScalarType, Kind } from "graphql";
 import { makeExecutableSchema } from "apollo-link-scalars";
 
