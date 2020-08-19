@@ -47,7 +47,7 @@ export class Parser {
 
   protected treatSelection(
     data: Data,
-    fieldMap: GraphQLInputFieldMap | GraphQLFieldMap<any, any, any>,
+    fieldMap: GraphQLInputFieldMap | GraphQLFieldMap<any, any>,
     fieldNode: ReducedFieldNode
   ): Data {
     const name = fieldNode.name.value;
@@ -100,7 +100,7 @@ export class Parser {
 
   protected parseNestedObject(
     value: any,
-    givenType: GraphQLObjectType<any, any, Data> | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType,
+    givenType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType,
     fieldNode: ReducedFieldNode
   ): any {
     if (!value || !fieldNode || !fieldNode.selectionSet || !fieldNode.selectionSet.selections.length) {
@@ -114,8 +114,8 @@ export class Parser {
 
   protected getObjectTypeFrom(
     value: any,
-    type: GraphQLObjectType<any, any, Data> | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType
-  ): GraphQLObjectType<any, any, Data> | GraphQLInputObjectType | null {
+    type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType
+  ): GraphQLObjectType | GraphQLInputObjectType | null {
     if (isInputObjectType(type) || isObjectType(type)) return type;
     if (!value.__typename) return null;
 

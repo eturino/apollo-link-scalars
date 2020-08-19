@@ -12,6 +12,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
+    "prepare": "install-peers",
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
@@ -52,7 +53,6 @@
   },
   "dependencies": {
     "apollo-link": "^1.2.13",
-    "graphql": "^14.5.8",
     "lodash.clonedeep": "^4.5.0",
     "lodash.every": "^4.6.0",
     "lodash.flatmap": "^4.5.0",
@@ -68,10 +68,15 @@
     "lodash.uniqby": "^4.7.0",
     "zen-observable-ts": "^0.8.21"
   },
+  "peerDependencies": {
+    "graphql": "14.x || 15.x"
+  },
   "devDependencies": {
     "@bitjson/npm-scripts-info": "^1.0.0",
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
+    "@types/inquirer": "^7.3.0",
+    "@types/jest": "^26.0.0",
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.every": "^4.6.6",
     "@types/lodash.flatmap": "^4.5.6",
@@ -85,9 +90,6 @@
     "@types/lodash.pickby": "^4.6.6",
     "@types/lodash.reduce": "^4.6.6",
     "@types/lodash.uniqby": "^4.7.6",
-    "@types/graphql": "^14.5.0",
-    "@types/inquirer": "^7.3.0",
-    "@types/jest": "^26.0.0",
     "apollo-server-testing": "^2.12.0",
     "cz-conventional-changelog": "^3.1.0",
     "gh-pages": "^3.1.0",
@@ -96,6 +98,7 @@
     "graphql-tools": "^6.0.10",
     "husky": "^4.2.5",
     "inquirer": "^7.3.3",
+    "install-peers-cli": "^2.2.0",
     "jest": "^26.1.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^6.0.1",
