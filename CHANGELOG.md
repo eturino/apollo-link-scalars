@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/eturino/apollo-link-scalars/compare/v0.1.10...v0.2.0) (2020-08-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* **peer-dependencies:** graphql stops being a dependency and becomes a peer-dependency. It has to be added
+directly to your project
+
+* **peer-dependencies:** move graphql to peer-dependency and allow versions 14 and 15 ([#133](https://github.com/eturino/apollo-link-scalars/issues/133)) ([12c602e](https://github.com/eturino/apollo-link-scalars/commit/12c602ecfdc6b2e1bb8c6704907cd297b1689777)), closes [#117](https://github.com/eturino/apollo-link-scalars/issues/117)
+
 ### [0.1.10](https://github.com/eturino/apollo-link-scalars/compare/v0.1.9...v0.1.10) (2020-08-19)
 
 ### [0.1.9](https://github.com/eturino/apollo-link-scalars/compare/v0.1.8...v0.1.9) (2020-08-19)
