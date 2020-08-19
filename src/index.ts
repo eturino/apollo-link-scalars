@@ -4,4 +4,12 @@ import { mapIfArray } from "./lib/map-if-array";
 import { FunctionsMap, ParsingFunctionsObject } from "./types/functions-map";
 import { makeExecutableSchema } from "graphql-tools";
 
-export { FunctionsMap, isNone, mapIfArray, ParsingFunctionsObject, ScalarApolloLink, withScalars, makeExecutableSchema };
+export {
+  FunctionsMap,
+  isNone,
+  mapIfArray,
+  ParsingFunctionsObject,
+  ScalarApolloLink,
+  withScalars,
+  makeExecutableSchema,
+};
