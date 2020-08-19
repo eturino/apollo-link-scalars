@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-scalars",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "author": "Eduardo Turiño <eturino@eturino.com>",
   "description": "custom apollo link to allow to parse custom scalars",
   "main": "build/main/index.js",
@@ -32,7 +32,7 @@
     "doc:json": "typedoc src/ --exclude **/*.spec.ts --target ES6 --mode file --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
-    "reset": "git clean -dfx -e .idea && git reset --hard && yarn",
+    "reset": "git clean -dfx -e .idea && git reset --hard && yarn install && install-peers -f",
     "clean": "trash build test",
     "prepare-release": "run-s reset test doc:html version doc:publish"
   },

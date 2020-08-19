@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/eturino/apollo-link-scalars/compare/v0.2.0...v2.0.0) (2020-08-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **apollo client:** Changes the dependency on Apollo Client from v2 to v3
+* This version of the library won't be compatible with projects using Apollo 2.
+
+### Features
+
+* **apollo client:** migrate to Apollo Client v3 ([66c74c7](https://github.com/eturino/apollo-link-scalars/commit/66c74c7029d4f0dccd6525c72e5da971d92f1161)), closes [#34](https://github.com/eturino/apollo-link-scalars/issues/34)
+
+
+* upgrade "apollo-link" to provide Apollo clinet version 3 support ([8677b7e](https://github.com/eturino/apollo-link-scalars/commit/8677b7ef589748712171b50726dd6138424e300e))
+
 ## [0.3.0](https://github.com/eturino/apollo-link-scalars/compare/v0.2.1...v0.3.0) (2020-09-12)
 
 
