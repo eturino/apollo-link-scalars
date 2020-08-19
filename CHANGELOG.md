@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/eturino/apollo-link-scalars/compare/v0.1.8...v0.1.9) (2020-08-19)
+
+
+### Bug Fixes
+
+* export "makeExecutableSchema" through apollo-link-scalars ([#115](https://github.com/eturino/apollo-link-scalars/issues/115)) ([4008797](https://github.com/eturino/apollo-link-scalars/commit/40087970daebfcc9ced7283972ba3bc0b1e42ef2))
+
 ### [0.1.8](https://github.com/eturino/apollo-link-scalars/compare/v0.1.7...v0.1.8) (2020-05-12)
 
 ### [0.1.7](https://github.com/eturino/apollo-link-scalars/compare/v0.1.6...v0.1.7) (2020-05-12)
