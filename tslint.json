@@ -16,6 +16,6 @@
     "object-literal-sort-keys": [false],
     "no-console": [false],
     "interface-over-type-literal": [false],
-    "no-submodule-imports": ["@apollo/client/utilities", "@apollo/client/core"]
+    "no-submodule-imports": [true, "@apollo/client/utilities", "@apollo/client/core"]
   }
 }

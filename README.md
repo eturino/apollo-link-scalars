@@ -16,6 +16,10 @@
 
 Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup `__typename` from inputs. (see [Usage](#usage) and [Options](#options)).
 
+## Breaking Changes: Apollo Client version
+
+Version 1.x uses [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/). If your project is using the deprecated v2, please use versions 0.x
+
 ## Disclaimer: Potential cache interaction
 
 Parsing scalars at link level means that Apollo cache will receive them already parsed. Depending on what kind of parsing is performed, this may interact with the cache JSON serialization of, for example,`apollo-cache-persist`. While `apollo-cache-persist` has an option to turn that serialisation off, others may have similar issues.
