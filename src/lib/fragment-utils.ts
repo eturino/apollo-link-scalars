@@ -1,10 +1,14 @@
 import { FieldNode, FragmentDefinitionNode, SelectionNode } from "graphql";
-import { Dictionary, every, flatMap, fromPairs, isArray, map, uniqBy } from "lodash";
+import every from "lodash.every";
+import flatMap from "lodash.flatmap";
+import fromPairs from "lodash.frompairs";
+import uniqBy from "lodash.uniqby";
+import { Dictionary } from "../types/dictionary";
 import { MutOrRO } from "../types/mut-or-ro";
 import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";
 
 export function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
-  return uniqBy(nodes, (fn) => JSON.stringify([fn.alias && fn.alias.value, fn.name.value]));
+  return uniqBy(nodes, (fn) => JSON.stringify([fn.alias?.value, fn.name.value]));
 }
 
 function getCleanedSelections(
@@ -18,7 +22,7 @@ function getCleanedSelections(
     const nodeOrSelectionList = fragmentMap[sn.name.value];
     if (!nodeOrSelectionList) return [];
 
-    return isArray(nodeOrSelectionList) ? nodeOrSelectionList : nodeOrSelectionList.selectionSet.selections; // fragment node
+    return Array.isArray(nodeOrSelectionList) ? nodeOrSelectionList : nodeOrSelectionList.selectionSet.selections; // fragment node
   });
 }
 
@@ -55,9 +59,9 @@ export function replaceFragmentsOn(
 }
 
 export function fragmentMapFrom(fragments: FragmentDefinitionNode[]): Dictionary<ReducedFieldNode[]> {
-  const initialMap = fromPairs(map(fragments, (f) => [f.name.value, f]));
+  const initialMap = fromPairs(fragments.map((f) => [f.name.value, f]));
   return fromPairs(
-    map(fragments, (f) => {
+    fragments.map((f) => {
       const fieldNodes = replaceFragmentsOn(f.selectionSet.selections, initialMap);
       return [f.name.value, fieldNodes];
     })

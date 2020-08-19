@@ -1,6 +1,6 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "apollo-link";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
-import { pickBy } from "lodash";
+import pickBy from "lodash.pickby";
 import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { mapIfArray } from "./map-if-array";
@@ -81,7 +81,7 @@ export class ScalarApolloLink extends ApolloLink {
    */
   protected cleanVariables(operation: Operation): Operation {
     const o = operation.query.definitions.find(isOperationDefinitionNode);
-    const varDefs = (o && o.variableDefinitions) || [];
+    const varDefs = o?.variableDefinitions || [];
     varDefs.forEach((vd) => {
       const key = vd.variable.name.value;
       operation.variables[key] = this.serialize(operation.variables[key], vd.type);

@@ -9,10 +9,9 @@ import {
   isListType,
   isScalarType,
 } from "graphql";
-import { has, mapValues } from "lodash";
-import { FunctionsMap } from "..";
-import { isNone } from "./is-none";
-import { mapIfArray } from "./map-if-array";
+import has from "lodash.has";
+import mapValues from "lodash.mapvalues";
+import { FunctionsMap, isNone, mapIfArray } from "..";
 
 export class Serializer {
   constructor(
