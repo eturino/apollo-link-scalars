@@ -26,7 +26,7 @@ At the time of this writing, Apollo Client still does not support this over 4 ye
 
 ## Installation
 
-`yarn add apollo-link-scalars` or `npm install apollo-link-scalars`.
+`yarn add apollo-link-scalars graphql` or `npm install apollo-link-scalars graphql`.
 
 ## Usage
 
