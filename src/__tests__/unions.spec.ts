@@ -129,7 +129,7 @@ const resolvers = {
   },
   Date: new GraphQLScalarType({
     name: "Date",
-    serialize: (parsed: Date | null) => parsed && parsed.toISOString(),
+    serialize: (parsed: Date | null) => parsed?.toISOString(),
     parseValue: (raw: any) => raw && new Date(raw),
     parseLiteral(ast) {
       if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
@@ -140,7 +140,7 @@ const resolvers = {
   }),
   StartOfDay: new GraphQLScalarType({
     name: "StartOfDay",
-    serialize: (parsed: Date | null) => parsed && parsed.toISOString(),
+    serialize: (parsed: Date | null) => parsed?.toISOString(),
     parseValue: (raw: any) => {
       if (!raw) return null;
       const d = new Date(raw);
@@ -161,7 +161,7 @@ const resolvers = {
 
 const typesMap = {
   StartOfDay: {
-    serialize: (parsed: CustomDate | Date | null) => parsed && parsed.toISOString(),
+    serialize: (parsed: CustomDate | Date | null) => parsed?.toISOString(),
     parseValue: (raw: any): CustomDate | null => {
       if (!raw) return null;
       const d = new Date(raw);

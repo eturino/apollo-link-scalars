@@ -20,7 +20,7 @@ import {
   isObjectType,
   isScalarType,
 } from "graphql";
-import { isArray, reduce } from "lodash";
+import reduce from "lodash.reduce";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
 import { isNone } from "./is-none";
@@ -95,7 +95,7 @@ export class Parser {
   }
 
   protected parseArray(value: any, type: GraphQLList<GraphQLOutputType>, fieldNode: ReducedFieldNode): any {
-    return isArray(value) ? value.map((v) => this.treatValue(v, type.ofType, fieldNode)) : value;
+    return Array.isArray(value) ? value.map((v) => this.treatValue(v, type.ofType, fieldNode)) : value;
   }
 
   protected parseNestedObject(

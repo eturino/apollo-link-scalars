@@ -1,5 +1,5 @@
 import { FragmentDefinitionNode } from "graphql";
-import { Dictionary } from "lodash";
+import { Dictionary } from "../../types/dictionary";
 import { fragmentMapFrom } from "../fragment-utils";
 import { ReducedFieldNode } from "../node-types";
 

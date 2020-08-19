@@ -1,4 +1,5 @@
-import { isNull, isUndefined } from "lodash";
+import isNull from "lodash.isnull";
+import isUndefined from "lodash.isundefined";
 
 /**
  * @hidden

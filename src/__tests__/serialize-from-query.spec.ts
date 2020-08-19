@@ -2,7 +2,9 @@ import { ApolloLink, DocumentNode, execute, getOperationName, GraphQLRequest, Ob
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import gql from "graphql-tag";
 import { makeExecutableSchema } from "graphql-tools";
-import { cloneDeep, isNumber, isString } from "lodash";
+import cloneDeep from "lodash.clonedeep";
+import isNumber from "lodash.isnumber";
+import isString from "lodash.isstring";
 import { withScalars } from "..";
 
 const typeDefs = gql`
