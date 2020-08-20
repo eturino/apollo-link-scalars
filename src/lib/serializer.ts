@@ -11,6 +11,7 @@ import {
 } from "graphql";
 import has from "lodash.has";
 import mapValues from "lodash.mapvalues";
+import omit from "lodash.omit";
 import { FunctionsMap, isNone, mapIfArray } from "..";
 
 export class Serializer {
@@ -43,10 +44,9 @@ export class Serializer {
     return fns.serialize(value);
   }
 
-  protected serializeInputObject(value: any, type: GraphQLInputObjectType): any {
-    if (this.removeTypenameFromInputs && has(value, "__typename")) {
-      delete value.__typename;
-    }
+  protected serializeInputObject(givenValue: any, type: GraphQLInputObjectType): any {
+    const value =
+      this.removeTypenameFromInputs && has(givenValue, "__typename") ? omit(givenValue, "__typename") : givenValue;
 
     const fields = type.getFields();
     return mapValues(value, (v, key) => {
