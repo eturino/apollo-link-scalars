@@ -85,7 +85,7 @@ withScalars({
 ```typescript
 import { gql } from "@apollo/client/core";
 import { GraphQLScalarType, Kind } from "graphql";
-import { makeExecutableSchema } from "graphql-tools";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 // GraphQL Schema definition.
 const typeDefs = gql`
