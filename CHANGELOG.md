@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/eturino/apollo-link-scalars/compare/v1.0.1...v2.0.0) (2020-09-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** remove `makeExecutableSchema` from the exported functions, remove
+@graphql-tools/schema from the dependencies
+
+### Bug Fixes
+
+* **deps:** remove graphql-tools from dependencies and stop exporting `makeExecutableSchema` ([aa057ae](https://github.com/eturino/apollo-link-scalars/commit/aa057ae84ef6a4feb7c2dfd30f4b6ae85f92b578)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148) [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
 ### [1.0.1](https://github.com/eturino/apollo-link-scalars/compare/v1.0.0...v1.0.1) (2020-08-20)
 
 
