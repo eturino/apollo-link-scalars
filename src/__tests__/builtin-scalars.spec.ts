@@ -1,6 +1,7 @@
 import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
 import { getOperationName } from "@apollo/client/utilities";
-import { makeExecutableSchema, withScalars } from "..";
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { withScalars } from "..";
 
 const typeDefs = gql`
   type Query {

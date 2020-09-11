@@ -53,7 +53,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.0.2",
-    "@graphql-tools/schema": "^6.0.18",
     "lodash.clonedeep": "^4.5.0",
     "lodash.every": "^4.6.0",
     "lodash.flatmap": "^4.5.0",
@@ -77,6 +76,7 @@
     "@bitjson/npm-scripts-info": "^1.0.0",
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-conventional": "^9.0.1",
+    "@graphql-tools/schema": "^6.0.18",
     "@types/inquirer": "^7.3.0",
     "@types/jest": "^26.0.0",
     "@types/lodash.clonedeep": "^4.5.6",

@@ -1,10 +1,11 @@
 import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
 import { getOperationName } from "@apollo/client/utilities";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import cloneDeep from "lodash.clonedeep";
 import isNumber from "lodash.isnumber";
 import isString from "lodash.isstring";
-import { makeExecutableSchema, withScalars } from "..";
+import { withScalars } from "..";
 
 const typeDefs = gql`
   type Query {
