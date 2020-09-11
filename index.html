@@ -140,7 +140,7 @@
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { gql } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@apollo/client/core&quot;</span>;
 <span class="hljs-keyword">import</span> { GraphQLScalarType, Kind } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql&quot;</span>;
-<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-scalars&quot;</span>;
+<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@graphql-tools/schema&quot;</span>;
 
 <span class="hljs-comment">// GraphQL Schema definition.</span>
 <span class="hljs-keyword">const</span> typeDefs = gql<span class="hljs-string">`
