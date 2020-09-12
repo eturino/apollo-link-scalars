@@ -79,10 +79,6 @@
 				<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
 				<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
 				<p>Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup <code>__typename</code> from inputs. (see <a href="#usage">Usage</a> and <a href="#options">Options</a>).</p>
-				<a href="#breaking-changes-apollo-client-version" id="breaking-changes-apollo-client-version" style="color: inherit; text-decoration: none;">
-					<h2>Breaking Changes: Apollo Client version</h2>
-				</a>
-				<p>Version 1.x uses <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v3</a>. If your project is using the deprecated v2, please use versions 0.x</p>
 				<a href="#disclaimer-potential-cache-interaction" id="disclaimer-potential-cache-interaction" style="color: inherit; text-decoration: none;">
 					<h2>Disclaimer: Potential cache interaction</h2>
 				</a>
@@ -99,7 +95,8 @@
 				<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
 				<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { withScalars } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-scalars&quot;</span>;
-<span class="hljs-keyword">import</span> { ApolloLink, HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@apollo/client/core&quot;</span>;
+<span class="hljs-keyword">import</span> { ApolloLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link&quot;</span>;
+<span class="hljs-keyword">import</span> { HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-http&quot;</span>;
 <span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./my-schema&quot;</span>;
 
 <span class="hljs-keyword">const</span> link = ApolloLink.from([
@@ -138,9 +135,9 @@
 				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
 					<h3>Example of loading a schema</h3>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { gql } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@apollo/client/core&quot;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> gql <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql-tag&quot;</span>;
 <span class="hljs-keyword">import</span> { GraphQLScalarType, Kind } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql&quot;</span>;
-<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@graphql-tools/schema&quot;</span>;
+<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-scalars&quot;</span>;
 
 <span class="hljs-comment">// GraphQL Schema definition.</span>
 <span class="hljs-keyword">const</span> typeDefs = gql<span class="hljs-string">`
