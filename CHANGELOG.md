@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.11](https://github.com/eturino/apollo-link-scalars/compare/v0.1.10...v0.1.11) (2020-09-12)
+
+
+### Bug Fixes
+
+* **dependency:** fix exporting from devDependency -> move graphql-tools to dependency ([d20dfa7](https://github.com/eturino/apollo-link-scalars/commit/d20dfa7f59e09cf4fdede9f1d6d2e5f4d987d6d7)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
 ### [0.1.10](https://github.com/eturino/apollo-link-scalars/compare/v0.1.9...v0.1.10) (2020-08-19)
 
 ### [0.1.9](https://github.com/eturino/apollo-link-scalars/compare/v0.1.8...v0.1.9) (2020-08-19)
