@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/eturino/apollo-link-scalars/compare/v0.1.11...v3.0.0) (2020-09-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** remove `makeExecutableSchema` from the exported functions, remove
+@graphql-tools/schema from the dependencies
+* **apollo client:** Changes the dependency on Apollo Client from v2 to v3
+* This version of the library won't be compatible with projects using Apollo 2.
+* **deps:** remove `makeExecutableSchema` from the exported functions, remove
+graphql-tools from the dependencies
+* **peer-dependencies:** graphql stops being a dependency and becomes a peer-dependency. It has to be added
+directly to your project
+
+### Features
+
+* **apollo client:** migrate to Apollo Client v3 ([457dbcf](https://github.com/eturino/apollo-link-scalars/commit/457dbcf7c4c790bcf57993060d281c0ce362fd73)), closes [#34](https://github.com/eturino/apollo-link-scalars/issues/34)
+
+
+### Bug Fixes
+
+* **deps:** remove graphql-tools from dependencies and stop exporting `makeExecutableSchema` ([34a550a](https://github.com/eturino/apollo-link-scalars/commit/34a550a014a2a8e2d9d23156e84fe1c10b35f7d4)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148) [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+* fix removeTypenameFromInputs with apollo v3 ([b6862b4](https://github.com/eturino/apollo-link-scalars/commit/b6862b4fb7145e248f04813c7fb95dba6a145287))
+* **dependency:** fix exporting from devDependency -> move graphql-tools to dependency ([b2210cc](https://github.com/eturino/apollo-link-scalars/commit/b2210cc92182c5f98f768f318dadd4db4c76fa6b)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+* **deps:** remove graphql-tools from dependencies and stop exporting `makeExecutableSchema` ([f0e31f2](https://github.com/eturino/apollo-link-scalars/commit/f0e31f29242665c9070c8b554f400294d6fb0ee4)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148) [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
+
+* upgrade "apollo-link" to provide Apollo clinet version 3 support ([520bef0](https://github.com/eturino/apollo-link-scalars/commit/520bef002b3f65e03bf18434d7e69baa085f2ed5))
+* **peer-dependencies:** move graphql to peer-dependency and allow versions 14 and 15 ([#133](https://github.com/eturino/apollo-link-scalars/issues/133)) ([44a2744](https://github.com/eturino/apollo-link-scalars/commit/44a27440be6c8011e328f556ced173237c029d74)), closes [#117](https://github.com/eturino/apollo-link-scalars/issues/117)
+
 ## [2.0.0](https://github.com/eturino/apollo-link-scalars/compare/v1.0.1...v2.0.0) (2020-09-11)
 
 
