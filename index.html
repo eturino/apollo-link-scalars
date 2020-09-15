@@ -79,6 +79,29 @@
 				<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
 				<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
 				<p>Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup <code>__typename</code> from inputs. (see <a href="#usage">Usage</a> and <a href="#options">Options</a>).</p>
+				<a href="#library-versions" id="library-versions" style="color: inherit; text-decoration: none;">
+					<h2>Library Versions</h2>
+				</a>
+				<a href="#apollo-client-v2--gt-apollo-link-scalars-v0x" id="apollo-client-v2--gt-apollo-link-scalars-v0x" style="color: inherit; text-decoration: none;">
+					<h3>Apollo Client v2 -&gt; <code>apollo-link-scalars</code> <code>v0.x</code></h3>
+				</a>
+				<p>The deprecated <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v2</a> is used in the <a href="https://github.com/eturino/apollo-link-scalars/tree/v0.x"><code>0.x</code> branch</a>.</p>
+				<p>Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 0.3.x is recommended</a></p>
+				<a href="#apollo-client-v3--gt-apollo-link-scalars-v2x" id="apollo-client-v3--gt-apollo-link-scalars-v2x" style="color: inherit; text-decoration: none;">
+					<h3>Apollo Client v3 -&gt; <code>apollo-link-scalars</code> <code>v2.x</code></h3>
+				</a>
+				<p>The current <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v3</a> is used in the versions from 1.0</p>
+				<p>The 1.x family is considered deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 2.x is recommended</a></p>
+				<a href="#breaking-change-removing-makeexecutableschema" id="breaking-change-removing-makeexecutableschema" style="color: inherit; text-decoration: none;">
+					<h3>Breaking Change: removing <code>makeExecutableSchema</code></h3>
+				</a>
+				<p>The versions that included <code>makeExecutableSchema</code> from <code>graphql-tools</code> are deprecated. This are the versions:</p>
+				<ul>
+					<li>0.1.x and 0.2.x =&gt; please migrate to 0.3.x (apollo client v2 line, deprecated)</li>
+					<li>1.x =&gt; please migrate to 2.x (apollo client v3 line)</li>
+				</ul>
+				<p>If you are not using <code>makeExecutableSchema</code> from this library, the upgrade will be transparent.</p>
+				<p>If you are using <code>makeExecutableSchema</code>, you just need to replace it from the version of graphql-tools compatible with the version of Apollo Client that you are using. Please have a look at the <a href="#example-of-loading-a-schema">Example of loading a schema</a></p>
 				<a href="#disclaimer-potential-cache-interaction" id="disclaimer-potential-cache-interaction" style="color: inherit; text-decoration: none;">
 					<h2>Disclaimer: Potential cache interaction</h2>
 				</a>
@@ -88,15 +111,14 @@
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
 				</a>
-				<p><code>yarn add apollo-link-scalars</code> or <code>npm install apollo-link-scalars</code>.</p>
+				<p><code>yarn add apollo-link-scalars graphql</code> or <code>npm install apollo-link-scalars graphql</code>.</p>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
 				</a>
 				<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
 				<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { withScalars } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-scalars&quot;</span>;
-<span class="hljs-keyword">import</span> { ApolloLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link&quot;</span>;
-<span class="hljs-keyword">import</span> { HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-http&quot;</span>;
+<span class="hljs-keyword">import</span> { ApolloLink, HttpLink } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@apollo/client/core&quot;</span>;
 <span class="hljs-keyword">import</span> { schema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./my-schema&quot;</span>;
 
 <span class="hljs-keyword">const</span> link = ApolloLink.from([
@@ -135,9 +157,9 @@
 				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
 					<h3>Example of loading a schema</h3>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> gql <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql-tag&quot;</span>;
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { gql } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@apollo/client/core&quot;</span>;
 <span class="hljs-keyword">import</span> { GraphQLScalarType, Kind } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;graphql&quot;</span>;
-<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;apollo-link-scalars&quot;</span>;
+<span class="hljs-keyword">import</span> { makeExecutableSchema } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@graphql-tools/schema&quot;</span>;
 
 <span class="hljs-comment">// GraphQL Schema definition.</span>
 <span class="hljs-keyword">const</span> typeDefs = gql<span class="hljs-string">`
