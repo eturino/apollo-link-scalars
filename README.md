@@ -16,9 +16,30 @@
 
 Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup `__typename` from inputs. (see [Usage](#usage) and [Options](#options)).
 
-## Breaking Changes: Apollo Client version
+## Library Versions
 
-Version 1.x uses [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/). If your project is using the deprecated v2, please use versions 0.x
+### Apollo Client v2 -> `apollo-link-scalars` `v0.x`
+
+The deprecated [Apollo Client v2](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/) is used in the [`0.x` branch](https://github.com/eturino/apollo-link-scalars/tree/v0.x).
+
+Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a [migration to 0.3.x is recommended](#breaking-change-removing-makeexecutableschema)
+
+### Apollo Client v3 -> `apollo-link-scalars` `v2.x`
+
+The current [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/) is used in the versions from 1.0
+
+The 1.x family is considered deprecated and a [migration to 2.x is recommended](#breaking-change-removing-makeexecutableschema)
+
+### Breaking Change: removing `makeExecutableSchema`
+
+The versions that included `makeExecutableSchema` from `graphql-tools` are deprecated. This are the versions:
+
+- 0.1.x and 0.2.x => please migrate to 0.3.x (apollo client v2 line, deprecated)
+- 1.x => please migrate to 2.x (apollo client v3 line)
+
+If you are not using `makeExecutableSchema` from this library, the upgrade will be transparent.
+
+If you are using `makeExecutableSchema`, you just need to replace it from the version of graphql-tools compatible with the version of Apollo Client that you are using. Please have a look at the [Example of loading a schema](#example-of-loading-a-schema)
 
 ## Disclaimer: Potential cache interaction
 
