@@ -36,6 +36,25 @@ All notable changes to this project will be documented in this file. See [standa
 
 * upgrade "apollo-link" to provide Apollo clinet version 3 support ([8677b7e](https://github.com/eturino/apollo-link-scalars/commit/8677b7ef589748712171b50726dd6138424e300e))
 
+## [0.3.0](https://github.com/eturino/apollo-link-scalars/compare/v0.2.1...v0.3.0) (2020-09-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** remove `makeExecutableSchema` from the exported functions, remove
+graphql-tools from the dependencies
+
+### Bug Fixes
+
+* **deps:** remove graphql-tools from dependencies and stop exporting `makeExecutableSchema` ([7d19f41](https://github.com/eturino/apollo-link-scalars/commit/7d19f4129677b1cd010f4a6f27df9431850e2520)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148) [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
+### [0.2.1](https://github.com/eturino/apollo-link-scalars/compare/v0.2.0...v0.2.1) (2020-09-12)
+
+
+### Bug Fixes
+
+* **dependency:** fix exporting from devDependency -> move graphql-tools to dependency ([cb3e904](https://github.com/eturino/apollo-link-scalars/commit/cb3e904fcc878785b2cd6eff26410d35b0e9a32a)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
 ## [0.2.0](https://github.com/eturino/apollo-link-scalars/compare/v0.1.10...v0.2.0) (2020-08-19)
 
 
@@ -45,6 +64,14 @@ All notable changes to this project will be documented in this file. See [standa
 directly to your project
 
 * **peer-dependencies:** move graphql to peer-dependency and allow versions 14 and 15 ([#133](https://github.com/eturino/apollo-link-scalars/issues/133)) ([12c602e](https://github.com/eturino/apollo-link-scalars/commit/12c602ecfdc6b2e1bb8c6704907cd297b1689777)), closes [#117](https://github.com/eturino/apollo-link-scalars/issues/117)
+
+### [0.1.11](https://github.com/eturino/apollo-link-scalars/compare/v0.1.10...v0.1.11) (2020-09-12)
+
+
+### Bug Fixes
+
+* **dependency:** fix exporting from devDependency -> move graphql-tools to dependency ([d20dfa7](https://github.com/eturino/apollo-link-scalars/commit/d20dfa7f59e09cf4fdede9f1d6d2e5f4d987d6d7)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
 
 ### [0.1.10](https://github.com/eturino/apollo-link-scalars/compare/v0.1.9...v0.1.10) (2020-08-19)
 
