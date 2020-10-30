@@ -123,14 +123,14 @@
 
 <span class="hljs-keyword">const</span> link = ApolloLink.from([
   withScalars({ schema }),
-  <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">&quot;http://example.org/graphql&quot;</span> })
+  <span class="hljs-keyword">new</span> HttpLink({ <span class="hljs-attr">uri</span>: <span class="hljs-string">&quot;http://example.org/graphql&quot;</span> })
 ]);
 
 <span class="hljs-comment">// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.</span>
 <span class="hljs-keyword">const</span> typesMap = {
-  CustomScalar: {
-    serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomScalar</span>) =&gt;</span> parsed.toString(),
-    parseValue: (raw: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>): CustomScalar | <span class="hljs-function"><span class="hljs-params">null</span> =&gt;</span> {
+  <span class="hljs-attr">CustomScalar</span>: {
+    <span class="hljs-attr">serialize</span>: <span class="hljs-function">(<span class="hljs-params">parsed: CustomScalar</span>) =&gt;</span> parsed.toString(),
+    <span class="hljs-attr">parseValue</span>: (raw: <span class="hljs-built_in">string</span> | <span class="hljs-built_in">number</span> | <span class="hljs-literal">null</span>): CustomScalar | <span class="hljs-function"><span class="hljs-params">null</span> =&gt;</span> {
       <span class="hljs-keyword">return</span> raw ? <span class="hljs-keyword">new</span> CustomScalar(raw) : <span class="hljs-literal">null</span>;
     }
   }
@@ -138,7 +138,7 @@
 
 <span class="hljs-keyword">const</span> link2 = ApolloLink.from([
   withScalars({ schema, typesMap }),
-  <span class="hljs-keyword">new</span> HttpLink({ uri: <span class="hljs-string">&quot;http://example.org/graphql&quot;</span> })
+  <span class="hljs-keyword">new</span> HttpLink({ <span class="hljs-attr">uri</span>: <span class="hljs-string">&quot;http://example.org/graphql&quot;</span> })
 ]);</code></pre>
 				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
 					<h3>Options</h3>
@@ -151,8 +151,8 @@
 				<pre><code class="language-typescript">withScalars({
   schema,
   typesMap,
-  validateEnums: <span class="hljs-literal">true</span>,
-  removeTypenameFromInputs: <span class="hljs-literal">true</span>
+  <span class="hljs-attr">validateEnums</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">removeTypenameFromInputs</span>: <span class="hljs-literal">true</span>
 });</code></pre>
 				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
 					<h3>Example of loading a schema</h3>
@@ -179,11 +179,11 @@
 
 <span class="hljs-keyword">const</span> resolvers = {
   <span class="hljs-comment">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object</span>
-  <span class="hljs-built_in">Date</span>: <span class="hljs-keyword">new</span> GraphQLScalarType({
-    name: <span class="hljs-string">&quot;Date&quot;</span>,
-    serialize: <span class="hljs-function">(<span class="hljs-params">parsed: CustomDate | <span class="hljs-literal">null</span></span>) =&gt;</span> parsed &amp;&amp; parsed.toISOString(),
-    parseValue: <span class="hljs-function">(<span class="hljs-params">raw: <span class="hljs-built_in">any</span></span>) =&gt;</span> raw &amp;&amp; <span class="hljs-keyword">new</span> CustomDate(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(raw)),
-    parseLiteral(ast) {
+  <span class="hljs-attr">Date</span>: <span class="hljs-keyword">new</span> GraphQLScalarType({
+    <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Date&quot;</span>,
+    <span class="hljs-attr">serialize</span>: <span class="hljs-function">(<span class="hljs-params">parsed: CustomDate | <span class="hljs-literal">null</span></span>) =&gt;</span> parsed &amp;&amp; parsed.toISOString(),
+    <span class="hljs-attr">parseValue</span>: <span class="hljs-function">(<span class="hljs-params">raw: <span class="hljs-built_in">any</span></span>) =&gt;</span> raw &amp;&amp; <span class="hljs-keyword">new</span> CustomDate(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(raw)),
+    <span class="hljs-function"><span class="hljs-title">parseLiteral</span>(<span class="hljs-params">ast</span>)</span> {
       <span class="hljs-keyword">if</span> (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CustomDate(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(ast.value));
       }
@@ -222,7 +222,7 @@
 
 <span class="hljs-keyword">const</span> scalarsLink = withScalars({
   schema,
-  typesMap: { … },
+  <span class="hljs-attr">typesMap</span>: { … },
 });</code></pre>
 				<a href="#acknowledgements" id="acknowledgements" style="color: inherit; text-decoration: none;">
 					<h2>Acknowledgements</h2>
