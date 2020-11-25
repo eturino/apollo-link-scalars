@@ -3,9 +3,9 @@
 
 
 "@apollo/client@^3.0.2":
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.2.5.tgz#24e0a6faa1d231ab44807af237c6227410c75c4d"
-  integrity sha512-zpruxnFMz6K94gs2pqc3sidzFDbQpKT5D6P/J/I9s8ekHZ5eczgnRp6pqXC86Bh7+44j/btpmOT0kwiboyqTnA==
+  version "3.2.9"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.2.9.tgz#a24a7792519adb3af8a74a60d9e83732238d0afd"
+  integrity sha512-AUvYITKhJNfRNU/Cf8t/N628ADdVah1+l9Qtjd09IwScRfDGvbBTkHMAgcb6hl7vuBVqGwQRq6fPKzHgWRlisg==
   dependencies:
     "@graphql-typed-document-node/core" "^3.0.0"
     "@types/zen-observable" "^0.8.0"
@@ -17,7 +17,7 @@
     optimism "^0.13.0"
     prop-types "^15.7.2"
     symbol-observable "^2.0.0"
-    ts-invariant "^0.4.4"
+    ts-invariant "^0.5.0"
     tslib "^1.10.0"
     zen-observable "^0.8.14"
 
@@ -6329,10 +6329,10 @@ try-catch@^3.0.0:
   resolved "https://registry.yarnpkg.com/try-catch/-/try-catch-3.0.0.tgz#7996d8b89895e2e8ae62cbdbeb4fe17470f8131b"
   integrity sha512-3uAqUnoemzca1ENvZ72EVimR+E8lqBbzwZ9v4CEbLjkaV3Q+FtdmPUt7jRtoSoTiYjyIMxEkf6YgUpe/voJ1ng==
 
-ts-invariant@^0.4.4:
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.4.4.tgz#97a523518688f93aafad01b0e80eb803eb2abd86"
-  integrity sha512-uEtWkFM/sdZvRNNDL3Ehu4WVpwaulhwQszV8mrtcdeE8nN00BV9mAmQ88RkrBhFgl9gMgvjJLAQcZbnPXI9mlA==
+ts-invariant@^0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.5.1.tgz#4171fdb85f72a40381c147afd97c12154ada2abc"
+  integrity sha512-k3UpDNrBZpqJFnAAkAHNmSHtNuCxcU6xLiziPgalHRKZHme6T6jnKC8CcXDmk1zbHLQM8pc+rNC1Q6FvXMAl+g==
   dependencies:
     tslib "^1.9.3"
 
