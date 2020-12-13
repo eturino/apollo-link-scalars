@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.0.3](https://github.com/eturino/apollo-link-scalars/compare/v2.0.2...v2.0.3) (2020-12-13)
+
+
+### Bug Fixes
+
+* **deps:** [security] bump highlight.js from 10.3.2 to 10.4.1 ([#209](https://github.com/eturino/apollo-link-scalars/issues/209)) ([c7586cb](https://github.com/eturino/apollo-link-scalars/commit/c7586cbd1ca01497016d2e01c2dc14ef9cfceeb6))
+* **deps:** [security] bump ini from 1.3.5 to 1.3.7 ([#212](https://github.com/eturino/apollo-link-scalars/issues/212)) ([a978393](https://github.com/eturino/apollo-link-scalars/commit/a978393182c4f57cae30017aaf0587d5bc36a907))
+* **deps:** update dependencies and dev-dependencies ([d306d90](https://github.com/eturino/apollo-link-scalars/commit/d306d909a6e00c357a78078fdc04e1fbad7bc285))
+
 ### [2.0.2](https://github.com/eturino/apollo-link-scalars/compare/v2.0.1...v2.0.2) (2020-10-30)
 
 
