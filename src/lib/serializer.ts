@@ -7,27 +7,41 @@ import {
   GraphQLSchema,
   isEnumType,
   isListType,
+  isNonNullType,
   isScalarType,
 } from "graphql";
 import has from "lodash.has";
 import mapValues from "lodash.mapvalues";
 import omit from "lodash.omit";
-import { FunctionsMap, isNone, mapIfArray } from "..";
+import { FunctionsMap, mapIfArray } from "..";
+import { NullFunctions } from "../types/null-functions";
+import { isNone } from "./is-none";
 
 export class Serializer {
   constructor(
     readonly schema: GraphQLSchema,
     readonly functionsMap: FunctionsMap,
-    readonly removeTypenameFromInputs: boolean
+    readonly removeTypenameFromInputs: boolean,
+    readonly nullFunctions: NullFunctions
   ) {}
 
   public serialize(value: any, type: GraphQLInputType): any {
-    if (isNone(value)) return value;
-
-    return this.serializeNullable(value, getNullableType(type));
+    if (isNonNullType(type)) {
+      return this.serializeInternal(value, getNullableType(type));
+    } else {
+      return this.serializeNullable(value, getNullableType(type));
+    }
   }
 
   protected serializeNullable(value: any, type: GraphQLInputType): any {
+    return this.nullFunctions.serialize(this.serializeInternal(value, type));
+  }
+
+  protected serializeInternal(value: any, type: GraphQLInputType): any {
+    if (isNone(value)) {
+      return value;
+    }
+
     if (isScalarType(type) || isEnumType(type)) {
       return this.serializeLeaf(value, type);
     }

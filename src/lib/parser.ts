@@ -23,6 +23,7 @@ import {
 import reduce from "lodash.reduce";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
+import { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
 import { ReducedFieldNode } from "./node-types";
 
@@ -33,7 +34,12 @@ function ensureNullable(type: GraphQLOutputType | GraphQLInputType): GraphQLNull
 }
 
 export class Parser {
-  constructor(readonly schema: GraphQLSchema, readonly functionsMap: FunctionsMap, readonly validateEnums: boolean) {}
+  constructor(
+    readonly schema: GraphQLSchema,
+    readonly functionsMap: FunctionsMap,
+    readonly validateEnums: boolean,
+    readonly nullFunctions: NullFunctions
+  ) {}
 
   public parseObjectWithSelections(
     data: Data,
@@ -61,7 +67,29 @@ export class Parser {
   }
 
   protected treatValue(value: any, givenType: GraphQLOutputType | GraphQLInputType, fieldNode: ReducedFieldNode): any {
+    if (isNonNullType(givenType)) {
+      return this.treatValueInternal(value, givenType, fieldNode);
+    } else {
+      return this.treatValueNullable(value, givenType, fieldNode);
+    }
+  }
+
+  protected treatValueNullable(
+    value: any,
+    givenType: GraphQLOutputType | GraphQLInputType,
+    fieldNode: ReducedFieldNode
+  ): any {
+    const wrappedValue = this.treatValueInternal(value, givenType, fieldNode);
+    return this.nullFunctions.parseValue(wrappedValue);
+  }
+
+  protected treatValueInternal(
+    value: any,
+    givenType: GraphQLOutputType | GraphQLInputType,
+    fieldNode: ReducedFieldNode
+  ): any {
     const type = ensureNullable(givenType);
+
     if (isNone(value)) return value;
 
     if (isScalarType(type)) {
