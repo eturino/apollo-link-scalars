@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/eturino/apollo-link-scalars/compare/v2.0.3...v2.1.0) (2021-01-30)
+
+
+### Features
+
+* add nullable type transformations ([#236](https://github.com/eturino/apollo-link-scalars/issues/236)) ([c09f3a4](https://github.com/eturino/apollo-link-scalars/commit/c09f3a479a7f8e1d0e1512e8d0fcadbc0e287af2))
+* export NullFunctions type ([666be3e](https://github.com/eturino/apollo-link-scalars/commit/666be3ebe579a3a8a75a5fa361f9dbfa0ba3c14a))
+
+
+### Bug Fixes
+
+* **deps:** [security] bump node-notifier from 8.0.0 to 8.0.1 ([#216](https://github.com/eturino/apollo-link-scalars/issues/216)) ([58dc337](https://github.com/eturino/apollo-link-scalars/commit/58dc3379ffba2964078288d54c4bd6a8b40613b4))
+* **deps:** bump @apollo/client from 3.3.6 to 3.3.7 ([#230](https://github.com/eturino/apollo-link-scalars/issues/230)) ([ef84f45](https://github.com/eturino/apollo-link-scalars/commit/ef84f45a4da874e176843b56a65ccc722760d2cc))
+
 ### [2.0.3](https://github.com/eturino/apollo-link-scalars/compare/v2.0.2...v2.0.3) (2020-12-13)
 
 
