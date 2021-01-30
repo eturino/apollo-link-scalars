@@ -1,6 +1,7 @@
 import { FetchResult, Operation } from "@apollo/client/core";
 import { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
 import { FunctionsMap } from "..";
+import { NullFunctions } from "../types/null-functions";
 import { fragmentReducer } from "./fragment-reducer";
 import { isFieldNode } from "./node-types";
 import { Parser } from "./parser";
@@ -30,6 +31,7 @@ type TreatResultParams = {
   operation: Operation;
   result: FetchResult;
   validateEnums: boolean;
+  nullFunctions: NullFunctions;
 };
 
 export function treatResult({
@@ -38,6 +40,7 @@ export function treatResult({
   operation,
   result,
   validateEnums,
+  nullFunctions,
 }: TreatResultParams): FetchResult {
   const data = result.data;
   if (!data) return result;
@@ -48,7 +51,7 @@ export function treatResult({
   const rootType = rootTypeFor(operationDefinitionNode, schema);
   if (!rootType) return result;
 
-  const parser = new Parser(schema, functionsMap, validateEnums);
+  const parser = new Parser(schema, functionsMap, validateEnums, nullFunctions);
   const rootSelections = operationDefinitionNode.selectionSet.selections.filter(isFieldNode);
   const newData = parser.parseObjectWithSelections(data, rootType, rootSelections);
   return { ...result, data: newData };

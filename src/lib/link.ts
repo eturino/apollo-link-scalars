@@ -3,6 +3,8 @@ import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from 
 import pickBy from "lodash.pickby";
 import { ZenObservable } from "zen-observable-ts";
 import { FunctionsMap } from "..";
+import { NullFunctions } from "../types/null-functions";
+import defaultNullFunctions from "./default-null-functions";
 import { mapIfArray } from "./map-if-array";
 import { isListTypeNode, isNonNullTypeNode, isOperationDefinitionNode } from "./node-types";
 import { Serializer } from "./serializer";
@@ -13,6 +15,7 @@ type ScalarApolloLinkParams = {
   typesMap?: FunctionsMap;
   validateEnums?: boolean;
   removeTypenameFromInputs?: boolean;
+  nullFunctions?: NullFunctions;
 };
 
 export class ScalarApolloLink extends ApolloLink {
@@ -22,6 +25,7 @@ export class ScalarApolloLink extends ApolloLink {
   public readonly removeTypenameFromInputs: boolean;
   public readonly functionsMap: FunctionsMap;
   public readonly serializer: Serializer;
+  public readonly nullFunctions: NullFunctions;
 
   constructor(pars: ScalarApolloLinkParams) {
     super();
@@ -29,10 +33,11 @@ export class ScalarApolloLink extends ApolloLink {
     this.typesMap = pars.typesMap || {};
     this.validateEnums = pars.validateEnums || false;
     this.removeTypenameFromInputs = pars.removeTypenameFromInputs || false;
+    this.nullFunctions = pars.nullFunctions || defaultNullFunctions;
 
     const leafTypesMap = pickBy(this.schema.getTypeMap(), isLeafType);
     this.functionsMap = { ...leafTypesMap, ...this.typesMap };
-    this.serializer = new Serializer(this.schema, this.functionsMap, this.removeTypenameFromInputs);
+    this.serializer = new Serializer(this.schema, this.functionsMap, this.removeTypenameFromInputs, this.nullFunctions);
   }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
@@ -72,6 +77,7 @@ export class ScalarApolloLink extends ApolloLink {
       functionsMap: this.functionsMap,
       schema: this.schema,
       validateEnums: this.validateEnums,
+      nullFunctions: this.nullFunctions,
     });
   }
 

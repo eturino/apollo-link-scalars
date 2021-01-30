@@ -1,7 +1,9 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -91,6 +93,7 @@ We can pass extra options to `withScalars()` to modify the behaviour
 
 - **`removeTypenameFromInputs`** (`Boolean`, default `false`): when enabled, it will remove from the inputs the `__typename` if it is found. This could be useful if we are using data received from a query as an input on another query.
 - **`validateEnums`** (`Boolean`, default `false`): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.
+- **`nullFunction`** (`NullFunction`, default `null`): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from the null types. See below for an example.
 
 ```typescript
 withScalars({
@@ -178,6 +181,38 @@ const scalarsLink = withScalars({
   schema,
   typesMap: { … },
 });
+```
+
+#### Changing the behavior of nullable types
+
+By passing the `nullFunctions` parameter to `withScalar`, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. `null` => `null` and `value` => `value`. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from [Seidr](https://github.com/hojberg/seidr) but any implementation will do.
+
+```typescript
+
+type NullFunctions = {
+  serialize(input: any): any | null;
+  parseValue(raw: any | null): any;
+};
+
+const nullFunctions: NullFunctions = {
+  parseValue(raw: any) {
+    if (isNone(raw)) {
+      return Nothing()
+    } else {
+      return Just(raw);
+    }
+  },
+  serialize(input: any) {
+    return input.caseOf({
+      Just(value) {
+        return value;
+      },
+      Nothing() {
+        return null;
+      }
+    })
+  },
+};
 ```
 
 ## Acknowledgements
@@ -295,6 +330,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
