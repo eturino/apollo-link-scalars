@@ -67,7 +67,7 @@
     "lodash.pickby": "^4.6.0",
     "lodash.reduce": "^4.6.0",
     "lodash.uniqby": "^4.7.0",
-    "zen-observable-ts": "^0.8.21"
+    "zen-observable-ts": "^1.0.0"
   },
   "peerDependencies": {
     "graphql": "14.x || 15.x"
