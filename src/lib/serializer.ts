@@ -13,9 +13,10 @@ import {
 import has from "lodash.has";
 import mapValues from "lodash.mapvalues";
 import omit from "lodash.omit";
-import { FunctionsMap, mapIfArray } from "..";
+import { FunctionsMap } from "../types/functions-map";
 import { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
+import { mapIfArray } from "./map-if-array";
 
 export class Serializer {
   constructor(
