@@ -11,7 +11,9 @@ import {
 } from "graphql";
 import has from "lodash.has";
 import mapValues from "lodash.mapvalues";
-import { FunctionsMap, isNone, mapIfArray } from "..";
+import { isNone } from "./is-none";
+import { mapIfArray } from "./map-if-array";
+import { FunctionsMap } from "../types/functions-map";
 
 export class Serializer {
   constructor(
