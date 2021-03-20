@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.2](https://github.com/eturino/apollo-link-scalars/compare/v2.1.1...v2.1.2) (2021-03-20)
+
+
+### Bug Fixes
+
+* **deps:** bump @apollo/client from 3.3.7 to 3.3.8 ([#245](https://github.com/eturino/apollo-link-scalars/issues/245)) ([a753d2f](https://github.com/eturino/apollo-link-scalars/commit/a753d2f8999fbcc3b8c3e8b5172fdc0ef2a8b2bf))
+* **deps:** bump @apollo/client from 3.3.8 to 3.3.11 ([#258](https://github.com/eturino/apollo-link-scalars/issues/258)) ([fd1a364](https://github.com/eturino/apollo-link-scalars/commit/fd1a3648e7c7b99ddffb86303ba81c2339ae229c))
+
 ### [2.1.1](https://github.com/eturino/apollo-link-scalars/compare/v2.1.0...v2.1.1) (2021-01-31)
 
 ## [2.1.0](https://github.com/eturino/apollo-link-scalars/compare/v2.0.3...v2.1.0) (2021-01-30)
