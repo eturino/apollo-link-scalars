@@ -1,7 +1,7 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import pickBy from "lodash.pickby";
-import { ZenObservable } from "zen-observable-ts";
+import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";
@@ -45,7 +45,7 @@ export class ScalarApolloLink extends ApolloLink {
     const operation = this.cleanVariables(givenOperation);
 
     return new Observable((observer) => {
-      let sub: ZenObservable.Subscription;
+      let sub: ZenSubscription;
 
       try {
         sub = forward(operation).subscribe({
