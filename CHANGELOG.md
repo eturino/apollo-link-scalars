@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/eturino/apollo-link-scalars/compare/v0.1.11...v0.4.0) (2021-03-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** remove `makeExecutableSchema` from the exported functions, remove
+graphql-tools from the dependencies
+* **peer-dependencies:** graphql stops being a dependency and becomes a peer-dependency. It has to be added
+directly to your project
+
+### Bug Fixes
+
+* **dependency:** fix exporting from devDependency -> move graphql-tools to dependency ([b2210cc](https://github.com/eturino/apollo-link-scalars/commit/b2210cc92182c5f98f768f318dadd4db4c76fa6b)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+* **deps:** remove graphql-tools from dependencies and stop exporting `makeExecutableSchema` ([f0e31f2](https://github.com/eturino/apollo-link-scalars/commit/f0e31f29242665c9070c8b554f400294d6fb0ee4)), closes [#148](https://github.com/eturino/apollo-link-scalars/issues/148) [#148](https://github.com/eturino/apollo-link-scalars/issues/148)
+
+
+* **peer-dependencies:** move graphql to peer-dependency and allow versions 14 and 15 ([#133](https://github.com/eturino/apollo-link-scalars/issues/133)) ([44a2744](https://github.com/eturino/apollo-link-scalars/commit/44a27440be6c8011e328f556ced173237c029d74)), closes [#117](https://github.com/eturino/apollo-link-scalars/issues/117)
+
 ## [0.3.0](https://github.com/eturino/apollo-link-scalars/compare/v0.2.1...v0.3.0) (2020-09-12)
 
 
