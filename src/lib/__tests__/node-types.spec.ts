@@ -11,17 +11,17 @@ describe("specific DefinitionNode", () => {
   describe("isOperationDefinitionNode", () => {
     it("with kind OperationDefinition => true", () => {
       expect(
-        isOperationDefinitionNode(({
+        isOperationDefinitionNode({
           kind: "OperationDefinition",
-        } as unknown) as DefinitionNode)
+        } as unknown as DefinitionNode)
       ).toBeTruthy();
     });
 
     it("otherwise => false", () => {
       expect(
-        isOperationDefinitionNode(({
+        isOperationDefinitionNode({
           kind: "whatever",
-        } as unknown) as DefinitionNode)
+        } as unknown as DefinitionNode)
       ).toBeFalsy();
     });
   });
@@ -29,17 +29,17 @@ describe("specific DefinitionNode", () => {
   describe("isFragmentDefinitionNode", () => {
     it("with kind OperationDefinition => true", () => {
       expect(
-        isFragmentDefinitionNode(({
+        isFragmentDefinitionNode({
           kind: "FragmentDefinition",
-        } as unknown) as DefinitionNode)
+        } as unknown as DefinitionNode)
       ).toBeTruthy();
     });
 
     it("otherwise => false", () => {
       expect(
-        isFragmentDefinitionNode(({
+        isFragmentDefinitionNode({
           kind: "whatever",
-        } as unknown) as DefinitionNode)
+        } as unknown as DefinitionNode)
       ).toBeFalsy();
     });
   });
@@ -49,17 +49,17 @@ describe("specific SelectionNode", () => {
   describe("isFieldNode", () => {
     it("with kind OperationDefinition => true", () => {
       expect(
-        isFieldNode(({
+        isFieldNode({
           kind: "Field",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeTruthy();
     });
 
     it("otherwise => false", () => {
       expect(
-        isFieldNode(({
+        isFieldNode({
           kind: "whatever",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeFalsy();
     });
   });
@@ -67,17 +67,17 @@ describe("specific SelectionNode", () => {
   describe("isFragmentSpreadNode", () => {
     it("with kind OperationDefinition => true", () => {
       expect(
-        isFragmentSpreadNode(({
+        isFragmentSpreadNode({
           kind: "FragmentSpread",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeTruthy();
     });
 
     it("otherwise => false", () => {
       expect(
-        isFragmentSpreadNode(({
+        isFragmentSpreadNode({
           kind: "whatever",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeFalsy();
     });
   });
@@ -85,17 +85,17 @@ describe("specific SelectionNode", () => {
   describe("isInlineFragmentNode", () => {
     it("with kind OperationDefinition => true", () => {
       expect(
-        isInlineFragmentNode(({
+        isInlineFragmentNode({
           kind: "InlineFragment",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeTruthy();
     });
 
     it("otherwise => false", () => {
       expect(
-        isInlineFragmentNode(({
+        isInlineFragmentNode({
           kind: "whatever",
-        } as unknown) as SelectionNode)
+        } as unknown as SelectionNode)
       ).toBeFalsy();
     });
   });
