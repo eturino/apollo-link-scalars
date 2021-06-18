@@ -11,18 +11,26 @@
   "bugs": "https://github.com/eturino/apollo-link-scalars/issues",
   "license": "MIT",
   "keywords": [],
+  "lint-staged": {
+    "src/**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "scripts": {
-    "prepare": "install-peers",
+    "lint-staged": "lint-staged",
+    "prepare": "install-peers && husky install",
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
-    "fix:tslint": "tslint --fix --project .",
+    "fix:eslint": "eslint \"src/**/*.ts\" --fix",
     "type-check": "tsc --noEmit",
     "test": "run-s build test:* type-check",
-    "test:lint": "tslint --project . && prettier \"src/**/*.ts\" --list-different",
+    "test:eslint": "eslint \"src/**/*.ts\"",
+    "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest --coverage --config=\"jest.config.js\"",
     "cov": "run-s build cov:html && open-cli coverage/index.html",
     "cov:html": "jest --coverage --config=\"jest.html.config.js\"",
@@ -60,6 +68,7 @@
     "lodash.has": "^4.5.2",
     "lodash.isnull": "^3.0.0",
     "lodash.isnumber": "^3.0.3",
+    "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
     "lodash.isundefined": "^3.0.1",
     "lodash.mapvalues": "^4.6.0",
@@ -86,6 +95,7 @@
     "@types/lodash.has": "^4.5.6",
     "@types/lodash.isnull": "^3.0.6",
     "@types/lodash.isnumber": "^3.0.6",
+    "@types/lodash.isobject": "^3.0.6",
     "@types/lodash.isstring": "^4.0.6",
     "@types/lodash.isundefined": "^3.0.6",
     "@types/lodash.mapvalues": "^4.6.6",
@@ -94,39 +104,38 @@
     "@types/lodash.reduce": "^4.6.6",
     "@types/lodash.uniqby": "^4.7.6",
     "@types/react": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.27.0",
+    "@typescript-eslint/parser": "^4.27.0",
     "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.23.4",
     "gh-pages": "^3.1.0",
     "github-release-from-changelog": "^2.1.1",
-    "husky": "^4.2.5",
+    "husky": "^6.0.0",
     "inquirer": "^8.0.0",
     "install-peers-cli": "^2.2.0",
-    "jest": "^26.1.0",
+    "jest": "^27.0.0",
+    "lint-staged": "^11.0.0",
     "npm-run-all": "^4.1.5",
-    "open-cli": "^6.0.1",
+    "open-cli": "^7.0.0",
     "prettier": "^2.0.4",
-    "prettier-plugin-organize-imports": "^1.1.1",
+    "prettier-plugin-organize-imports": "^2.1.0",
     "replace-in-file": "^6.1.0",
     "standard-version": "^9.0.0",
     "strip-json-comments": "^3.1.0",
     "trash-cli": "^4.0.0",
-    "ts-jest": "^26.1.1",
-    "ts-loader": "^8.0.0",
-    "ts-node": "^9.0.0",
-    "tslint": "^6.1.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-immutable": "^6.0.1",
-    "typedoc": "^0.20.16",
+    "ts-jest": "^27.0.1",
+    "ts-loader": "^9.2.0",
+    "ts-node": "^10.0.0",
+    "typedoc": "^0.21.0",
     "typedoc-themes-color": "^0.0.10",
     "typescript": "^4.0.2"
   },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }

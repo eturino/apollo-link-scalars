@@ -5,15 +5,15 @@ import { expectedFragmentsReduced as efr2, operationQuery as op2 } from "./commo
 
 describe("fragmentReducer(documentNode): operationNode", () => {
   it("returns null with no definitions", () => {
-    expect(fragmentReducer((null as unknown) as DocumentNode)).toBeNull();
-    expect(fragmentReducer(({} as unknown) as DocumentNode)).toBeNull();
-    expect(fragmentReducer(({ definitions: [] } as unknown) as DocumentNode)).toBeNull();
+    expect(fragmentReducer(null as unknown as DocumentNode)).toBeNull();
+    expect(fragmentReducer({} as unknown as DocumentNode)).toBeNull();
+    expect(fragmentReducer({ definitions: [] } as unknown as DocumentNode)).toBeNull();
   });
   it("returns null with no OperationDefinitionNode in the definitions", () => {
     expect(
-      fragmentReducer(({
+      fragmentReducer({
         definitions: [{ whatever: null }],
-      } as unknown) as DocumentNode)
+      } as unknown as DocumentNode)
     ).toBeNull();
   });
   it("example1", () => {

@@ -1,0 +1,77 @@
+{
+  "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
+  "extends": [
+    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2018, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for the use of imports
+  },
+  "rules": {
+    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
+    // e.g. "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/interface-name-prefix": 0, // avoiding I prefix seems weird, forcing it seems weird too.
+    "no-console": 0, // we use console
+    "@typescript-eslint/no-explicit-any": 0, // we use `any` sometimes
+    "@typescript-eslint/camelcase": 0, // elasticsearch keys are lower_case
+    "@typescript-eslint/no-empty-function": 0,
+    "no-unused-vars": 0, // using the typescript one
+    "@typescript-eslint/no-unused-vars": [
+      2,
+      {
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    // "@typescript-eslint/await-thenable": 2,
+    "no-return-await": 2,
+    //"import/no-cycle": [2,{"ignoreExternal": true}], // to avoid the silent runtime errors
+    "import/no-cycle": 0, // we need to disable this until we can solve the issue with generated in api using Context type...
+    "@typescript-eslint/no-var-requires": 0, // needed for specific stuff (e.g. honeycomb)
+    "import/no-named-as-default": 0, // produces issues with apollo-boost,
+    "import/default": 0, // https://github.com/alexgorbatchev/eslint-import-resolver-typescript/issues/31#issuecomment-539751607
+    "import/named": 0, // https://github.com/alexgorbatchev/eslint-import-resolver-typescript/issues/31#issuecomment-539751607
+    "import/no-named-as-default-member": 0 // issues with dayjs
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.spec.ts",
+        "**/__tests__/*"
+      ],
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off"
+      }
+    }
+  ],
+  "settings": {
+    "import/extensions": [
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx",
+      ".d.ts",
+      ".d.tsx"
+    ],
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx",
+        ".d.ts",
+        ".d.tsx"
+      ]
+    },
+    "import/resolver": {
+      // use <root>/tsconfig.json
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}
