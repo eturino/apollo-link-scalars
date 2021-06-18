@@ -2,7 +2,8 @@ src
 test
 tsconfig.json
 tsconfig.module.json
-tslint.json
+.eslint*
+.husky
 .travis.yml
 .github
 .prettierignore

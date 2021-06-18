@@ -1,6 +1,7 @@
 {
   "version": "2",
   "exclude_patterns": [
+    ".husky/",
     "config/",
     "db/",
     "dist/",
@@ -32,7 +33,7 @@
     "jest.html.config.js",
     "tsconfig.json",
     "tsconfig.module.json",
-    "tslint.json",
+    ".eslintrc",
     "yarn.lock",
     "package.json",
     ".gitignore",

@@ -59,7 +59,6 @@ class CustomDate {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 class MainDate {
   public readonly internalDate: Date;
   constructor(s: string | number) {
