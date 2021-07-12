@@ -6640,13 +6640,12 @@ typedoc-themes-color@^0.0.10:
   integrity sha512-Vj6QjI488rddZzw3R/I9C4L8WqA5726TYxjLpfk49y0c8QFA7+1C1zocpLLD/tkErSh2gdzzrT/+lyn9hudLXQ==
 
 typedoc@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.0.tgz#d35dd69b1566032cd893f4f6f21f37156f5f78d2"
-  integrity sha512-InmPBVlpOXptIkg/WnsQhbGYhv9cuDh/cRACUSautQ0QwcJPLAK2kHcfP0Pld6z/NiDvHc159fMq2qS+b/ALUw==
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.4.tgz#fced3cffdc30180db60a5dbfec9dbbb273cb5b31"
+  integrity sha512-slZQhvD9U0d9KacktYAyuNMMOXJRFNHy+Gd8xY2Qrqq3eTTTv3frv3N4au/cFnab9t3T5WA0Orb6QUjMc+1bDA==
   dependencies:
     glob "^7.1.7"
     handlebars "^4.7.7"
-    lodash "^4.17.21"
     lunr "^2.3.9"
     marked "^2.1.1"
     minimatch "^3.0.0"
