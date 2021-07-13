@@ -73,8 +73,10 @@ const link = ApolloLink.from([
 const typesMap = {
   CustomScalar: {
     serialize: (parsed: CustomScalar) => parsed.toString(),
-    parseValue: (raw: string | number | null): CustomScalar | null => {
-      return raw ? new CustomScalar(raw) : null;
+    parseValue: (raw: string): CustomScalar | null => {
+      if (!raw) return null; // if for some reason we want to treat empty string as null, for example
+
+      return new CustomScalar(raw);
     }
   }
 };
@@ -181,7 +183,7 @@ const scalarsLink = withScalars({
 });
 ```
 
-#### Changing the behavior of nullable types
+#### Changing the behaviour of nullable types
 
 By passing the `nullFunctions` parameter to `withScalar`, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. `null` => `null` and `value` => `value`. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from [Seidr](https://github.com/hojberg/seidr) but any implementation will do.
 
@@ -211,6 +213,28 @@ const nullFunctions: NullFunctions = {
     })
   },
 };
+```
+
+The `nullFunctions` are executed after the normal parsing/serializing. The normal parsing/serializing functions are not called for `null` values.
+
+Both in parsing and serializing, we have the following logic (in pseudocode):
+
+```ts
+if (isNone(value)) {
+  return this.nullFunctions.serialize(value);
+}
+
+const serialized = serializeNonNullValue(value);
+return this.nullFunctions.serialize(serialized);
+```
+
+```ts
+if (isNone(value)) {
+  return this.nullFunctions.parseValue(value);
+}
+
+const parsed = parseNonNullValue(value);
+return this.nullFunctions.parseValue(parsed);
 ```
 
 ## Acknowledgements
@@ -273,7 +297,7 @@ yarn run version -- --first-release
 
 And after that, remember to [publish the docs](#publish-the-docs).
 
-And finally push the new tags to github and publish the package to npm.
+And finally push the new tags to Github and publish the package to `npm`.
 
 ```sh
 # Push to git
@@ -289,7 +313,7 @@ yarn publish --access public
 yarn run doc:html && yarn run doc:publish
 ```
 
-This will generate the docs and publish them in github pages.
+This will generate the docs and publish them in Github pages.
 
 ### Generate a version
 
