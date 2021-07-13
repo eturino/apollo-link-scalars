@@ -71,6 +71,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "UselessPickles",
+      "name": "Jeff Lau",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22800095?v=4",
+      "profile": "https://github.com/UselessPickles",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
