@@ -204,13 +204,13 @@
 				</blockquote>
 				<p>Codegen config to generate introspection data:</p>
 				<p><code>codegen.yml</code></p>
-				<pre><code class="language-yml">---
-generates:
-  src/__generated__/graphql.schema.json:
-    plugins:
-      - &quot;introspection&quot;
-    config:
-      minify: true
+				<pre><code class="language-yaml"><span style="color: #000000">---</span>
+<span style="color: #800000">generates</span><span style="color: #000000">:</span>
+<span style="color: #000000">  </span><span style="color: #800000">src/__generated__/graphql.schema.json</span><span style="color: #000000">:</span>
+<span style="color: #000000">    </span><span style="color: #800000">plugins</span><span style="color: #000000">:</span>
+<span style="color: #000000">      - </span><span style="color: #A31515">&quot;introspection&quot;</span>
+<span style="color: #000000">    </span><span style="color: #800000">config</span><span style="color: #000000">:</span>
+<span style="color: #000000">      </span><span style="color: #800000">minify</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span>
 </code></pre>
 				<p>Synchronous code to create link instance in common scenario:</p>
 				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">introspectionResult</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;./__generated__/graphql.schema.json&quot;</span><span style="color: #000000">;</span>
