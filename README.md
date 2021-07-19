@@ -157,7 +157,7 @@ Codegen config to generate introspection data:
 
 `codegen.yml`
 
-```yml
+```yaml
 ---
 generates:
   src/__generated__/graphql.schema.json:
