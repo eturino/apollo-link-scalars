@@ -62,7 +62,7 @@
 					<h1><code>apollo-link-scalars</code></h1>
 				</a>
 				<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-				<p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" alt="All Contributors"></a></p>
+				<p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square" alt="All Contributors"></a></p>
 				<!-- ALL-CONTRIBUTORS-BADGE:END -->
 				<p><a href="https://badge.fury.io/js/apollo-link-scalars"><img src="https://badge.fury.io/js/apollo-link-scalars.svg" alt="npm version"></a>
 					<a href="https://travis-ci.org/eturino/apollo-link-scalars"><img src="https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master" alt="Build Status"></a>
@@ -123,8 +123,10 @@
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">typesMap</span><span style="color: #000000"> = {</span>
 <span style="color: #000000">  </span><span style="color: #001080">CustomScalar:</span><span style="color: #000000"> {</span>
 <span style="color: #000000">    </span><span style="color: #795E26">serialize</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">parsed</span><span style="color: #000000">: </span><span style="color: #267F99">CustomScalar</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">parsed</span><span style="color: #000000">.</span><span style="color: #795E26">toString</span><span style="color: #000000">(),</span>
-<span style="color: #000000">    </span><span style="color: #795E26">parseValue</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000"> | </span><span style="color: #267F99">number</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000">): </span><span style="color: #267F99">CustomScalar</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">raw</span><span style="color: #000000"> ? </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">CustomScalar</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">) : </span><span style="color: #0000FF">null</span><span style="color: #000000">;</span>
+<span style="color: #000000">    </span><span style="color: #795E26">parseValue</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">): </span><span style="color: #267F99">CustomScalar</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (!</span><span style="color: #001080">raw</span><span style="color: #000000">) </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">; </span><span style="color: #008000">// if for some reason we want to treat empty string as null, for example</span>
+
+<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">CustomScalar</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">);</span>
 <span style="color: #000000">    }</span>
 <span style="color: #000000">  }</span>
 <span style="color: #000000">};</span>
@@ -223,8 +225,8 @@ generates:
 <span style="color: #000000">  </span><span style="color: #001080">typesMap:</span><span style="color: #000000"> { … },</span>
 <span style="color: #000000">});</span>
 </code></pre>
-				<a href="#changing-the-behavior-of-nullable-types" id="changing-the-behavior-of-nullable-types" style="color: inherit; text-decoration: none;">
-					<h4>Changing the behavior of nullable types</h4>
+				<a href="#changing-the-behaviour-of-nullable-types" id="changing-the-behaviour-of-nullable-types" style="color: inherit; text-decoration: none;">
+					<h4>Changing the behaviour of nullable types</h4>
 				</a>
 				<p>By passing the <code>nullFunctions</code> parameter to <code>withScalar</code>, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. <code>null</code> =&gt; <code>null</code> and <code>value</code> =&gt; <code>value</code>. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from <a href="https://github.com/hojberg/seidr">Seidr</a> but any implementation will do.</p>
 				<pre><code class="language-typescript">
@@ -252,6 +254,22 @@ generates:
 <span style="color: #000000">    })</span>
 <span style="color: #000000">  },</span>
 <span style="color: #000000">};</span>
+</code></pre>
+				<p>The <code>nullFunctions</code> are executed after the normal parsing/serializing. The normal parsing/serializing functions are not called for <code>null</code> values.</p>
+				<p>Both in parsing and serializing, we have the following logic (in pseudocode):</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #795E26">isNone</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">)) {</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">serialized</span><span style="color: #000000"> = </span><span style="color: #795E26">serializeNonNullValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
+<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">serialized</span><span style="color: #000000">);</span>
+</code></pre>
+				<pre><code class="language-ts"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #795E26">isNone</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">)) {</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">parsed</span><span style="color: #000000"> = </span><span style="color: #795E26">parseNonNullValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
+<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">parsed</span><span style="color: #000000">);</span>
 </code></pre>
 				<a href="#acknowledgements" id="acknowledgements" style="color: inherit; text-decoration: none;">
 					<h2>Acknowledgements</h2>
@@ -300,7 +318,7 @@ generates:
 <span style="color: #008000"># $ yarn run version -- --prerelease alpha</span>
 </code></pre>
 						<p>And after that, remember to <a href="#publish-the-docs">publish the docs</a>.</p>
-						<p>And finally push the new tags to github and publish the package to npm.</p>
+						<p>And finally push the new tags to Github and publish the package to <code>npm</code>.</p>
 						<pre><code class="language-sh"><span style="color: #008000"># Push to git</span>
 <span style="color: #000000">git push --follow-tags origin master</span>
 
@@ -312,7 +330,7 @@ generates:
 						</a>
 						<pre><code class="language-sh"><span style="color: #000000">yarn run doc:html &amp;&amp; yarn run doc:publish</span>
 </code></pre>
-						<p>This will generate the docs and publish them in github pages.</p>
+						<p>This will generate the docs and publish them in Github pages.</p>
 						<a href="#generate-a-version" id="generate-a-version" style="color: inherit; text-decoration: none;">
 							<h3>Generate a version</h3>
 						</a>
@@ -343,6 +361,7 @@ generates:
 						<td align="center"><a href="https://twitter.com/JakubPetriska"><img src="https://avatars3.githubusercontent.com/u/5531859?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jakub Petriska</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJakubPetriska" title="Bug reports">🐛</a></td>
 						<td align="center"><a href="https://github.com/dobrinov"><img src="https://avatars2.githubusercontent.com/u/996877?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Deyan Dobrinov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Adobrinov" title="Bug reports">🐛</a> <a href="#ideas-dobrinov" title="Ideas, Planning, & Feedback">🤔</a></td>
 						<td align="center"><a href="https://github.com/nagirrab"><img src="https://avatars.githubusercontent.com/u/1761890?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugh Barrigan</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Code">💻</a> <a href="#ideas-nagirrab" title="Ideas, Planning, & Feedback">🤔</a></td>
+						<td align="center"><a href="https://github.com/UselessPickles"><img src="https://avatars.githubusercontent.com/u/22800095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeff Lau</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=UselessPickles" title="Documentation">📖</a></td>
 					</tr>
 				</table>
 				<!-- markdownlint-restore -->
@@ -362,19 +381,19 @@ generates:
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="classes/scalarapollolink.html" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link</a>
+						<a href="classes/ScalarApolloLink.html" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#functionsmap" class="tsd-kind-icon">Functions<wbr>Map</a>
+						<a href="modules.html#FunctionsMap" class="tsd-kind-icon">Functions<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#nullfunctions" class="tsd-kind-icon">Null<wbr>Functions</a>
+						<a href="modules.html#NullFunctions" class="tsd-kind-icon">Null<wbr>Functions</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="modules.html#parsingfunctionsobject" class="tsd-kind-icon">Parsing<wbr>Functions<wbr>Object</a>
+						<a href="modules.html#ParsingFunctionsObject" class="tsd-kind-icon">Parsing<wbr>Functions<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="modules.html#withscalars" class="tsd-kind-icon">with<wbr>Scalars</a>
+						<a href="modules.html#withScalars" class="tsd-kind-icon">with<wbr>Scalars</a>
 					</li>
 				</ul>
 			</nav>
