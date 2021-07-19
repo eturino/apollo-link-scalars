@@ -7,184 +7,185 @@ import isNumber from "lodash.isnumber";
 import isString from "lodash.isstring";
 import { withScalars } from "..";
 
-const typeDefs = gql`
-  type Query {
-    "returns a Date object with time"
-    convertToMorning(date: Date!): StartOfDay!
-    convertToDay(date: StartOfDay!): Date!
-    convertToDays(dates: [StartOfDay!]!): [Date!]!
+describe("scalar returned directly from first level queries", () => {
+  const typeDefs = gql`
+    type Query {
+      "returns a Date object with time"
+      convertToMorning(date: Date!): StartOfDay!
+      convertToDay(date: StartOfDay!): Date!
+      convertToDays(dates: [StartOfDay!]!): [Date!]!
+    }
+
+    "represents a Date with time"
+    scalar Date
+
+    "represents a Date at the beginning of the UTC day"
+    scalar StartOfDay
+  `;
+
+  class CustomDate {
+    public readonly internalDate: Date;
+    constructor(s: string) {
+      this.internalDate = new Date(s);
+    }
+
+    public toISOString(): string {
+      return this.internalDate.toISOString();
+    }
+
+    public getNewDate(): Date {
+      return new Date(this.internalDate);
+    }
   }
 
-  "represents a Date with time"
-  scalar Date
+  class MainDate {
+    public readonly internalDate: Date;
+    constructor(s: string | number) {
+      this.internalDate = new Date(s);
+    }
 
-  "represents a Date at the beginning of the UTC day"
-  scalar StartOfDay
-`;
+    public toISOString(): string {
+      return this.internalDate.toISOString();
+    }
 
-class CustomDate {
-  public readonly internalDate: Date;
-  constructor(s: string) {
-    this.internalDate = new Date(s);
+    public getNewDate(): Date {
+      return new Date(this.internalDate);
+    }
   }
 
-  public toISOString(): string {
-    return this.internalDate.toISOString();
-  }
+  const rawDay = "2018-02-03T12:13:14.000Z";
+  const rawMorning = "2018-02-03T00:00:00.000Z";
 
-  public getNewDate(): Date {
-    return new Date(this.internalDate);
-  }
-}
+  const parsedDay = new MainDate(rawDay);
+  const parsedMorning = new MainDate(rawMorning);
+  const parsedMorningCustom = new CustomDate(rawMorning);
 
-class MainDate {
-  public readonly internalDate: Date;
-  constructor(s: string | number) {
-    this.internalDate = new Date(s);
-  }
+  const rawDay2 = "2018-03-04T12:13:14.000Z";
+  const rawMorning2 = "2018-03-04T00:00:00.000Z";
 
-  public toISOString(): string {
-    return this.internalDate.toISOString();
-  }
+  const parsedDay2 = new MainDate(rawDay2);
+  const parsedMorning2 = new MainDate(rawMorning2);
+  const parsedMorningCustom2 = new CustomDate(rawMorning2);
 
-  public getNewDate(): Date {
-    return new Date(this.internalDate);
-  }
-}
-
-const rawDay = "2018-02-03T12:13:14.000Z";
-const rawMorning = "2018-02-03T00:00:00.000Z";
-
-const parsedDay = new MainDate(rawDay);
-const parsedMorning = new MainDate(rawMorning);
-const parsedMorningCustom = new CustomDate(rawMorning);
-
-const rawDay2 = "2018-03-04T12:13:14.000Z";
-const rawMorning2 = "2018-03-04T00:00:00.000Z";
-
-const parsedDay2 = new MainDate(rawDay2);
-const parsedMorning2 = new MainDate(rawMorning2);
-const parsedMorningCustom2 = new CustomDate(rawMorning2);
-
-const resolvers = {
-  Query: {
-    convertToMorning: (_root: any, { date }: { date: MainDate }) => {
-      const d = date.getNewDate();
-      d.setUTCHours(0);
-      d.setUTCMinutes(0);
-      d.setUTCSeconds(0);
-      d.setUTCMilliseconds(0);
-      return new MainDate(d.toISOString());
-    },
-    convertToDay: (_root: any, { date }: { date: MainDate }) => {
-      const d = date.getNewDate();
-      d.setUTCHours(12);
-      d.setUTCMinutes(13);
-      d.setUTCSeconds(14);
-      d.setUTCMilliseconds(0);
-      return new MainDate(d.toISOString());
-    },
-    convertToDays: (_root: any, { dates }: { dates: MainDate[] }) => {
-      return dates.map((date) => {
+  const resolvers = {
+    Query: {
+      convertToMorning: (_root: any, { date }: { date: MainDate }) => {
+        const d = date.getNewDate();
+        d.setUTCHours(0);
+        d.setUTCMinutes(0);
+        d.setUTCSeconds(0);
+        d.setUTCMilliseconds(0);
+        return new MainDate(d.toISOString());
+      },
+      convertToDay: (_root: any, { date }: { date: MainDate }) => {
         const d = date.getNewDate();
         d.setUTCHours(12);
         d.setUTCMinutes(13);
         d.setUTCSeconds(14);
         d.setUTCMilliseconds(0);
         return new MainDate(d.toISOString());
-      });
+      },
+      convertToDays: (_root: any, { dates }: { dates: MainDate[] }) => {
+        return dates.map((date) => {
+          const d = date.getNewDate();
+          d.setUTCHours(12);
+          d.setUTCMinutes(13);
+          d.setUTCSeconds(14);
+          d.setUTCMilliseconds(0);
+          return new MainDate(d.toISOString());
+        });
+      },
     },
-  },
-  Date: new GraphQLScalarType({
-    name: "Date",
-    serialize: (parsed: MainDate | null) => {
-      if (!parsed) return parsed;
-      // @ts-ignore
-      if (!parsed instanceof MainDate) {
-        throw new Error(`given date is not a MainDate!!: ${parsed}`);
-      }
-      return parsed.toISOString();
-    },
-    parseValue: (raw: any) => {
-      if (!raw) return raw;
-      if (isString(raw) || isNumber(raw)) {
-        return new MainDate(raw);
-      }
+    Date: new GraphQLScalarType({
+      name: "Date",
+      serialize: (parsed: MainDate | null) => {
+        if (!parsed) return parsed;
+        // @ts-ignore
+        if (!parsed instanceof MainDate) {
+          throw new Error(`given date is not a MainDate!!: ${parsed}`);
+        }
+        return parsed.toISOString();
+      },
+      parseValue: (raw: any) => {
+        if (!raw) return raw;
+        if (isString(raw) || isNumber(raw)) {
+          return new MainDate(raw);
+        }
 
-      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
-    },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
-        return new MainDate(ast.value);
-      }
-      return null;
-    },
-  }),
-  StartOfDay: new GraphQLScalarType({
-    name: "StartOfDay",
-    serialize: (parsed: MainDate | null) => {
-      if (!parsed) return parsed;
-      // @ts-ignore
-      if (!parsed instanceof MainDate) {
-        throw new Error(`given date is not a Date!!: ${parsed}`);
-      }
-      return parsed.toISOString();
-    },
-    parseValue: (raw: any) => {
-      if (!raw) return raw;
-      if (isString(raw) || isNumber(raw)) {
+        throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
+      },
+      parseLiteral(ast) {
+        if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
+          return new MainDate(ast.value);
+        }
+        return null;
+      },
+    }),
+    StartOfDay: new GraphQLScalarType({
+      name: "StartOfDay",
+      serialize: (parsed: MainDate | null) => {
+        if (!parsed) return parsed;
+        // @ts-ignore
+        if (!parsed instanceof MainDate) {
+          throw new Error(`given date is not a Date!!: ${parsed}`);
+        }
+        return parsed.toISOString();
+      },
+      parseValue: (raw: any) => {
+        if (!raw) return raw;
+        if (isString(raw) || isNumber(raw)) {
+          const d = new Date(raw);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return new MainDate(d.toISOString());
+        }
+
+        throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
+      },
+      parseLiteral(ast) {
+        if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
+          const d = new Date(ast.value);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return new MainDate(d.toISOString());
+        }
+        return null;
+      },
+    }),
+  };
+
+  const typesMap = {
+    StartOfDay: {
+      serialize: (parsed: CustomDate | null) => {
+        if (!parsed) return parsed;
+        // @ts-ignore
+        if (!parsed instanceof CustomDate) {
+          throw new Error(`given date is not a Date!!: ${parsed}`);
+        }
+        return parsed.toISOString();
+      },
+      parseValue: (raw: string | number | null): CustomDate | null => {
+        if (!raw) return null;
         const d = new Date(raw);
         d.setUTCHours(0);
         d.setUTCMinutes(0);
         d.setUTCSeconds(0);
         d.setUTCMilliseconds(0);
-        return new MainDate(d.toISOString());
-      }
-
-      throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
+        return new CustomDate(d.toISOString());
+      },
     },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
-        const d = new Date(ast.value);
-        d.setUTCHours(0);
-        d.setUTCMinutes(0);
-        d.setUTCSeconds(0);
-        d.setUTCMilliseconds(0);
-        return new MainDate(d.toISOString());
-      }
-      return null;
-    },
-  }),
-};
+  };
 
-const typesMap = {
-  StartOfDay: {
-    serialize: (parsed: CustomDate | null) => {
-      if (!parsed) return parsed;
-      // @ts-ignore
-      if (!parsed instanceof CustomDate) {
-        throw new Error(`given date is not a Date!!: ${parsed}`);
-      }
-      return parsed.toISOString();
-    },
-    parseValue: (raw: string | number | null): CustomDate | null => {
-      if (!raw) return null;
-      const d = new Date(raw);
-      d.setUTCHours(0);
-      d.setUTCMinutes(0);
-      d.setUTCSeconds(0);
-      d.setUTCMilliseconds(0);
-      return new CustomDate(d.toISOString());
-    },
-  },
-};
+  const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  });
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
-
-const querySource = `
+  const querySource = `
   query MyQuery($morning: StartOfDay!, $mornings: [StartOfDay!]!, $day: Date!) {
     convertToMorning(date: $day)
     convertToDay(date: $morning)
@@ -192,31 +193,30 @@ const querySource = `
   }
 `;
 
-const queryDocument: DocumentNode = gql`
-  ${querySource}
-`;
-const queryOperationName = getOperationName(queryDocument);
-if (!queryOperationName) throw new Error("invalid query operation name");
+  const queryDocument: DocumentNode = gql`
+    ${querySource}
+  `;
+  const queryOperationName = getOperationName(queryDocument);
+  if (!queryOperationName) throw new Error("invalid query operation name");
 
-const request: GraphQLRequest = {
-  query: queryDocument,
-  variables: {
-    day: parsedDay,
-    morning: parsedMorning,
-    mornings: [parsedMorning, parsedMorning2],
-  },
-  operationName: queryOperationName,
-};
+  const request: GraphQLRequest = {
+    query: queryDocument,
+    variables: {
+      day: parsedDay,
+      morning: parsedMorning,
+      mornings: [parsedMorning, parsedMorning2],
+    },
+    operationName: queryOperationName,
+  };
 
-const response = {
-  data: {
-    convertToMorning: rawMorning,
-    convertToDay: rawDay,
-    convertToDays: [rawDay, rawDay2],
-  },
-};
+  const response = {
+    data: {
+      convertToMorning: rawMorning,
+      convertToDay: rawDay,
+      convertToDays: [rawDay, rawDay2],
+    },
+  };
 
-describe("scalar returned directly from first level queries", () => {
   it("stringify of custom dates is not the same as toISOString()", () => {
     expect(JSON.stringify(parsedDay)).not.toEqual(rawDay);
   });

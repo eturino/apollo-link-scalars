@@ -4,34 +4,35 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql } from "graphql";
 import { withScalars } from "..";
 
-const typeDefs = gql`
-  type Query {
-    first: MyEnum
-    second: MyEnum!
-    third: MyEnum
-  }
+describe("enum returned directly from first level queries", () => {
+  const typeDefs = gql`
+    type Query {
+      first: MyEnum
+      second: MyEnum!
+      third: MyEnum
+    }
 
-  enum MyEnum {
-    a
-    b
-    c
-  }
-`;
+    enum MyEnum {
+      a
+      b
+      c
+    }
+  `;
 
-const resolvers = {
-  Query: {
-    first: () => "a",
-    second: () => "b",
-    third: () => null,
-  },
-};
+  const resolvers = {
+    Query: {
+      first: () => "a",
+      second: () => "b",
+      third: () => null,
+    },
+  };
 
-const schema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
-});
+  const schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  });
 
-const querySource = `
+  const querySource = `
   query MyQuery {
     first
     second
@@ -42,41 +43,40 @@ const querySource = `
   }
 `;
 
-const queryDocument: DocumentNode = gql`
-  ${querySource}
-`;
-const queryOperationName = getOperationName(queryDocument);
-if (!queryOperationName) throw new Error("invalid query operation name");
+  const queryDocument: DocumentNode = gql`
+    ${querySource}
+  `;
+  const queryOperationName = getOperationName(queryDocument);
+  if (!queryOperationName) throw new Error("invalid query operation name");
 
-const request: GraphQLRequest = {
-  query: queryDocument,
-  variables: {},
-  operationName: queryOperationName,
-};
+  const request: GraphQLRequest = {
+    query: queryDocument,
+    variables: {},
+    operationName: queryOperationName,
+  };
 
-const validResponse = {
-  data: {
-    first: "a",
-    second: "b",
-    third: null,
-    otherFirst: "a",
-    otherSecond: "b",
-    otherThird: null,
-  },
-};
+  const validResponse = {
+    data: {
+      first: "a",
+      second: "b",
+      third: null,
+      otherFirst: "a",
+      otherSecond: "b",
+      otherThird: null,
+    },
+  };
 
-const invalidResponse = {
-  data: {
-    first: "a",
-    second: "b",
-    third: null,
-    otherFirst: "invalid",
-    otherSecond: "b",
-    otherThird: null,
-  },
-};
+  const invalidResponse = {
+    data: {
+      first: "a",
+      second: "b",
+      third: null,
+      otherFirst: "invalid",
+      otherSecond: "b",
+      otherThird: null,
+    },
+  };
 
-describe("enum returned directly from first level queries", () => {
   it("ensure the response fixture is valid (ensure that in the response we have the RAW, the Server is converting from Date to STRING)", async () => {
     expect.assertions(1);
     const queryResponse = await graphql(schema, querySource);
