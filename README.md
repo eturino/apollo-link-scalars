@@ -1,7 +1,7 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -349,6 +349,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/dobrinov"><img src="https://avatars2.githubusercontent.com/u/996877?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Deyan Dobrinov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Adobrinov" title="Bug reports">🐛</a> <a href="#ideas-dobrinov" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/nagirrab"><img src="https://avatars.githubusercontent.com/u/1761890?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugh Barrigan</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Code">💻</a> <a href="#ideas-nagirrab" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://github.com/UselessPickles"><img src="https://avatars.githubusercontent.com/u/22800095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeff Lau</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=UselessPickles" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://floriancargoet.com"><img src="https://avatars.githubusercontent.com/u/110431?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Florian Cargoët</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Afloriancargoet" title="Bug reports">🐛</a></td>
   </tr>
 </table>
 
