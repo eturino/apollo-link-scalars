@@ -7,8 +7,28 @@ import { Dictionary } from "../types/dictionary";
 import { MutOrRO } from "../types/mut-or-ro";
 import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";
 
-export function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
-  return uniqBy(nodes, (fn) => JSON.stringify([fn.alias?.value, fn.name.value]));
+function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
+  return uniqBy(nodes, (fn) => JSON.stringify(fieldNodeKeyTuple(fn)));
+}
+
+type KeyTuple = [string | undefined, string, string[]];
+type SelectionKey = { field?: KeyTuple; inlineFragments?: SelectionKey[]; namedFragment?: string };
+
+function fieldNodeKeyTuple(fn: FieldNode): KeyTuple {
+  const alias = fn.alias?.value;
+  const name = fn.name.value;
+  const selections = fn.selectionSet?.selections ?? [];
+  const selectionKeys = selections.map((sn) => JSON.stringify(selectionKeyTuples(sn))).sort();
+  return [alias, name, selectionKeys];
+}
+
+function selectionKeyTuples(sn: SelectionNode): SelectionKey {
+  if (isFieldNode(sn)) return { field: fieldNodeKeyTuple(sn) };
+  if (isInlineFragmentNode(sn)) {
+    return { inlineFragments: sn.selectionSet.selections.map((sn) => selectionKeyTuples(sn)) };
+  }
+
+  return { namedFragment: sn.name.value };
 }
 
 function getCleanedSelections(
@@ -55,7 +75,8 @@ export function replaceFragmentsOn(
   }
 
   const resolved = getResolvedFieldNodes(cleaned as FieldNode[], fragmentMap);
-  return uniqueNodes(resolved);
+  const uniqueList = uniqueNodes(resolved);
+  return uniqueList;
 }
 
 export function fragmentMapFrom(fragments: FragmentDefinitionNode[]): Dictionary<ReducedFieldNode[]> {
