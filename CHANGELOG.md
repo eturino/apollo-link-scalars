@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.4](https://github.com/eturino/apollo-link-scalars/compare/v2.1.3...v2.1.4) (2021-07-19)
+
+
+### Bug Fixes
+
+* **deps:** bump zen-observable-ts from 1.0.0 to 1.1.0 ([#367](https://github.com/eturino/apollo-link-scalars/issues/367)) ([457f558](https://github.com/eturino/apollo-link-scalars/commit/457f5583ec8ba576afd9969f7878fc9aac319ee9))
+* fix: Scalars not parsed when fragment spreading causes a field to appear multiple times ([fe40256](https://github.com/eturino/apollo-link-scalars/commit/fe40256dffd1a22b53e1a82eb1174451b2f7d883)), closes [#370](https://github.com/eturino/apollo-link-scalars/issues/370)
+
 ### [2.1.3](https://github.com/eturino/apollo-link-scalars/compare/v2.1.2...v2.1.3) (2021-04-08)
 
 
