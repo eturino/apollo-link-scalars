@@ -5331,9 +5331,9 @@ prelude-ls@~1.1.2:
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
 prettier-plugin-organize-imports@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-2.2.0.tgz#dcdd5222416a90bd819734f131fea4a22b1c613a"
-  integrity sha512-2WM3moc/cAPCCsSneYhaL4+mMws0Bypbxz+98wuRyaA7GMokhOECVkQCG7l2hcH+9/4d5NsgZs9yktfwDy4r7A==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-2.3.0.tgz#eb9d5043bc643992492bb7530b0f597d650f2ee7"
+  integrity sha512-U8wYUKvgBv+qJ3kZPI8VWfHbN0m/VxvMvWttLGKeFgcYzRzXmmRhP2FKN7IazOIZr9LFb6lSnLoPo3qwnDWUIw==
 
 prettier@^2.0.4:
   version "2.3.2"
