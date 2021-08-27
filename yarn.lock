@@ -4611,10 +4611,10 @@ map-obj@^4.0.0, map-obj@^4.1.0:
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-4.2.1.tgz#e4ea399dbc979ae735c83c863dd31bdf364277b7"
   integrity sha512-+WA2/1sPmDj1dlvvJmB5G6JKfY9dpn7EVBUL06+y6PoljPkh+6V1QihwxNkbcGxCRjt2b0F9K0taiCuo7MbdFQ==
 
-marked@^2.1.1:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-2.1.3.tgz#bd017cef6431724fd4b27e0657f5ceb14bff3753"
-  integrity sha512-/Q+7MGzaETqifOMWYEA7HVMaZb4XbcRfaOzcSsHZEith83KGlvaSG33u0SKu89Mj5h+T8V2hM+8O45Qc5XTgwA==
+marked@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-3.0.2.tgz#60ce97d6aec34dd882ab4bb4df82494666854e17"
+  integrity sha512-TMJQQ79Z0e3rJYazY0tIoMsFzteUGw9fB3FD+gzuIT3zLuG9L9ckIvUfF51apdJkcqc208jJN2KbtPbOvXtbjA==
 
 memorystream@^0.3.1:
   version "0.3.1"
@@ -6434,14 +6434,14 @@ typedoc-themes-color@^0.0.10:
   integrity sha512-Vj6QjI488rddZzw3R/I9C4L8WqA5726TYxjLpfk49y0c8QFA7+1C1zocpLLD/tkErSh2gdzzrT/+lyn9hudLXQ==
 
 typedoc@^0.21.0:
-  version "0.21.6"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.6.tgz#854bfa2d6b3ac818ac70aa4734a4d1ba93695595"
-  integrity sha512-+4u3PEBjQdaL5/yfus5WJbjIdQHv7E/FpZq3cNki9BBdGmZhqnTF6JLIXDQ2EfVggojOJG9/soB5QVFgXRYnIw==
+  version "0.21.7"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.21.7.tgz#762e3bcff664950b922a27ca1e6f257f2642dd87"
+  integrity sha512-JVZaSmPS4LVS+zLR/krLTXR+s0kOoQs8Ycho7X/Ke9KO1uqflxkoqYYXsFoMsX93derL9rMemA6fbGR1fydBFw==
   dependencies:
     glob "^7.1.7"
     handlebars "^4.7.7"
     lunr "^2.3.9"
-    marked "^2.1.1"
+    marked "^3.0.2"
     minimatch "^3.0.0"
     progress "^2.0.3"
     shiki "^0.9.3"
