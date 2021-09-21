@@ -6310,11 +6310,6 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typedoc-themes-color@^0.0.10:
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/typedoc-themes-color/-/typedoc-themes-color-0.0.10.tgz#55c6dcedef4ae184afdf7fad2d6e97d6b105ae3e"
-  integrity sha512-Vj6QjI488rddZzw3R/I9C4L8WqA5726TYxjLpfk49y0c8QFA7+1C1zocpLLD/tkErSh2gdzzrT/+lyn9hudLXQ==
-
 typedoc@^0.22.0:
   version "0.22.4"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.22.4.tgz#039ac59fcdb9a8674471dc20e1623efb12be4114"
