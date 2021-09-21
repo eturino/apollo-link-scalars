@@ -60,7 +60,6 @@
     "node": ">=10.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.2",
     "lodash.clonedeep": "^4.5.0",
     "lodash.every": "^4.6.0",
     "lodash.flatmap": "^4.5.0",
@@ -79,6 +78,7 @@
     "zen-observable-ts": "^1.0.0"
   },
   "peerDependencies": {
+    "@apollo/client": "3.x",
     "graphql": "14.x || 15.x"
   },
   "devDependencies": {

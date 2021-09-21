@@ -1,5 +1,6 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
+import { GraphQLError } from "graphql/error/GraphQLError";
 import pickBy from "lodash.pickby";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
@@ -52,9 +53,12 @@ export class ScalarApolloLink extends ApolloLink {
           next: (result) => {
             try {
               observer.next(this.parse(operation, result));
-            } catch (treatError) {
-              const errors = result.errors || [];
-              observer.next({ errors: [...errors, treatError] });
+            } catch (treatError: any) {
+              const errors = result.errors ? [...result.errors] : [];
+              if (treatError instanceof GraphQLError) {
+                errors.push(treatError);
+              }
+              observer.next({ errors });
             }
           },
           error: observer.error.bind(observer),
