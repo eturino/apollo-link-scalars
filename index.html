@@ -1,428 +1,193 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>apollo-link-scalars</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-	<link rel="stylesheet" href="assets/css/main.plus.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">apollo-link-scalars</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<h1>apollo-link-scalars</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#apollo-link-scalars" id="apollo-link-scalars" style="color: inherit; text-decoration: none;">
-					<h1><code>apollo-link-scalars</code></h1>
-				</a>
-				<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-				<p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square" alt="All Contributors"></a></p>
-				<!-- ALL-CONTRIBUTORS-BADGE:END -->
-				<p><a href="https://badge.fury.io/js/apollo-link-scalars"><img src="https://badge.fury.io/js/apollo-link-scalars.svg" alt="npm version"></a>
-					<a href="https://travis-ci.org/eturino/apollo-link-scalars"><img src="https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master" alt="Build Status"></a>
-					<a href="https://codebeat.co/projects/github-com-eturino-apollo-link-scalars-master"><img src="https://codebeat.co/badges/a90150b8-7456-4f39-af0e-773f6fbf4324" alt="codebeat badge"></a>
-					<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/maintainability"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/maintainability" alt="Maintainability"></a>
-				<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/test_coverage" alt="Test Coverage"></a></p>
-				<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
-				<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
-				<p>Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup <code>__typename</code> from inputs. (see <a href="#usage">Usage</a> and <a href="#options">Options</a>).</p>
-				<a href="#library-versions" id="library-versions" style="color: inherit; text-decoration: none;">
-					<h2>Library Versions</h2>
-				</a>
-				<a href="#apollo-client-v2--gt-apollo-link-scalars-v0x" id="apollo-client-v2--gt-apollo-link-scalars-v0x" style="color: inherit; text-decoration: none;">
-					<h3>Apollo Client v2 -&gt; <code>apollo-link-scalars</code> <code>v0.x</code></h3>
-				</a>
-				<p>The deprecated <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v2</a> is used in the <a href="https://github.com/eturino/apollo-link-scalars/tree/v0.x"><code>0.x</code> branch</a>.</p>
-				<p>Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 0.3.x is recommended</a></p>
-				<a href="#apollo-client-v3--gt-apollo-link-scalars-v2x" id="apollo-client-v3--gt-apollo-link-scalars-v2x" style="color: inherit; text-decoration: none;">
-					<h3>Apollo Client v3 -&gt; <code>apollo-link-scalars</code> <code>v2.x</code></h3>
-				</a>
-				<p>The current <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v3</a> is used in the versions from 1.0</p>
-				<p>The 1.x family is considered deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 2.x is recommended</a></p>
-				<a href="#breaking-change-removing-makeexecutableschema" id="breaking-change-removing-makeexecutableschema" style="color: inherit; text-decoration: none;">
-					<h3>Breaking Change: removing <code>makeExecutableSchema</code></h3>
-				</a>
-				<p>The versions that included <code>makeExecutableSchema</code> from <code>graphql-tools</code> are deprecated. This are the versions:</p>
-				<ul>
-					<li>0.1.x and 0.2.x =&gt; please migrate to 0.3.x (apollo client v2 line, deprecated)</li>
-					<li>1.x =&gt; please migrate to 2.x (apollo client v3 line)</li>
-				</ul>
-				<p>If you are not using <code>makeExecutableSchema</code> from this library, the upgrade will be transparent.</p>
-				<p>If you are using <code>makeExecutableSchema</code>, you just need to replace it from the version of graphql-tools compatible with the version of Apollo Client that you are using. Please have a look at the <a href="#example-of-loading-a-schema">Example of loading a schema</a></p>
-				<a href="#disclaimer-potential-cache-interaction" id="disclaimer-potential-cache-interaction" style="color: inherit; text-decoration: none;">
-					<h2>Disclaimer: Potential cache interaction</h2>
-				</a>
-				<p>Parsing scalars at link level means that Apollo cache will receive them already parsed. Depending on what kind of parsing is performed, this may interact with the cache JSON serialization of, for example,<code>apollo-cache-persist</code>. While <code>apollo-cache-persist</code> has an option to turn that serialisation off, others may have similar issues.</p>
-				<p>In the <a href="https://github.com/apollographql/apollo-client/issues/585">original Apollo Client Github issue thread about scalar parsing</a>, <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400792837">this situation</a> <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400777797">was discussed</a>.</p>
-				<p>At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.</p>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
-				<p><code>yarn add apollo-link-scalars graphql</code> or <code>npm install apollo-link-scalars graphql</code>.</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
-				<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">withScalars</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;apollo-link-scalars&quot;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ApolloLink</span><span style="color: #000000">, </span><span style="color: #001080">HttpLink</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@apollo/client/core&quot;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">schema</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;./my-schema&quot;</span><span style="color: #000000">;</span>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>apollo-link-scalars</title><meta name="description" content="Documentation for apollo-link-scalars"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">apollo-link-scalars</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>apollo-link-scalars</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#apollo-link-scalars" id="apollo-link-scalars" style="color: inherit; text-decoration: none;">
+  <h1><code>apollo-link-scalars</code></h1>
+</a>
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square" alt="All Contributors"></a></p>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">link</span><span style="color: #000000"> = </span><span style="color: #001080">ApolloLink</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">([</span>
-<span style="color: #000000">  </span><span style="color: #795E26">withScalars</span><span style="color: #000000">({ </span><span style="color: #001080">schema</span><span style="color: #000000"> }),</span>
-<span style="color: #000000">  </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">HttpLink</span><span style="color: #000000">({ </span><span style="color: #001080">uri:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;http://example.org/graphql&quot;</span><span style="color: #000000"> })</span>
-<span style="color: #000000">]);</span>
+<p><a href="https://badge.fury.io/js/apollo-link-scalars"><img src="https://badge.fury.io/js/apollo-link-scalars.svg" alt="npm version"></a>
+<a href="https://travis-ci.org/eturino/apollo-link-scalars"><img src="https://travis-ci.org/eturino/apollo-link-scalars.svg?branch=master" alt="Build Status"></a>
+<a href="https://codebeat.co/projects/github-com-eturino-apollo-link-scalars-master"><img src="https://codebeat.co/badges/a90150b8-7456-4f39-af0e-773f6fbf4324" alt="codebeat badge"></a>
+<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/maintainability"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/maintainability" alt="Maintainability"></a>
+<a href="https://codeclimate.com/github/eturino/apollo-link-scalars/test_coverage"><img src="https://api.codeclimate.com/v1/badges/bfc3427f46454051044b/test_coverage" alt="Test Coverage"></a></p>
+<p><a href="https://eturino.github.io/apollo-link-scalars">TypeDoc generated docs in here</a></p>
+<p><a href="https://github.com/eturino/apollo-link-scalars">Github repo here</a></p>
+<p>Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup <code>__typename</code> from inputs. (see <a href="#usage">Usage</a> and <a href="#options">Options</a>).</p>
 
-<span style="color: #008000">// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">typesMap</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">  </span><span style="color: #001080">CustomScalar:</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #795E26">serialize</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">parsed</span><span style="color: #000000">: </span><span style="color: #267F99">CustomScalar</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">parsed</span><span style="color: #000000">.</span><span style="color: #795E26">toString</span><span style="color: #000000">(),</span>
-<span style="color: #000000">    </span><span style="color: #795E26">parseValue</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">string</span><span style="color: #000000">): </span><span style="color: #267F99">CustomScalar</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (!</span><span style="color: #001080">raw</span><span style="color: #000000">) </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">; </span><span style="color: #008000">// if for some reason we want to treat empty string as null, for example</span>
+<a href="#library-versions" id="library-versions" style="color: inherit; text-decoration: none;">
+  <h2>Library Versions</h2>
+</a>
 
-<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">CustomScalar</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">);</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">  }</span>
-<span style="color: #000000">};</span>
+<a href="#apollo-client-v2--gt-apollo-link-scalars-v0x" id="apollo-client-v2--gt-apollo-link-scalars-v0x" style="color: inherit; text-decoration: none;">
+  <h3>Apollo Client v2 -&gt; <code>apollo-link-scalars</code> <code>v0.x</code></h3>
+</a>
+<p>The deprecated <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v2</a> is used in the <a href="https://github.com/eturino/apollo-link-scalars/tree/v0.x"><code>0.x</code> branch</a>.</p>
+<p>Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 0.3.x is recommended</a></p>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">link2</span><span style="color: #000000"> = </span><span style="color: #001080">ApolloLink</span><span style="color: #000000">.</span><span style="color: #795E26">from</span><span style="color: #000000">([</span>
-<span style="color: #000000">  </span><span style="color: #795E26">withScalars</span><span style="color: #000000">({ </span><span style="color: #001080">schema</span><span style="color: #000000">, </span><span style="color: #001080">typesMap</span><span style="color: #000000"> }),</span>
-<span style="color: #000000">  </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">HttpLink</span><span style="color: #000000">({ </span><span style="color: #001080">uri:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;http://example.org/graphql&quot;</span><span style="color: #000000"> })</span>
-<span style="color: #000000">]);</span>
+<a href="#apollo-client-v3--gt-apollo-link-scalars-v2x" id="apollo-client-v3--gt-apollo-link-scalars-v2x" style="color: inherit; text-decoration: none;">
+  <h3>Apollo Client v3 -&gt; <code>apollo-link-scalars</code> <code>v2.x</code></h3>
+</a>
+<p>The current <a href="https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/">Apollo Client v3</a> is used in the versions from 1.0</p>
+<p>The 1.x family is considered deprecated and a <a href="#breaking-change-removing-makeexecutableschema">migration to 2.x is recommended</a></p>
+
+<a href="#breaking-change-removing-makeexecutableschema" id="breaking-change-removing-makeexecutableschema" style="color: inherit; text-decoration: none;">
+  <h3>Breaking Change: removing <code>makeExecutableSchema</code></h3>
+</a>
+<p>The versions that included <code>makeExecutableSchema</code> from <code>graphql-tools</code> are deprecated. This are the versions:</p>
+<ul>
+<li>0.1.x and 0.2.x =&gt; please migrate to 0.3.x (apollo client v2 line, deprecated)</li>
+<li>1.x =&gt; please migrate to 2.x (apollo client v3 line)</li>
+</ul>
+<p>If you are not using <code>makeExecutableSchema</code> from this library, the upgrade will be transparent.</p>
+<p>If you are using <code>makeExecutableSchema</code>, you just need to replace it from the version of graphql-tools compatible with the version of Apollo Client that you are using. Please have a look at the <a href="#example-of-loading-a-schema">Example of loading a schema</a></p>
+
+<a href="#disclaimer-potential-cache-interaction" id="disclaimer-potential-cache-interaction" style="color: inherit; text-decoration: none;">
+  <h2>Disclaimer: Potential cache interaction</h2>
+</a>
+<p>Parsing scalars at link level means that Apollo cache will receive them already parsed. Depending on what kind of parsing is performed, this may interact with the cache JSON serialization of, for example,<code>apollo-cache-persist</code>. While <code>apollo-cache-persist</code> has an option to turn that serialisation off, others may have similar issues.</p>
+<p>In the <a href="https://github.com/apollographql/apollo-client/issues/585">original Apollo Client Github issue thread about scalar parsing</a>, <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400792837">this situation</a> <a href="https://github.com/apollographql/apollo-client/issues/585#issuecomment-400777797">was discussed</a>.</p>
+<p>At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.</p>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2>Installation</h2>
+</a>
+<p><code>yarn add apollo-link-scalars graphql</code> or <code>npm install apollo-link-scalars graphql</code>.</p>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+<p>We need to pass a <code>GraphQLSchema</code>, and optionally we can also pass a map of custom serialization/parsing functions for specific types.</p>
+<p>You can build the link by calling the <code>withScalars()</code> function, passing to it the <code>schema</code> and optionally a <code>typesMap</code>.</p>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">withScalars</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;apollo-link-scalars&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">ApolloLink</span><span class="hl-1">, </span><span class="hl-2">HttpLink</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@apollo/client/core&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">schema</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;./my-schema&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">link</span><span class="hl-1"> = </span><span class="hl-2">ApolloLink</span><span class="hl-1">.</span><span class="hl-6">from</span><span class="hl-1">([</span><br/><span class="hl-1">  </span><span class="hl-6">withScalars</span><span class="hl-1">({ </span><span class="hl-2">schema</span><span class="hl-1"> }),</span><br/><span class="hl-1">  </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">HttpLink</span><span class="hl-1">({ </span><span class="hl-2">uri:</span><span class="hl-1"> </span><span class="hl-3">&quot;http://example.org/graphql&quot;</span><span class="hl-1"> })</span><br/><span class="hl-1">]);</span><br/><br/><span class="hl-7">// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">typesMap</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-2">CustomScalar:</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-6">serialize</span><span class="hl-2">:</span><span class="hl-1"> (</span><span class="hl-2">parsed</span><span class="hl-1">: </span><span class="hl-8">CustomScalar</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> </span><span class="hl-2">parsed</span><span class="hl-1">.</span><span class="hl-6">toString</span><span class="hl-1">(),</span><br/><span class="hl-1">    </span><span class="hl-6">parseValue</span><span class="hl-2">:</span><span class="hl-1"> (</span><span class="hl-2">raw</span><span class="hl-1">: </span><span class="hl-8">string</span><span class="hl-1">): </span><span class="hl-8">CustomScalar</span><span class="hl-1"> | </span><span class="hl-8">null</span><span class="hl-1"> </span><span class="hl-4">=&gt;</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-0">if</span><span class="hl-1"> (!</span><span class="hl-2">raw</span><span class="hl-1">) </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">null</span><span class="hl-1">; </span><span class="hl-7">// if for some reason we want to treat empty string as null, for example</span><br/><br/><span class="hl-1">      </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CustomScalar</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">);</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">link2</span><span class="hl-1"> = </span><span class="hl-2">ApolloLink</span><span class="hl-1">.</span><span class="hl-6">from</span><span class="hl-1">([</span><br/><span class="hl-1">  </span><span class="hl-6">withScalars</span><span class="hl-1">({ </span><span class="hl-2">schema</span><span class="hl-1">, </span><span class="hl-2">typesMap</span><span class="hl-1"> }),</span><br/><span class="hl-1">  </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">HttpLink</span><span class="hl-1">({ </span><span class="hl-2">uri:</span><span class="hl-1"> </span><span class="hl-3">&quot;http://example.org/graphql&quot;</span><span class="hl-1"> })</span><br/><span class="hl-1">]);</span>
 </code></pre>
-				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
-					<h3>Options</h3>
-				</a>
-				<p>We can pass extra options to <code>withScalars()</code> to modify the behaviour</p>
-				<ul>
-					<li><strong><code>removeTypenameFromInputs</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will remove from the inputs the <code>__typename</code> if it is found. This could be useful if we are using data received from a query as an input on another query.</li>
-					<li><strong><code>validateEnums</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.</li>
-					<li><strong><code>nullFunction</code></strong> (<code>NullFunction</code>, default <code>null</code>): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from the null types. See below for an example.</li>
-				</ul>
-				<pre><code class="language-typescript"><span style="color: #795E26">withScalars</span><span style="color: #000000">({</span>
-<span style="color: #000000">  </span><span style="color: #001080">schema</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">typesMap</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">validateEnums:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">removeTypenameFromInputs:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span>
-<span style="color: #000000">});</span>
+
+<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+  <h3>Options</h3>
+</a>
+<p>We can pass extra options to <code>withScalars()</code> to modify the behaviour</p>
+<ul>
+<li><strong><code>removeTypenameFromInputs</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will remove from the inputs the <code>__typename</code> if it is found. This could be useful if we are using data received from a query as an input on another query.</li>
+<li><strong><code>validateEnums</code></strong> (<code>Boolean</code>, default <code>false</code>): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.</li>
+<li><strong><code>nullFunction</code></strong> (<code>NullFunction</code>, default <code>null</code>): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from the null types. See below for an example.</li>
+</ul>
+<pre><code class="language-typescript"><span class="hl-6">withScalars</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-2">schema</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">typesMap</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">validateEnums:</span><span class="hl-1"> </span><span class="hl-4">true</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">removeTypenameFromInputs:</span><span class="hl-1"> </span><span class="hl-4">true</span><br/><span class="hl-1">});</span>
 </code></pre>
-				<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
-					<h3>Example of loading a schema</h3>
-				</a>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">gql</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@apollo/client/core&quot;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">GraphQLScalarType</span><span style="color: #000000">, </span><span style="color: #001080">Kind</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;graphql&quot;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">makeExecutableSchema</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@graphql-tools/schema&quot;</span><span style="color: #000000">;</span>
 
-<span style="color: #008000">// GraphQL Schema definition.</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">typeDefs</span><span style="color: #000000"> = </span><span style="color: #795E26">gql</span><span style="color: #A31515">`</span>
-<span style="color: #A31515">  type Query {</span>
-<span style="color: #A31515">    myList: [MyObject!]!</span>
-<span style="color: #A31515">  }</span>
-
-<span style="color: #A31515">  type MyObject {</span>
-<span style="color: #A31515">    day: Date</span>
-<span style="color: #A31515">    days: [Date]!</span>
-<span style="color: #A31515">    nested: MyObject</span>
-<span style="color: #A31515">  }</span>
-
-<span style="color: #A31515">  &quot;represents a Date with time&quot;</span>
-<span style="color: #A31515">  scalar Date</span>
-<span style="color: #A31515">`</span><span style="color: #000000">;</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">resolvers</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">  </span><span style="color: #008000">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object</span>
-<span style="color: #000000">  </span><span style="color: #001080">Date:</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">GraphQLScalarType</span><span style="color: #000000">({</span>
-<span style="color: #000000">    </span><span style="color: #001080">name:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;Date&quot;</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #795E26">serialize</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">parsed</span><span style="color: #000000">: </span><span style="color: #267F99">CustomDate</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">parsed</span><span style="color: #000000"> &amp;&amp; </span><span style="color: #001080">parsed</span><span style="color: #000000">.</span><span style="color: #795E26">toISOString</span><span style="color: #000000">(),</span>
-<span style="color: #000000">    </span><span style="color: #795E26">parseValue</span><span style="color: #001080">:</span><span style="color: #000000"> (</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> </span><span style="color: #001080">raw</span><span style="color: #000000"> &amp;&amp; </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">CustomDate</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">)),</span>
-<span style="color: #000000">    </span><span style="color: #795E26">parseLiteral</span><span style="color: #000000">(</span><span style="color: #001080">ast</span><span style="color: #000000">) {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">ast</span><span style="color: #000000">.</span><span style="color: #001080">kind</span><span style="color: #000000"> === </span><span style="color: #001080">Kind</span><span style="color: #000000">.</span><span style="color: #0070C1">STRING</span><span style="color: #000000"> || </span><span style="color: #001080">ast</span><span style="color: #000000">.</span><span style="color: #001080">kind</span><span style="color: #000000"> === </span><span style="color: #001080">Kind</span><span style="color: #000000">.</span><span style="color: #0070C1">INT</span><span style="color: #000000">) {</span>
-<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">CustomDate</span><span style="color: #000000">(</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #001080">ast</span><span style="color: #000000">.</span><span style="color: #001080">value</span><span style="color: #000000">));</span>
-<span style="color: #000000">      }</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">;</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">  })</span>
-<span style="color: #000000">};</span>
-
-<span style="color: #008000">// GraphQL Schema, required to use the link</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">schema</span><span style="color: #000000"> = </span><span style="color: #795E26">makeExecutableSchema</span><span style="color: #000000">({</span>
-<span style="color: #000000">  </span><span style="color: #001080">typeDefs</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">resolvers</span>
-<span style="color: #000000">});</span>
+<a href="#example-of-loading-a-schema" id="example-of-loading-a-schema" style="color: inherit; text-decoration: none;">
+  <h3>Example of loading a schema</h3>
+</a>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">gql</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@apollo/client/core&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">GraphQLScalarType</span><span class="hl-1">, </span><span class="hl-2">Kind</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;graphql&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">makeExecutableSchema</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;@graphql-tools/schema&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-7">// GraphQL Schema definition.</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">typeDefs</span><span class="hl-1"> = </span><span class="hl-6">gql</span><span class="hl-3">`</span><br/><span class="hl-3">  type Query {</span><br/><span class="hl-3">    myList: [MyObject!]!</span><br/><span class="hl-3">  }</span><br/><br/><span class="hl-3">  type MyObject {</span><br/><span class="hl-3">    day: Date</span><br/><span class="hl-3">    days: [Date]!</span><br/><span class="hl-3">    nested: MyObject</span><br/><span class="hl-3">  }</span><br/><br/><span class="hl-3">  &quot;represents a Date with time&quot;</span><br/><span class="hl-3">  scalar Date</span><br/><span class="hl-3">`</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">resolvers</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-7">// example of scalar type, which will parse the string into a custom class CustomDate which receives a Date object</span><br/><span class="hl-1">  </span><span class="hl-2">Date:</span><span class="hl-1"> </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">GraphQLScalarType</span><span class="hl-1">({</span><br/><span class="hl-1">    </span><span class="hl-2">name:</span><span class="hl-1"> </span><span class="hl-3">&quot;Date&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-6">serialize</span><span class="hl-2">:</span><span class="hl-1"> (</span><span class="hl-2">parsed</span><span class="hl-1">: </span><span class="hl-8">CustomDate</span><span class="hl-1"> | </span><span class="hl-8">null</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> </span><span class="hl-2">parsed</span><span class="hl-1"> &amp;&amp; </span><span class="hl-2">parsed</span><span class="hl-1">.</span><span class="hl-6">toISOString</span><span class="hl-1">(),</span><br/><span class="hl-1">    </span><span class="hl-6">parseValue</span><span class="hl-2">:</span><span class="hl-1"> (</span><span class="hl-2">raw</span><span class="hl-1">: </span><span class="hl-8">any</span><span class="hl-1">) </span><span class="hl-4">=&gt;</span><span class="hl-1"> </span><span class="hl-2">raw</span><span class="hl-1"> &amp;&amp; </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CustomDate</span><span class="hl-1">(</span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-8">Date</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">)),</span><br/><span class="hl-1">    </span><span class="hl-6">parseLiteral</span><span class="hl-1">(</span><span class="hl-2">ast</span><span class="hl-1">) {</span><br/><span class="hl-1">      </span><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-2">ast</span><span class="hl-1">.</span><span class="hl-2">kind</span><span class="hl-1"> === </span><span class="hl-2">Kind</span><span class="hl-1">.</span><span class="hl-5">STRING</span><span class="hl-1"> || </span><span class="hl-2">ast</span><span class="hl-1">.</span><span class="hl-2">kind</span><span class="hl-1"> === </span><span class="hl-2">Kind</span><span class="hl-1">.</span><span class="hl-5">INT</span><span class="hl-1">) {</span><br/><span class="hl-1">        </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-6">CustomDate</span><span class="hl-1">(</span><span class="hl-4">new</span><span class="hl-1"> </span><span class="hl-8">Date</span><span class="hl-1">(</span><span class="hl-2">ast</span><span class="hl-1">.</span><span class="hl-2">value</span><span class="hl-1">));</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">      </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">null</span><span class="hl-1">;</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  })</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-7">// GraphQL Schema, required to use the link</span><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">schema</span><span class="hl-1"> = </span><span class="hl-6">makeExecutableSchema</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-2">typeDefs</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">resolvers</span><br/><span class="hl-1">});</span>
 </code></pre>
-				<a href="#synchronously-creating-a-link-instance-with-graphql-code-generator-setup" id="synchronously-creating-a-link-instance-with-graphql-code-generator-setup" style="color: inherit; text-decoration: none;">
-					<h4>Synchronously creating a link instance with <a href="https://graphql-code-generator.com/"><code>graphql-code-generator</code></a> setup</h4>
-				</a>
-				<blockquote>
-					<p>Warning: Be sure to watch your bundle size and know what you are doing.</p>
-				</blockquote>
-				<p>Codegen config to generate introspection data:</p>
-				<p><code>codegen.yml</code></p>
-				<pre><code class="language-yaml"><span style="color: #000000">---</span>
-<span style="color: #800000">generates</span><span style="color: #000000">:</span>
-<span style="color: #000000">  </span><span style="color: #800000">src/__generated__/graphql.schema.json</span><span style="color: #000000">:</span>
-<span style="color: #000000">    </span><span style="color: #800000">plugins</span><span style="color: #000000">:</span>
-<span style="color: #000000">      - </span><span style="color: #A31515">&quot;introspection&quot;</span>
-<span style="color: #000000">    </span><span style="color: #800000">config</span><span style="color: #000000">:</span>
-<span style="color: #000000">      </span><span style="color: #800000">minify</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span>
+
+<a href="#synchronously-creating-a-link-instance-with-graphql-code-generator-setup" id="synchronously-creating-a-link-instance-with-graphql-code-generator-setup" style="color: inherit; text-decoration: none;">
+  <h4>Synchronously creating a link instance with <a href="https://graphql-code-generator.com/"><code>graphql-code-generator</code></a> setup</h4>
+</a>
+<blockquote>
+<p>Warning: Be sure to watch your bundle size and know what you are doing.</p>
+</blockquote>
+<p>Codegen config to generate introspection data:</p>
+<p><code>codegen.yml</code></p>
+<pre><code class="language-yaml"><span class="hl-1">---</span><br/><span class="hl-9">generates</span><span class="hl-1">:</span><br/><span class="hl-1">  </span><span class="hl-9">src/__generated__/graphql.schema.json</span><span class="hl-1">:</span><br/><span class="hl-1">    </span><span class="hl-9">plugins</span><span class="hl-1">:</span><br/><span class="hl-1">      - </span><span class="hl-3">&quot;introspection&quot;</span><br/><span class="hl-1">    </span><span class="hl-9">config</span><span class="hl-1">:</span><br/><span class="hl-1">      </span><span class="hl-9">minify</span><span class="hl-1">: </span><span class="hl-4">true</span>
 </code></pre>
-				<p>Synchronous code to create link instance in common scenario:</p>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">introspectionResult</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;./__generated__/graphql.schema.json&quot;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">buildClientSchema</span><span style="color: #000000">, </span><span style="color: #001080">IntrospectionQuery</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;graphql&quot;</span><span style="color: #000000">;</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">schema</span><span style="color: #000000"> = </span><span style="color: #795E26">buildClientSchema</span><span style="color: #000000">(</span><span style="color: #001080">introspectionResult</span><span style="color: #000000">)</span>
-<span style="color: #008000">// note: sometimes it seems to be needed to cast it as Introspection Query</span>
-<span style="color: #008000">// `const schema = buildClientSchema((introspectionResult as unknown) as IntrospectionQuery)`</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">scalarsLink</span><span style="color: #000000"> = </span><span style="color: #795E26">withScalars</span><span style="color: #000000">({</span>
-<span style="color: #000000">  </span><span style="color: #001080">schema</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">typesMap:</span><span style="color: #000000"> { … },</span>
-<span style="color: #000000">});</span>
+<p>Synchronous code to create link instance in common scenario:</p>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">introspectionResult</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;./__generated__/graphql.schema.json&quot;</span><span class="hl-1">;</span><br/><span class="hl-0">import</span><span class="hl-1"> { </span><span class="hl-2">buildClientSchema</span><span class="hl-1">, </span><span class="hl-2">IntrospectionQuery</span><span class="hl-1"> } </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-3">&quot;graphql&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">schema</span><span class="hl-1"> = </span><span class="hl-6">buildClientSchema</span><span class="hl-1">(</span><span class="hl-2">introspectionResult</span><span class="hl-1">)</span><br/><span class="hl-7">// note: sometimes it seems to be needed to cast it as Introspection Query</span><br/><span class="hl-7">// `const schema = buildClientSchema((introspectionResult as unknown) as IntrospectionQuery)`</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">scalarsLink</span><span class="hl-1"> = </span><span class="hl-6">withScalars</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-2">schema</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-2">typesMap:</span><span class="hl-1"> { … },</span><br/><span class="hl-1">});</span>
 </code></pre>
-				<a href="#changing-the-behaviour-of-nullable-types" id="changing-the-behaviour-of-nullable-types" style="color: inherit; text-decoration: none;">
-					<h4>Changing the behaviour of nullable types</h4>
-				</a>
-				<p>By passing the <code>nullFunctions</code> parameter to <code>withScalar</code>, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. <code>null</code> =&gt; <code>null</code> and <code>value</code> =&gt; <code>value</code>. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from <a href="https://github.com/hojberg/seidr">Seidr</a> but any implementation will do.</p>
-				<pre><code class="language-typescript">
-<span style="color: #0000FF">type</span><span style="color: #000000"> </span><span style="color: #267F99">NullFunctions</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">  </span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">input</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">): </span><span style="color: #267F99">any</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000">;</span>
-<span style="color: #000000">  </span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000"> | </span><span style="color: #267F99">null</span><span style="color: #000000">): </span><span style="color: #267F99">any</span><span style="color: #000000">;</span>
-<span style="color: #000000">};</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">nullFunctions</span><span style="color: #000000">: </span><span style="color: #267F99">NullFunctions</span><span style="color: #000000"> = {</span>
-<span style="color: #000000">  </span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #795E26">isNone</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">)) {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">Nothing</span><span style="color: #000000">()</span>
-<span style="color: #000000">    } </span><span style="color: #AF00DB">else</span><span style="color: #000000"> {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">Just</span><span style="color: #000000">(</span><span style="color: #001080">raw</span><span style="color: #000000">);</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">  },</span>
-<span style="color: #000000">  </span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">input</span><span style="color: #000000">: </span><span style="color: #267F99">any</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">input</span><span style="color: #000000">.</span><span style="color: #795E26">caseOf</span><span style="color: #000000">({</span>
-<span style="color: #000000">      </span><span style="color: #795E26">Just</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">) {</span>
-<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">value</span><span style="color: #000000">;</span>
-<span style="color: #000000">      },</span>
-<span style="color: #000000">      </span><span style="color: #795E26">Nothing</span><span style="color: #000000">() {</span>
-<span style="color: #000000">        </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">null</span><span style="color: #000000">;</span>
-<span style="color: #000000">      }</span>
-<span style="color: #000000">    })</span>
-<span style="color: #000000">  },</span>
-<span style="color: #000000">};</span>
+<a href="#changing-the-behaviour-of-nullable-types" id="changing-the-behaviour-of-nullable-types" style="color: inherit; text-decoration: none;">
+  <h4>Changing the behaviour of nullable types</h4>
+</a>
+<p>By passing the <code>nullFunctions</code> parameter to <code>withScalar</code>, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. <code>null</code> =&gt; <code>null</code> and <code>value</code> =&gt; <code>value</code>. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from <a href="https://github.com/hojberg/seidr">Seidr</a> but any implementation will do.</p>
+<pre><code class="language-typescript"><br/><span class="hl-4">type</span><span class="hl-1"> </span><span class="hl-8">NullFunctions</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-6">serialize</span><span class="hl-1">(</span><span class="hl-2">input</span><span class="hl-1">: </span><span class="hl-8">any</span><span class="hl-1">): </span><span class="hl-8">any</span><span class="hl-1"> | </span><span class="hl-8">null</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-6">parseValue</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">: </span><span class="hl-8">any</span><span class="hl-1"> | </span><span class="hl-8">null</span><span class="hl-1">): </span><span class="hl-8">any</span><span class="hl-1">;</span><br/><span class="hl-1">};</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">nullFunctions</span><span class="hl-1">: </span><span class="hl-8">NullFunctions</span><span class="hl-1"> = {</span><br/><span class="hl-1">  </span><span class="hl-6">parseValue</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">: </span><span class="hl-8">any</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-6">isNone</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">)) {</span><br/><span class="hl-1">      </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-6">Nothing</span><span class="hl-1">()</span><br/><span class="hl-1">    } </span><span class="hl-0">else</span><span class="hl-1"> {</span><br/><span class="hl-1">      </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-6">Just</span><span class="hl-1">(</span><span class="hl-2">raw</span><span class="hl-1">);</span><br/><span class="hl-1">    }</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">  </span><span class="hl-6">serialize</span><span class="hl-1">(</span><span class="hl-2">input</span><span class="hl-1">: </span><span class="hl-8">any</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-2">input</span><span class="hl-1">.</span><span class="hl-6">caseOf</span><span class="hl-1">({</span><br/><span class="hl-1">      </span><span class="hl-6">Just</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">) {</span><br/><span class="hl-1">        </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-2">value</span><span class="hl-1">;</span><br/><span class="hl-1">      },</span><br/><span class="hl-1">      </span><span class="hl-6">Nothing</span><span class="hl-1">() {</span><br/><span class="hl-1">        </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">null</span><span class="hl-1">;</span><br/><span class="hl-1">      }</span><br/><span class="hl-1">    })</span><br/><span class="hl-1">  },</span><br/><span class="hl-1">};</span>
 </code></pre>
-				<p>The <code>nullFunctions</code> are executed after the normal parsing/serializing. The normal parsing/serializing functions are not called for <code>null</code> values.</p>
-				<p>Both in parsing and serializing, we have the following logic (in pseudocode):</p>
-				<pre><code class="language-ts"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #795E26">isNone</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">)) {</span>
-<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">serialized</span><span style="color: #000000"> = </span><span style="color: #795E26">serializeNonNullValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
-<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">serialize</span><span style="color: #000000">(</span><span style="color: #001080">serialized</span><span style="color: #000000">);</span>
+<p>The <code>nullFunctions</code> are executed after the normal parsing/serializing. The normal parsing/serializing functions are not called for <code>null</code> values.</p>
+<p>Both in parsing and serializing, we have the following logic (in pseudocode):</p>
+<pre><code class="language-ts"><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-6">isNone</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">nullFunctions</span><span class="hl-1">.</span><span class="hl-6">serialize</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">);</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">serialized</span><span class="hl-1"> = </span><span class="hl-6">serializeNonNullValue</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">);</span><br/><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">nullFunctions</span><span class="hl-1">.</span><span class="hl-6">serialize</span><span class="hl-1">(</span><span class="hl-2">serialized</span><span class="hl-1">);</span>
 </code></pre>
-				<pre><code class="language-ts"><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #795E26">isNone</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">)) {</span>
-<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
-
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">parsed</span><span style="color: #000000"> = </span><span style="color: #795E26">parseNonNullValue</span><span style="color: #000000">(</span><span style="color: #001080">value</span><span style="color: #000000">);</span>
-<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">this</span><span style="color: #000000">.</span><span style="color: #001080">nullFunctions</span><span style="color: #000000">.</span><span style="color: #795E26">parseValue</span><span style="color: #000000">(</span><span style="color: #001080">parsed</span><span style="color: #000000">);</span>
+<pre><code class="language-ts"><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-6">isNone</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">)) {</span><br/><span class="hl-1">  </span><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">nullFunctions</span><span class="hl-1">.</span><span class="hl-6">parseValue</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">);</span><br/><span class="hl-1">}</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">parsed</span><span class="hl-1"> = </span><span class="hl-6">parseNonNullValue</span><span class="hl-1">(</span><span class="hl-2">value</span><span class="hl-1">);</span><br/><span class="hl-0">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">nullFunctions</span><span class="hl-1">.</span><span class="hl-6">parseValue</span><span class="hl-1">(</span><span class="hl-2">parsed</span><span class="hl-1">);</span>
 </code></pre>
-				<a href="#acknowledgements" id="acknowledgements" style="color: inherit; text-decoration: none;">
-					<h2>Acknowledgements</h2>
-				</a>
-				<p>The link code is heavily based on <a href="https://github.com/with-heart/apollo-link-response-resolver"><code>apollo-link-response-resolver</code></a> by <a href="https://github.com/with-heart">will-heart</a>.</p>
-				<p>While the approach in <code>apollo-link-response-resolver</code> is to apply resolvers based on the types taken from <code>__typename</code>, this follows the query and the schema to parse based on scalar types. Note that <a href="https://github.com/with-heart/apollo-link-response-resolver/issues/18"><code>apollo-link-response-resolver</code> is archived now</a></p>
-				<p>I started working on this after following the Apollo feature request <a href="https://github.com/apollographql/apollo-feature-requests/issues/2">https://github.com/apollographql/apollo-feature-requests/issues/2</a>.</p>
-				<a href="#development-commits-versioning-and-publishing" id="development-commits-versioning-and-publishing" style="color: inherit; text-decoration: none;">
-					<h2>Development, Commits, versioning and publishing</h2>
-				</a>
-				<details><summary>See documentation for development</summary>
-					<p>
-						<p>See <a href="https://github.com/bitjson/typescript-starter#bump-version-update-changelog-commit--tag-release">The Typescript-Starter docs</a>.</p>
-						<a href="#commits-and-changelog" id="commits-and-changelog" style="color: inherit; text-decoration: none;">
-							<h3>Commits and CHANGELOG</h3>
-						</a>
-						<p>For commits, you should use <a href="https://github.com/commitizen/cz-cli"><code>commitizen</code></a></p>
-						<pre><code class="language-sh"><span style="color: #000000">yarn global add commitizen</span>
 
-<span style="color: #008000">#commit your changes:</span>
-<span style="color: #000000">git cz</span>
+<a href="#acknowledgements" id="acknowledgements" style="color: inherit; text-decoration: none;">
+  <h2>Acknowledgements</h2>
+</a>
+<p>The link code is heavily based on <a href="https://github.com/with-heart/apollo-link-response-resolver"><code>apollo-link-response-resolver</code></a> by <a href="https://github.com/with-heart">will-heart</a>.</p>
+<p>While the approach in <code>apollo-link-response-resolver</code> is to apply resolvers based on the types taken from <code>__typename</code>, this follows the query and the schema to parse based on scalar types. Note that <a href="https://github.com/with-heart/apollo-link-response-resolver/issues/18"><code>apollo-link-response-resolver</code> is archived now</a></p>
+<p>I started working on this after following the Apollo feature request <a href="https://github.com/apollographql/apollo-feature-requests/issues/2">https://github.com/apollographql/apollo-feature-requests/issues/2</a>.</p>
+
+<a href="#development-commits-versioning-and-publishing" id="development-commits-versioning-and-publishing" style="color: inherit; text-decoration: none;">
+  <h2>Development, Commits, versioning and publishing</h2>
+</a>
+<details><summary>See documentation for development</summary>
+<p>
+
+<p>See <a href="https://github.com/bitjson/typescript-starter#bump-version-update-changelog-commit--tag-release">The Typescript-Starter docs</a>.</p>
+
+<a href="#commits-and-changelog" id="commits-and-changelog" style="color: inherit; text-decoration: none;">
+  <h3>Commits and CHANGELOG</h3>
+</a>
+<p>For commits, you should use <a href="https://github.com/commitizen/cz-cli"><code>commitizen</code></a></p>
+<pre><code class="language-sh"><span class="hl-1">yarn global add commitizen</span><br/><br/><span class="hl-7">#commit your changes:</span><br/><span class="hl-1">git cz</span>
 </code></pre>
-						<p>As typescript-starter docs state:</p>
-						<p>This project is tooled for <a href="https://github.com/conventional-changelog/conventional-changelog">conventional changelog</a> to make managing releases easier. See the <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> documentation for more information on the workflow, or <a href="CHANGELOG.md"><code>CHANGELOG.md</code></a> for an example.</p>
-						<pre><code class="language-sh"><span style="color: #008000"># bump package.json version, update CHANGELOG.md, git tag the release</span>
-<span style="color: #000000">yarn run version</span>
+<p>As typescript-starter docs state:</p>
+<p>This project is tooled for <a href="https://github.com/conventional-changelog/conventional-changelog">conventional changelog</a> to make managing releases easier. See the <a href="https://github.com/conventional-changelog/standard-version">standard-version</a> documentation for more information on the workflow, or <a href="CHANGELOG.md"><code>CHANGELOG.md</code></a> for an example.</p>
+<pre><code class="language-sh"><span class="hl-7"># bump package.json version, update CHANGELOG.md, git tag the release</span><br/><span class="hl-1">yarn run version</span>
 </code></pre>
-						<p>You may find a tool like <a href="https://github.com/bitjson/wip"><strong><code>wip</code></strong></a> helpful for managing work in progress before you&#39;re ready to create a meaningful commit.</p>
-						<a href="#creating-the-first-version" id="creating-the-first-version" style="color: inherit; text-decoration: none;">
-							<h3>Creating the first version</h3>
-						</a>
-						<p>Once you are ready to create the first version, run the following (note that <code>reset</code> is destructive and will remove all files not in the git repo from the directory).</p>
-						<pre><code class="language-sh"><span style="color: #008000"># Reset the repo to the latest commit and build everything</span>
-<span style="color: #000000">yarn run reset &amp;&amp; yarn run </span><span style="color: #795E26">test</span><span style="color: #000000"> &amp;&amp; yarn run doc:html</span>
+<p>You may find a tool like <a href="https://github.com/bitjson/wip"><strong><code>wip</code></strong></a> helpful for managing work in progress before you&#39;re ready to create a meaningful commit.</p>
 
-<span style="color: #008000"># Then version it with standard-version options. e.g.:</span>
-<span style="color: #008000"># don&#039;t bump package.json version</span>
-<span style="color: #000000">yarn run version -- --first-release</span>
-
-<span style="color: #008000"># Other popular options include:</span>
-
-<span style="color: #008000"># PGP sign it:</span>
-<span style="color: #008000"># $ yarn run version -- --sign</span>
-
-<span style="color: #008000"># alpha release:</span>
-<span style="color: #008000"># $ yarn run version -- --prerelease alpha</span>
+<a href="#creating-the-first-version" id="creating-the-first-version" style="color: inherit; text-decoration: none;">
+  <h3>Creating the first version</h3>
+</a>
+<p>Once you are ready to create the first version, run the following (note that <code>reset</code> is destructive and will remove all files not in the git repo from the directory).</p>
+<pre><code class="language-sh"><span class="hl-7"># Reset the repo to the latest commit and build everything</span><br/><span class="hl-1">yarn run reset &amp;&amp; yarn run </span><span class="hl-6">test</span><span class="hl-1"> &amp;&amp; yarn run doc:html</span><br/><br/><span class="hl-7"># Then version it with standard-version options. e.g.:</span><br/><span class="hl-7"># don&#39;t bump package.json version</span><br/><span class="hl-1">yarn run version -- --first-release</span><br/><br/><span class="hl-7"># Other popular options include:</span><br/><br/><span class="hl-7"># PGP sign it:</span><br/><span class="hl-7"># $ yarn run version -- --sign</span><br/><br/><span class="hl-7"># alpha release:</span><br/><span class="hl-7"># $ yarn run version -- --prerelease alpha</span>
 </code></pre>
-						<p>And after that, remember to <a href="#publish-the-docs">publish the docs</a>.</p>
-						<p>And finally push the new tags to Github and publish the package to <code>npm</code>.</p>
-						<pre><code class="language-sh"><span style="color: #008000"># Push to git</span>
-<span style="color: #000000">git push --follow-tags origin master</span>
-
-<span style="color: #008000"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span>
-<span style="color: #000000">yarn publish --access public</span>
+<p>And after that, remember to <a href="#publish-the-docs">publish the docs</a>.</p>
+<p>And finally push the new tags to Github and publish the package to <code>npm</code>.</p>
+<pre><code class="language-sh"><span class="hl-7"># Push to git</span><br/><span class="hl-1">git push --follow-tags origin master</span><br/><br/><span class="hl-7"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span><br/><span class="hl-1">yarn publish --access public</span>
 </code></pre>
-						<a href="#publish-the-docs" id="publish-the-docs" style="color: inherit; text-decoration: none;">
-							<h3>Publish the Docs</h3>
-						</a>
-						<pre><code class="language-sh"><span style="color: #000000">yarn run doc:html &amp;&amp; yarn run doc:publish</span>
-</code></pre>
-						<p>This will generate the docs and publish them in Github pages.</p>
-						<a href="#generate-a-version" id="generate-a-version" style="color: inherit; text-decoration: none;">
-							<h3>Generate a version</h3>
-						</a>
-						<p>There is a single yarn command for preparing a new release. See <a href="https://github.com/bitjson/typescript-starter#one-step-publish-preparation-script">One-step publish preparation script in TypeScript-Starter</a></p>
-						<pre><code class="language-sh"><span style="color: #008000"># Prepare a standard release</span>
-<span style="color: #000000">yarn prepare-release</span>
 
-<span style="color: #008000"># Push to git</span>
-<span style="color: #000000">git push --follow-tags origin master</span>
-
-<span style="color: #008000"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span>
-<span style="color: #000000">yarn publish --access public</span>
+<a href="#publish-the-docs" id="publish-the-docs" style="color: inherit; text-decoration: none;">
+  <h3>Publish the Docs</h3>
+</a>
+<pre><code class="language-sh"><span class="hl-1">yarn run doc:html &amp;&amp; yarn run doc:publish</span>
 </code></pre>
-					</p>
-				</details>
-				<a href="#contributors-✨" id="contributors-✨" style="color: inherit; text-decoration: none;">
-					<h2>Contributors ✨</h2>
-				</a>
-				<p>Thanks goes to these wonderful people (<a href="https://allcontributors.org/docs/en/emoji-key">emoji key</a>):</p>
-				<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-				<!-- prettier-ignore-start -->
-				<!-- markdownlint-disable -->
-				<table>
-					<tr>
-						<td align="center"><a href="http://eturino.com"><img src="https://avatars3.githubusercontent.com/u/1095800?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Eduardo Turiño</b></sub></a><br /><a href="#ideas-eturino" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-eturino" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Code">💻</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Documentation">📖</a></td>
-						<td align="center"><a href="http://gsamokovarov.com"><img src="https://avatars0.githubusercontent.com/u/604618?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Genadi Samokovarov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Agsamokovarov" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Code">💻</a></td>
-						<td align="center"><a href="https://github.com/brabeji"><img src="https://avatars3.githubusercontent.com/u/2237954?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jiří Brabec</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Documentation">📖</a> <a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Abrabeji" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Code">💻</a> <a href="#ideas-brabeji" title="Ideas, Planning, & Feedback">🤔</a></td>
-						<td align="center"><a href="https://twitter.com/JakubPetriska"><img src="https://avatars3.githubusercontent.com/u/5531859?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jakub Petriska</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJakubPetriska" title="Bug reports">🐛</a></td>
-						<td align="center"><a href="https://github.com/dobrinov"><img src="https://avatars2.githubusercontent.com/u/996877?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Deyan Dobrinov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Adobrinov" title="Bug reports">🐛</a> <a href="#ideas-dobrinov" title="Ideas, Planning, & Feedback">🤔</a></td>
-						<td align="center"><a href="https://github.com/nagirrab"><img src="https://avatars.githubusercontent.com/u/1761890?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugh Barrigan</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Code">💻</a> <a href="#ideas-nagirrab" title="Ideas, Planning, & Feedback">🤔</a></td>
-						<td align="center"><a href="https://github.com/UselessPickles"><img src="https://avatars.githubusercontent.com/u/22800095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeff Lau</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=UselessPickles" title="Documentation">📖</a></td>
-					</tr>
-					<tr>
-						<td align="center"><a href="http://floriancargoet.com"><img src="https://avatars.githubusercontent.com/u/110431?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Florian Cargoët</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Afloriancargoet" title="Bug reports">🐛</a></td>
-					</tr>
-				</table>
-				<!-- markdownlint-restore -->
-				<!-- prettier-ignore-end -->
-				<!-- ALL-CONTRIBUTORS-LIST:END -->
-				<p>This project follows the <a href="https://github.com/all-contributors/all-contributors">all-contributors</a> specification. Contributions of any kind welcome!</p>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class=" ">
-						<a href="modules.html">Exports</a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="classes/ScalarApolloLink.html" class="tsd-kind-icon">Scalar<wbr>Apollo<wbr>Link</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#FunctionsMap" class="tsd-kind-icon">Functions<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="modules.html#NullFunctions" class="tsd-kind-icon">Null<wbr>Functions</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="modules.html#ParsingFunctionsObject" class="tsd-kind-icon">Parsing<wbr>Functions<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="modules.html#withScalars" class="tsd-kind-icon">with<wbr>Scalars</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
-</body>
-</html>
+<p>This will generate the docs and publish them in Github pages.</p>
+
+<a href="#generate-a-version" id="generate-a-version" style="color: inherit; text-decoration: none;">
+  <h3>Generate a version</h3>
+</a>
+<p>There is a single yarn command for preparing a new release. See <a href="https://github.com/bitjson/typescript-starter#one-step-publish-preparation-script">One-step publish preparation script in TypeScript-Starter</a></p>
+<pre><code class="language-sh"><span class="hl-7"># Prepare a standard release</span><br/><span class="hl-1">yarn prepare-release</span><br/><br/><span class="hl-7"># Push to git</span><br/><span class="hl-1">git push --follow-tags origin master</span><br/><br/><span class="hl-7"># Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)</span><br/><span class="hl-1">yarn publish --access public</span>
+</code></pre>
+</p>
+</details>
+
+
+<a href="#contributors-✨" id="contributors-✨" style="color: inherit; text-decoration: none;">
+  <h2>Contributors ✨</h2>
+</a>
+<p>Thanks goes to these wonderful people (<a href="https://allcontributors.org/docs/en/emoji-key">emoji key</a>):</p>
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://eturino.com"><img src="https://avatars3.githubusercontent.com/u/1095800?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Eduardo Turiño</b></sub></a><br /><a href="#ideas-eturino" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-eturino" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Code">💻</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=eturino" title="Documentation">📖</a></td>
+    <td align="center"><a href="http://gsamokovarov.com"><img src="https://avatars0.githubusercontent.com/u/604618?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Genadi Samokovarov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Agsamokovarov" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=gsamokovarov" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/brabeji"><img src="https://avatars3.githubusercontent.com/u/2237954?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jiří Brabec</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Documentation">📖</a> <a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Abrabeji" title="Bug reports">🐛</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=brabeji" title="Code">💻</a> <a href="#ideas-brabeji" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://twitter.com/JakubPetriska"><img src="https://avatars3.githubusercontent.com/u/5531859?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jakub Petriska</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJakubPetriska" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/dobrinov"><img src="https://avatars2.githubusercontent.com/u/996877?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Deyan Dobrinov</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Adobrinov" title="Bug reports">🐛</a> <a href="#ideas-dobrinov" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/nagirrab"><img src="https://avatars.githubusercontent.com/u/1761890?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Hugh Barrigan</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Tests">⚠️</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=nagirrab" title="Code">💻</a> <a href="#ideas-nagirrab" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://github.com/UselessPickles"><img src="https://avatars.githubusercontent.com/u/22800095?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jeff Lau</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=UselessPickles" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://floriancargoet.com"><img src="https://avatars.githubusercontent.com/u/110431?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Florian Cargoët</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Afloriancargoet" title="Bug reports">🐛</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+<p>This project follows the <a href="https://github.com/all-contributors/all-contributors">all-contributors</a> specification. Contributions of any kind welcome!</p>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/ScalarApolloLink.html" class="tsd-kind-icon">Scalar<wbr/>Apollo<wbr/>Link</a></li><li class="tsd-kind-type-alias"><a href="modules.html#FunctionsMap" class="tsd-kind-icon">Functions<wbr/>Map</a></li><li class="tsd-kind-type-alias"><a href="modules.html#NullFunctions" class="tsd-kind-icon">Null<wbr/>Functions</a></li><li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="modules.html#ParsingFunctionsObject" class="tsd-kind-icon">Parsing<wbr/>Functions<wbr/>Object</a></li><li class="tsd-kind-function"><a href="modules.html#withScalars" class="tsd-kind-icon">with<wbr/>Scalars</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
