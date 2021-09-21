@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/eturino/apollo-link-scalars/compare/v2.1.4...v3.0.0) (2021-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* moved @apollo/client to a peer dependency. This can be a breaking change.
+
+### Bug Fixes
+
+* **deps:** bump @apollo/client from 3.3.21 to 3.4.1 ([#388](https://github.com/eturino/apollo-link-scalars/issues/388)) ([0e6bada](https://github.com/eturino/apollo-link-scalars/commit/0e6badae78bd6477a90436a8d15990ac37c73f61))
+* **deps:** bump @apollo/client from 3.4.1 to 3.4.4 ([#394](https://github.com/eturino/apollo-link-scalars/issues/394)) ([d577140](https://github.com/eturino/apollo-link-scalars/commit/d577140fb463e2db117b132fa4da2532a4133393))
+* **deps:** bump @apollo/client from 3.4.10 to 3.4.11 ([#445](https://github.com/eturino/apollo-link-scalars/issues/445)) ([47a6c19](https://github.com/eturino/apollo-link-scalars/commit/47a6c19472a579e9cd1f7c098bcc42d258863e10))
+* **deps:** bump @apollo/client from 3.4.11 to 3.4.13 ([#458](https://github.com/eturino/apollo-link-scalars/issues/458)) ([3ee9c1e](https://github.com/eturino/apollo-link-scalars/commit/3ee9c1ea1796e07a02b419819c0f32412d2d02ea))
+* **deps:** bump @apollo/client from 3.4.4 to 3.4.5 ([#398](https://github.com/eturino/apollo-link-scalars/issues/398)) ([9b0c848](https://github.com/eturino/apollo-link-scalars/commit/9b0c848737c7b6fdaa49cfa91baf5a8f1759fcf0))
+* **deps:** bump @apollo/client from 3.4.5 to 3.4.6 ([#405](https://github.com/eturino/apollo-link-scalars/issues/405)) ([08598cb](https://github.com/eturino/apollo-link-scalars/commit/08598cb702d8cf7c00e4b3c4d8e9db1b3e2128cd))
+* **deps:** bump @apollo/client from 3.4.6 to 3.4.7 ([#408](https://github.com/eturino/apollo-link-scalars/issues/408)) ([1a90de6](https://github.com/eturino/apollo-link-scalars/commit/1a90de682d22251ff9eae82bd32e24814056c58b))
+* **deps:** bump @apollo/client from 3.4.7 to 3.4.8 ([#417](https://github.com/eturino/apollo-link-scalars/issues/417)) ([c9482fc](https://github.com/eturino/apollo-link-scalars/commit/c9482fca7c727b8673c5628fb91d19ebbec86711))
+* **deps:** bump @apollo/client from 3.4.8 to 3.4.9 ([#426](https://github.com/eturino/apollo-link-scalars/issues/426)) ([7bb3ba4](https://github.com/eturino/apollo-link-scalars/commit/7bb3ba4380440cf084d8f65b3bb1bda73a01f86a))
+* **deps:** bump @apollo/client from 3.4.9 to 3.4.10 ([#431](https://github.com/eturino/apollo-link-scalars/issues/431)) ([532a2dd](https://github.com/eturino/apollo-link-scalars/commit/532a2ddb8b0465b4cc3fac90deec51ac1fe71790))
+* **deps:** bump zen-observable-ts from 1.0.0 to 1.1.0 ([#374](https://github.com/eturino/apollo-link-scalars/issues/374)) ([eba62e3](https://github.com/eturino/apollo-link-scalars/commit/eba62e340cb94ac9dc8dcaf757ee8b8b9cb3e6b8))
+* moved @apollo/client to a peer dependency, and fixed potential issue with result.errors ([7fb1755](https://github.com/eturino/apollo-link-scalars/commit/7fb1755520757e333267ae36759f56399dd1aaf8))
+
 ### [2.1.4](https://github.com/eturino/apollo-link-scalars/compare/v2.1.3...v2.1.4) (2021-07-19)
 
 
