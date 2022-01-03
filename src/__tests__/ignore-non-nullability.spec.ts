@@ -63,7 +63,7 @@ describe("skip directive on non-nullable field", () => {
 
   it("ensure the response fixture is valid", async () => {
     expect.assertions(1);
-    const queryResponse = await graphql(schema, querySource, {}, {}, { skip: true });
+    const queryResponse = await graphql({ schema, source: querySource, variableValues: { skip: true } });
     expect(queryResponse).toEqual(response);
   });
 

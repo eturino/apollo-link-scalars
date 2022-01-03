@@ -1,7 +1,7 @@
 import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
 import { getOperationName } from "@apollo/client/utilities";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { graphql } from "graphql";
+import { graphql, GraphQLError } from "graphql";
 import { withScalars } from "..";
 
 describe("enum returned directly from first level queries", () => {
@@ -79,7 +79,7 @@ describe("enum returned directly from first level queries", () => {
 
   it("ensure the response fixture is valid (ensure that in the response we have the RAW, the Server is converting from Date to STRING)", async () => {
     expect.assertions(1);
-    const queryResponse = await graphql(schema, querySource);
+    const queryResponse = await graphql({ schema, source: querySource });
     expect(queryResponse).toEqual(validResponse);
   });
 
@@ -145,11 +145,7 @@ describe("enum returned directly from first level queries", () => {
       const observable = execute(link, request);
       observable.subscribe((value) => {
         expect(value).toEqual({
-          errors: [
-            {
-              message: `enum "MyEnum" with invalid value`,
-            },
-          ],
+          errors: [new GraphQLError(`enum "MyEnum" with invalid value`)],
         });
         done();
       });

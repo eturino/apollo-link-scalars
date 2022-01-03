@@ -4,14 +4,13 @@ import {
   GraphQLFieldMap,
   GraphQLInputFieldMap,
   GraphQLInputObjectType,
-  GraphQLInputType,
   GraphQLInterfaceType,
   GraphQLList,
   GraphQLNullableType,
   GraphQLObjectType,
-  GraphQLOutputType,
   GraphQLScalarType,
   GraphQLSchema,
+  GraphQLType,
   GraphQLUnionType,
   isEnumType,
   isInputObjectType,
@@ -29,7 +28,7 @@ import { ReducedFieldNode } from "./node-types";
 
 type Data = { [key: string]: any };
 
-function ensureNullable(type: GraphQLOutputType | GraphQLInputType): GraphQLNullableType {
+function ensureNullable(type: GraphQLType): GraphQLNullableType {
   return isNonNullType(type) ? type.ofType : type;
 }
 
@@ -66,7 +65,7 @@ export class Parser {
     return data;
   }
 
-  protected treatValue(value: any, givenType: GraphQLOutputType | GraphQLInputType, fieldNode: ReducedFieldNode): any {
+  protected treatValue(value: any, givenType: GraphQLType, fieldNode: ReducedFieldNode): any {
     if (isNonNullType(givenType)) {
       return this.treatValueInternal(value, givenType, fieldNode);
     } else {
@@ -74,20 +73,12 @@ export class Parser {
     }
   }
 
-  protected treatValueNullable(
-    value: any,
-    givenType: GraphQLOutputType | GraphQLInputType,
-    fieldNode: ReducedFieldNode
-  ): any {
+  protected treatValueNullable(value: any, givenType: GraphQLType, fieldNode: ReducedFieldNode): any {
     const wrappedValue = this.treatValueInternal(value, givenType, fieldNode);
     return this.nullFunctions.parseValue(wrappedValue);
   }
 
-  protected treatValueInternal(
-    value: any,
-    givenType: GraphQLOutputType | GraphQLInputType,
-    fieldNode: ReducedFieldNode
-  ): any {
+  protected treatValueInternal(value: any, givenType: GraphQLType, fieldNode: ReducedFieldNode): any {
     const type = ensureNullable(givenType);
 
     if (isNone(value)) return value;
@@ -122,13 +113,18 @@ export class Parser {
     }
   }
 
-  protected parseArray(value: any, type: GraphQLList<GraphQLOutputType>, fieldNode: ReducedFieldNode): any {
+  protected parseArray(value: any, type: GraphQLList<GraphQLType>, fieldNode: ReducedFieldNode): any {
     return Array.isArray(value) ? value.map((v) => this.treatValue(v, type.ofType, fieldNode)) : value;
   }
 
   protected parseNestedObject(
     value: any,
-    givenType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType,
+    givenType:
+      | GraphQLObjectType
+      | GraphQLInterfaceType
+      | GraphQLUnionType
+      | GraphQLInterfaceType
+      | GraphQLInputObjectType,
     fieldNode: ReducedFieldNode
   ): any {
     if (!value || !fieldNode || !fieldNode.selectionSet || !fieldNode.selectionSet.selections.length) {
@@ -142,7 +138,7 @@ export class Parser {
 
   protected getObjectTypeFrom(
     value: any,
-    type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType
+    type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInterfaceType | GraphQLInputObjectType
   ): GraphQLObjectType | GraphQLInputObjectType | null {
     if (isInputObjectType(type) || isObjectType(type)) return type;
     if (!value.__typename) return null;

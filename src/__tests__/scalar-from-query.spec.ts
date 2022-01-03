@@ -2,6 +2,8 @@ import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } fr
 import { getOperationName } from "@apollo/client/utilities";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
+import isNumber from "lodash.isnumber";
+import isString from "lodash.isstring";
 import { withScalars } from "..";
 
 describe("scalar returned directly from first level queries", () => {
@@ -22,11 +24,37 @@ describe("scalar returned directly from first level queries", () => {
   `;
 
   class CustomDate {
-    constructor(readonly date: Date) {}
+    public readonly internalDate: Date;
+    constructor(x: string | number | Date) {
+      this.internalDate = x instanceof Date ? x : new Date(x);
+    }
 
     public toISOString(): string {
-      return this.date.toISOString();
+      return this.internalDate.toISOString();
     }
+
+    public getNewDate(): Date {
+      return new Date(this.internalDate);
+    }
+  }
+
+  class MainDate {
+    public readonly internalDate: Date;
+    constructor(x: string | number | Date) {
+      this.internalDate = x instanceof Date ? x : new Date(x);
+    }
+
+    public toISOString(): string {
+      return this.internalDate.toISOString();
+    }
+
+    public getNewDate(): Date {
+      return new Date(this.internalDate);
+    }
+  }
+
+  function isSerializableDate(x: unknown): x is { toISOString: () => string } {
+    return x instanceof Date || x instanceof CustomDate || x instanceof MainDate;
   }
 
   const rawDay = "2018-02-03T12:13:14.000Z";
@@ -41,10 +69,25 @@ describe("scalar returned directly from first level queries", () => {
       day: () => parsedDay,
       morning: () => parsedMorning,
     },
-    Date: new GraphQLScalarType({
+    Date: new GraphQLScalarType<Date | null, string | null>({
       name: "Date",
-      serialize: (parsed: Date | null) => parsed?.toISOString(),
-      parseValue: (raw: any) => raw && new Date(raw),
+      serialize: (parsed) => {
+        if (!parsed) return null;
+        if (isSerializableDate(parsed)) {
+          return parsed.toISOString();
+        }
+        throw new Error(`given date is not a MainDate!!: ${parsed}`);
+      },
+      parseValue: (raw) => {
+        if (!raw) return null;
+        if (raw instanceof Date) return raw;
+
+        if (isString(raw) || isNumber(raw)) {
+          return new Date(raw);
+        }
+
+        throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
+      },
       parseLiteral(ast) {
         if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
           return new Date(ast.value);
@@ -52,21 +95,38 @@ describe("scalar returned directly from first level queries", () => {
         return null;
       },
     }),
-    StartOfDay: new GraphQLScalarType({
+    StartOfDay: new GraphQLScalarType<Date | null, string | null>({
       name: "StartOfDay",
-      serialize: (parsed: Date | null) => parsed?.toISOString(),
-      parseValue: (raw: any) => {
+      serialize: (parsed) => {
+        if (!parsed) return null;
+        if (isSerializableDate(parsed)) {
+          return parsed.toISOString();
+        }
+        throw new Error(`given date is not a Date!!: ${parsed}`);
+      },
+      parseValue: (raw) => {
         if (!raw) return null;
-        const d = new Date(raw);
-        d.setUTCHours(0);
-        d.setUTCMinutes(0);
-        d.setUTCSeconds(0);
-        d.setUTCMilliseconds(0);
-        return d;
+        if (raw instanceof Date) return raw;
+
+        if (isString(raw) || isNumber(raw)) {
+          const d = new Date(raw);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return d;
+        }
+
+        throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
       },
       parseLiteral(ast) {
         if (ast.kind === Kind.STRING || ast.kind === Kind.INT) {
-          return new Date(ast.value);
+          const d = new Date(ast.value);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return d;
         }
         return null;
       },
@@ -75,15 +135,27 @@ describe("scalar returned directly from first level queries", () => {
 
   const typesMap = {
     StartOfDay: {
-      serialize: (parsed: CustomDate | Date | null) => parsed?.toISOString(),
-      parseValue: (raw: any): CustomDate | null => {
+      serialize: (parsed: unknown): string | null => {
+        if (!parsed) return null;
+        if (parsed instanceof CustomDate) {
+          return parsed.toISOString();
+        }
+        throw new Error(`given date is not a Date!!: ${parsed}`);
+      },
+      parseValue: (raw: unknown): CustomDate | null => {
         if (!raw) return null;
-        const d = new Date(raw);
-        d.setUTCHours(0);
-        d.setUTCMinutes(0);
-        d.setUTCSeconds(0);
-        d.setUTCMilliseconds(0);
-        return new CustomDate(d);
+        if (raw instanceof CustomDate) return raw;
+        if (raw instanceof Date) return new CustomDate(raw);
+
+        if (isString(raw) || isNumber(raw)) {
+          const d = new Date(raw);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return new CustomDate(d);
+        }
+        throw new Error(`given date to parse is not a string or a number!!: ${raw}`);
       },
     },
   };
@@ -133,7 +205,7 @@ describe("scalar returned directly from first level queries", () => {
 
   it("ensure the response fixture is valid (ensure that in the response we have the RAW, the Server is converting from Date to STRING)", async () => {
     expect.assertions(1);
-    const queryResponse = await graphql(schema, querySource);
+    const queryResponse = await graphql({ schema, source: querySource });
     expect(queryResponse).toEqual(response);
   });
 

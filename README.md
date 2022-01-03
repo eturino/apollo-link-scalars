@@ -1,7 +1,9 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -72,11 +74,14 @@ const link = ApolloLink.from([
 // we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.
 const typesMap = {
   CustomScalar: {
-    serialize: (parsed: CustomScalar) => parsed.toString(),
-    parseValue: (raw: string): CustomScalar | null => {
+    serialize: (parsed: unknown): string | null => (parsed instanceof CustomScalar : parsed.toString() : null),
+    parseValue: (raw: unknown): CustomScalar | null => {
       if (!raw) return null; // if for some reason we want to treat empty string as null, for example
+      if (isString(raw)) {
+        return new CustomScalar(raw);
+      }
 
-      return new CustomScalar(raw);
+      throw new Error("invalid value to parse")
     }
   }
 };
@@ -100,7 +105,7 @@ withScalars({
   schema,
   typesMap,
   validateEnums: true,
-  removeTypenameFromInputs: true
+  removeTypenameFromInputs: true,
 });
 ```
 
@@ -138,14 +143,14 @@ const resolvers = {
         return new CustomDate(new Date(ast.value));
       }
       return null;
-    }
-  })
+    },
+  }),
 };
 
 // GraphQL Schema, required to use the link
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 ```
 
@@ -188,7 +193,6 @@ const scalarsLink = withScalars({
 By passing the `nullFunctions` parameter to `withScalar`, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. `null` => `null` and `value` => `value`. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from [Seidr](https://github.com/hojberg/seidr) but any implementation will do.
 
 ```typescript
-
 type NullFunctions = {
   serialize(input: any): any | null;
   parseValue(raw: any | null): any;
@@ -197,7 +201,7 @@ type NullFunctions = {
 const nullFunctions: NullFunctions = {
   parseValue(raw: any) {
     if (isNone(raw)) {
-      return Nothing()
+      return Nothing();
     } else {
       return Just(raw);
     }
@@ -209,8 +213,8 @@ const nullFunctions: NullFunctions = {
       },
       Nothing() {
         return null;
-      }
-    })
+      },
+    });
   },
 };
 ```

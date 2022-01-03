@@ -47,8 +47,8 @@ describe("scalars in nested input objects", () => {
 
   class CustomDate {
     public readonly internalDate: Date;
-    constructor(s: string) {
-      this.internalDate = new Date(s);
+    constructor(x: string | number | Date) {
+      this.internalDate = x instanceof Date ? x : new Date(x);
     }
 
     public toISOString(): string {
@@ -62,8 +62,8 @@ describe("scalars in nested input objects", () => {
 
   class MainDate {
     public readonly internalDate: Date;
-    constructor(s: string | number) {
-      this.internalDate = new Date(s);
+    constructor(x: string | number | Date) {
+      this.internalDate = x instanceof Date ? x : new Date(x);
     }
 
     public toISOString(): string {
@@ -73,6 +73,10 @@ describe("scalars in nested input objects", () => {
     public getNewDate(): Date {
       return new Date(this.internalDate);
     }
+  }
+
+  function isSerializableDate(x: unknown): x is { toISOString: () => string } {
+    return x instanceof Date || x instanceof CustomDate || x instanceof MainDate;
   }
 
   const rawDay = "2018-02-03T12:13:14.000Z";
@@ -119,18 +123,20 @@ describe("scalars in nested input objects", () => {
         };
       },
     },
-    Date: new GraphQLScalarType({
+    Date: new GraphQLScalarType<MainDate | null, string | null>({
       name: "Date",
-      serialize: (parsed: MainDate | null) => {
-        if (!parsed) return parsed;
-        // @ts-ignore
-        if (!parsed instanceof MainDate) {
-          throw new Error(`given date is not a MainDate!!: ${parsed}`);
+      serialize: (parsed) => {
+        if (!parsed) return null;
+        if (isSerializableDate(parsed)) {
+          return parsed.toISOString();
         }
-        return parsed.toISOString();
+        throw new Error(`given date is not a MainDate!!: ${parsed}`);
       },
-      parseValue: (raw: any) => {
-        if (!raw) return raw;
+      parseValue: (raw) => {
+        if (!raw) return null;
+        if (raw instanceof MainDate) return raw;
+        if (raw instanceof Date) return new MainDate(raw.toISOString());
+
         if (isString(raw) || isNumber(raw)) {
           return new MainDate(raw);
         }
@@ -144,18 +150,20 @@ describe("scalars in nested input objects", () => {
         return null;
       },
     }),
-    StartOfDay: new GraphQLScalarType({
+    StartOfDay: new GraphQLScalarType<MainDate | null, string | null>({
       name: "StartOfDay",
-      serialize: (parsed: MainDate | null) => {
-        if (!parsed) return parsed;
-        // @ts-ignore
-        if (!parsed instanceof MainDate) {
-          throw new Error(`given date is not a Date!!: ${parsed}`);
+      serialize: (parsed) => {
+        if (!parsed) return null;
+        if (isSerializableDate(parsed)) {
+          return parsed.toISOString();
         }
-        return parsed.toISOString();
+        throw new Error(`given date is not a MainDate!!: ${parsed}`);
       },
-      parseValue: (raw: any) => {
-        if (!raw) return raw;
+      parseValue: (raw) => {
+        if (!raw) return null;
+        if (raw instanceof MainDate) return raw;
+        if (raw instanceof Date) return new MainDate(raw.toISOString());
+
         if (isString(raw) || isNumber(raw)) {
           const d = new Date(raw);
           d.setUTCHours(0);
@@ -183,22 +191,27 @@ describe("scalars in nested input objects", () => {
 
   const typesMap = {
     StartOfDay: {
-      serialize: (parsed: CustomDate | null) => {
-        if (!parsed) return parsed;
-        // @ts-ignore
-        if (!parsed instanceof CustomDate) {
-          throw new Error(`given date is not a Date!!: ${parsed}`);
+      serialize: (parsed: unknown): string | null => {
+        if (!parsed) return null;
+        if (isSerializableDate(parsed)) {
+          return parsed.toISOString();
         }
-        return parsed.toISOString();
+        throw new Error(`given date is not a valid date!!: ${parsed}`);
       },
-      parseValue: (raw: string | number | null): CustomDate | null => {
+      parseValue: (raw: unknown): CustomDate | null => {
         if (!raw) return null;
-        const d = new Date(raw);
-        d.setUTCHours(0);
-        d.setUTCMinutes(0);
-        d.setUTCSeconds(0);
-        d.setUTCMilliseconds(0);
-        return new CustomDate(d.toISOString());
+        if (raw instanceof CustomDate) return raw;
+        if (raw instanceof Date) return new CustomDate(raw.toISOString());
+
+        if (isString(raw) || isNumber(raw)) {
+          const d = new Date(raw);
+          d.setUTCHours(0);
+          d.setUTCMinutes(0);
+          d.setUTCSeconds(0);
+          d.setUTCMilliseconds(0);
+          return new CustomDate(d.toISOString());
+        }
+        throw new Error(`given date to parse is not a string or a number!! (typesMap.StartOfDay.serialize): ${raw}`);
       },
     },
   };
