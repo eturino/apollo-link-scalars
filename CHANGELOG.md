@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/eturino/apollo-link-scalars/compare/v3.0.0...v4.0.0) (2022-01-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* apollo-link-scalars uses graphql 16.x now as a peer dependency
+
+### Features
+
+* adapt to graphql v16 and its stricter types ([22ccad3](https://github.com/eturino/apollo-link-scalars/commit/22ccad3e2a2a9f73ea6093a0a5ce92da5c7dfec8))
+
 ## [3.0.0](https://github.com/eturino/apollo-link-scalars/compare/v2.1.4...v3.0.0) (2021-09-21)
 
 
