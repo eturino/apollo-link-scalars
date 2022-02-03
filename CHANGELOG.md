@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/eturino/apollo-link-scalars/compare/v4.0.0...v4.0.1) (2022-02-03)
+
+
+### Bug Fixes
+
+* **deps:** bump node-fetch from 2.6.6 to 2.6.7 ([#568](https://github.com/eturino/apollo-link-scalars/issues/568)) ([5d226c6](https://github.com/eturino/apollo-link-scalars/commit/5d226c6581326203f15b66d119f9bc458a9a06a0))
+* include src in npm ([#575](https://github.com/eturino/apollo-link-scalars/issues/575)) ([58cad08](https://github.com/eturino/apollo-link-scalars/commit/58cad089ec5ebc7d924f5b9555046825cea8a097))
+
 ## [4.0.0](https://github.com/eturino/apollo-link-scalars/compare/v3.0.0...v4.0.0) (2022-01-03)
 
 
