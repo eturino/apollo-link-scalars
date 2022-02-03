@@ -89,6 +89,16 @@
       "contributions": [
         "bug"
       ]
+    },
+    {
+      "login": "JaffParker",
+      "name": "Jaff Parker",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10477757?v=4",
+      "profile": "http://jaffparker.dev",
+      "contributions": [
+        "bug",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 7,
