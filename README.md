@@ -1,9 +1,7 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -356,6 +354,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="http://floriancargoet.com"><img src="https://avatars.githubusercontent.com/u/110431?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Florian Cargoët</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3Afloriancargoet" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://jaffparker.dev"><img src="https://avatars.githubusercontent.com/u/10477757?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jaff Parker</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJaffParker" title="Bug reports">🐛</a> <a href="#infra-JaffParker" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
   </tr>
 </table>
 
