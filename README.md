@@ -72,7 +72,7 @@ const link = ApolloLink.from([
 // we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.
 const typesMap = {
   CustomScalar: {
-    serialize: (parsed: unknown): string | null => (parsed instanceof CustomScalar : parsed.toString() : null),
+    serialize: (parsed: unknown): string | null => (parsed instanceof CustomScalar ? parsed.toString() : null),
     parseValue: (raw: unknown): CustomScalar | null => {
       if (!raw) return null; // if for some reason we want to treat empty string as null, for example
       if (isString(raw)) {
