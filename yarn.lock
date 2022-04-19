@@ -1074,9 +1074,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.isundefined@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.isundefined/-/lodash.isundefined-3.0.6.tgz#e8c9c4d81795671f6d8e734f649b9b7ad295d76d"
-  integrity sha512-gXRrZ9MahWtxusjjUAbWaxUA4vU/NxXfI9kkfsjXYnBA0YjXVtl71toGBZ0X4+L023XS8NlO3BokLXFFuLtG/Q==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.isundefined/-/lodash.isundefined-3.0.7.tgz#1416c438399ebd1e04a1fc5a56af128b15f9b0b1"
+  integrity sha512-tkKo/45ShoP2QsLVl9ve7VwGgmJbO31HzZ4nO7+FJ2smAWCDbo4B5T163/LWOxbLG8ZllgIT6pQQODaqS1fRDw==
   dependencies:
     "@types/lodash" "*"
 
