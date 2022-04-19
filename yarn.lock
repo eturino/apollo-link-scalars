@@ -1018,9 +1018,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.every@^4.6.6":
-  version "4.6.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.every/-/lodash.every-4.6.6.tgz#90d4d5394b8d8ec9b066f58d62fe12ac36b8627d"
-  integrity sha512-eZC30bvV8GtmVUcMMhdAS+C2VgmkLMhnLyjTlf2lsPxhiquHfr/f0EnlX20l4xQWXG3B7H+OTSoWPqONyCeD2Q==
+  version "4.6.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.every/-/lodash.every-4.6.7.tgz#5e697c6558c513e3d8764f4f5255c695756f74b4"
+  integrity sha512-WmQWJILnkXbWny8/M5/IJEXFm5+MTCiBHbRLgYuxaEKD7KKAViys5qMJ7nvytF33ZMtLYXVFNYYI62BCr0UMtg==
   dependencies:
     "@types/lodash" "*"
 
