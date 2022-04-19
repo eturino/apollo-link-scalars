@@ -1046,9 +1046,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.isnull@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.isnull/-/lodash.isnull-3.0.6.tgz#7b0cbf534d338541d12ee51597e26cd16a3e0eb0"
-  integrity sha512-396jIu9bQqOo41wjCsmzVXuW5xGBGf6hzSrkeTOwuMbKaRz1uWtE+rdmnVshKewJa4vEKx/dC60tdKlg/ZX+4w==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.isnull/-/lodash.isnull-3.0.7.tgz#46aa3b49584ea6a5f7d173bbfc748028080eb248"
+  integrity sha512-6m93IaBIA2HALG3O7nUtcEgvDQZMVfHZvgM2naXH8+3IqyFRFFXbYDCwU8lJrsunqVJxQ1ymKyAdqmB9bOcfKA==
   dependencies:
     "@types/lodash" "*"
 
