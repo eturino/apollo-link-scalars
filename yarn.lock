@@ -1109,9 +1109,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.uniqby@^4.7.6":
-  version "4.7.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.uniqby/-/lodash.uniqby-4.7.6.tgz#672827a701403f07904fe37f0721ae92abfa80e8"
-  integrity sha512-9wBhrm1y6asW50Joj6tsySCNUgzK2tCqL7vtKIej0E9RyeBFdcte7fxUosmFuMoOU0eHqOMK76kCCrK99jxHgg==
+  version "4.7.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.uniqby/-/lodash.uniqby-4.7.7.tgz#48dbb652c41cc8fb30aa61a44174368081835ab5"
+  integrity sha512-sv2g6vkCIvEUsK5/Vq17haoZaisfj2EWW8mP7QWlnKi6dByoNmeuHDDXHR7sabuDqwO4gvU7ModIL22MmnOocg==
   dependencies:
     "@types/lodash" "*"
 
