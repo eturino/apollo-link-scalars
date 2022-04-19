@@ -1053,9 +1053,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.isnumber@^3.0.6":
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.isnumber/-/lodash.isnumber-3.0.6.tgz#62661c65330b889bf4c7decc372b330eec2703d8"
-  integrity sha512-nnfRqgijLFBEVu8W6pkHGq4hefaQOMcVwqeY19qIpf4qhV04mczNZvyT4Hc8UjOcnCIXErQG0aqIJedqlbbvVw==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.isnumber/-/lodash.isnumber-3.0.7.tgz#0726161b5f6049759d20415fef8c6776a6a48ebf"
+  integrity sha512-+XX8YsZ6AzWg6ukTB2g6TdL4gK6wUxIeakYV849gHoTYsb2IH0SyAywfF1xutE/EBbT3CospyfABcl9gZKD23g==
   dependencies:
     "@types/lodash" "*"
 
