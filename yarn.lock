@@ -1032,9 +1032,9 @@
     "@types/lodash" "*"
 
 "@types/lodash.frompairs@^4.0.6":
-  version "4.0.6"
-  resolved "https://registry.yarnpkg.com/@types/lodash.frompairs/-/lodash.frompairs-4.0.6.tgz#09b082c10fa753dc2001302b75ac79ca1e0a9ea3"
-  integrity sha512-rwCUf4NMKhXpiVjL/RXP8YOk+rd02/J4tACADEgaMXRVnzDbSSlBMKFZoX/ARmHVLg3Qc98Um4PErGv8FbxU7w==
+  version "4.0.7"
+  resolved "https://registry.yarnpkg.com/@types/lodash.frompairs/-/lodash.frompairs-4.0.7.tgz#ee9b800b4dab37cd063dcc652a2bd86f7ff984b7"
+  integrity sha512-7UeH2+GF9yop4AqnPwae5/2TE+eY0WRDy0RRQtNGHjzIgdUhilRskMXvXqUcCSazvbkxasjqydXrIE1OB6bPKA==
   dependencies:
     "@types/lodash" "*"
 
