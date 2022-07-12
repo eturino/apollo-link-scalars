@@ -49,6 +49,8 @@ In the [original Apollo Client Github issue thread about scalar parsing](https:/
 
 At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.
 
+**UPDATE**: @woltob has a proposal related to this: https://github.com/eturino/apollo-link-scalars/issues/760
+
 ## Installation
 
 `yarn add apollo-link-scalars graphql` or `npm install apollo-link-scalars graphql`.
