@@ -19,7 +19,7 @@ import {
   isObjectType,
   isScalarType,
 } from "graphql";
-import reduce from "lodash.reduce";
+import reduce from "lodash/reduce";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
 import { NullFunctions } from "../types/null-functions";
