@@ -2,8 +2,8 @@ import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } fr
 import { getOperationName } from "@apollo/client/utilities";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
-import isNumber from "lodash.isnumber";
-import isString from "lodash.isstring";
+import isNumber from "lodash/isNumber";
+import isString from "lodash/isString";
 import { withScalars } from "..";
 
 describe("prevent conflicts with inline-fragments", () => {

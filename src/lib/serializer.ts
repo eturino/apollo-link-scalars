@@ -10,9 +10,9 @@ import {
   isNonNullType,
   isScalarType,
 } from "graphql";
-import has from "lodash.has";
-import mapValues from "lodash.mapvalues";
-import omit from "lodash.omit";
+import has from "lodash/has";
+import mapValues from "lodash/mapValues";
+import omit from "lodash/omit";
 import { FunctionsMap } from "../types/functions-map";
 import { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";

@@ -1,8 +1,8 @@
 import { FieldNode, FragmentDefinitionNode, SelectionNode } from "graphql";
-import every from "lodash.every";
-import flatMap from "lodash.flatmap";
-import fromPairs from "lodash.frompairs";
-import uniqBy from "lodash.uniqby";
+import every from "lodash/every";
+import flatMap from "lodash/flatMap";
+import fromPairs from "lodash/fromPairs";
+import uniqBy from "lodash/uniqBy";
 import { Dictionary } from "../types/dictionary";
 import { MutOrRO } from "../types/mut-or-ro";
 import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";

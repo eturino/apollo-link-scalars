@@ -2,9 +2,9 @@ import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } fr
 import { getOperationName } from "@apollo/client/utilities";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
-import cloneDeep from "lodash.clonedeep";
-import isNumber from "lodash.isnumber";
-import isString from "lodash.isstring";
+import cloneDeep from "lodash/cloneDeep";
+import isNumber from "lodash/isNumber";
+import isString from "lodash/isString";
 import { withScalars } from "..";
 
 describe("scalar returned directly from first level queries", () => {

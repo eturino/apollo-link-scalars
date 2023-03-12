@@ -1,7 +1,7 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
-import pickBy from "lodash.pickby";
+import pickBy from "lodash/pickBy";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { NullFunctions } from "../types/null-functions";
