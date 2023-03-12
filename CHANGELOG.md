@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.2](https://github.com/eturino/apollo-link-scalars/compare/v4.0.1...v4.0.2) (2023-03-12)
+
+
+### Bug Fixes
+
+* **deps:** bump ansi-regex from 3.0.0 to 3.0.1 ([#634](https://github.com/eturino/apollo-link-scalars/issues/634)) ([cdf7997](https://github.com/eturino/apollo-link-scalars/commit/cdf79970ed2e589ec3859fad5c44e5931d2501b2))
+* **deps:** bump async from 2.6.3 to 2.6.4 ([#653](https://github.com/eturino/apollo-link-scalars/issues/653)) ([556c401](https://github.com/eturino/apollo-link-scalars/commit/556c40173aef6381eec3e9a8889681615740e4d7))
+* **perf** change lodash imports to reduce bundle size by 50%
+
 ### [4.0.1](https://github.com/eturino/apollo-link-scalars/compare/v4.0.0...v4.0.1) (2022-02-03)
 
 
