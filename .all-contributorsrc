@@ -108,6 +108,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "TheBox193",
+      "name": "Sir.Nathan (Jonathan Stassen)",
+      "avatar_url": "https://avatars.githubusercontent.com/u/220755?v=4",
+      "profile": "http://jstassen.com",
+      "contributions": [
+        "infra",
+        "platform"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -115,5 +125,6 @@
   "projectOwner": "eturino",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }
