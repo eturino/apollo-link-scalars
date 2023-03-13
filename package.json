@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-scalars",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "author": "Eduardo Turiño <eturino@eturino.com>",
   "description": "custom apollo link to allow to parse custom scalars",
   "main": "build/main/index.js",
