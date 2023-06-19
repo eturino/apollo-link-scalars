@@ -1188,13 +1188,13 @@
     tsutils "^3.21.0"
 
 "@typescript-eslint/parser@^5.54.1":
-  version "5.59.11"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.59.11.tgz#af7d4b7110e3068ce0b97550736de455e4250103"
-  integrity sha512-s9ZF3M+Nym6CAZEkJJeO2TFHHDsKAM3ecNkLuH4i4s8/RCPnF5JRip2GyviYkeEAcwGMJxkqG9h2dAsnA1nZpA==
+  version "5.60.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.60.0.tgz#08f4daf5fc6548784513524f4f2f359cebb4068a"
+  integrity sha512-jBONcBsDJ9UoTWrARkRRCgDz6wUggmH5RpQVlt7BimSwaTkTjwypGzKORXbR4/2Hqjk9hgwlon2rVQAjWNpkyQ==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.59.11"
-    "@typescript-eslint/types" "5.59.11"
-    "@typescript-eslint/typescript-estree" "5.59.11"
+    "@typescript-eslint/scope-manager" "5.60.0"
+    "@typescript-eslint/types" "5.60.0"
+    "@typescript-eslint/typescript-estree" "5.60.0"
     debug "^4.3.4"
 
 "@typescript-eslint/scope-manager@5.59.11":
