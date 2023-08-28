@@ -96,7 +96,7 @@
     "ts-jest": "^29.0.5",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
-    "typedoc": "^0.24.1",
+    "typedoc": "^0.25.0",
     "typescript": "^5.1.6"
   },
   "config": {
