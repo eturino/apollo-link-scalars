@@ -1,7 +1,9 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -24,11 +26,11 @@ The deprecated [Apollo Client v2](https://www.apollographql.com/docs/react/migra
 
 Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a [migration to 0.3.x is recommended](#breaking-change-removing-makeexecutableschema)
 
-### Apollo Client v3 -> `apollo-link-scalars` `v2.x`
+### Apollo Client v3 -> `apollo-link-scalars` `v2.x`, `v3.x`, `v4.x`
 
 The current [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/) is used in the versions from 1.0
 
-The 1.x family is considered deprecated and a [migration to 2.x is recommended](#breaking-change-removing-makeexecutableschema)
+The 1.x family is considered deprecated and a [migration to 2.x or greater is recommended](#breaking-change-removing-makeexecutableschema)
 
 ### Breaking Change: removing `makeExecutableSchema`
 
@@ -66,10 +68,7 @@ import { withScalars } from "apollo-link-scalars";
 import { ApolloLink, HttpLink } from "@apollo/client/core";
 import { schema } from "./my-schema";
 
-const link = ApolloLink.from([
-  withScalars({ schema }),
-  new HttpLink({ uri: "http://example.org/graphql" })
-]);
+const link = ApolloLink.from([withScalars({ schema }), new HttpLink({ uri: "http://example.org/graphql" })]);
 
 // we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.
 const typesMap = {
@@ -81,15 +80,12 @@ const typesMap = {
         return new CustomScalar(raw);
       }
 
-      throw new Error("invalid value to parse")
-    }
-  }
+      throw new Error("invalid value to parse");
+    },
+  },
 };
 
-const link2 = ApolloLink.from([
-  withScalars({ schema, typesMap }),
-  new HttpLink({ uri: "http://example.org/graphql" })
-]);
+const link2 = ApolloLink.from([withScalars({ schema, typesMap }), new HttpLink({ uri: "http://example.org/graphql" })]);
 ```
 
 ### Options
