@@ -108,7 +108,7 @@ export class Parser {
   protected validateEnum(value: any, type: GraphQLEnumType): void {
     if (!this.validateEnums || !value) return;
 
-    const enumValues = type.getValues().map((v: any) => v.value);
+    const enumValues = type.getValues().map((v) => v.value);
     if (!enumValues.includes(value)) {
       throw new GraphQLError(`enum "${type.name}" with invalid value`);
     }

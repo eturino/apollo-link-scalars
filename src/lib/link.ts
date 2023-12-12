@@ -1,5 +1,5 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
-import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
+import { GraphQLLeafType, GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
@@ -30,12 +30,12 @@ export class ScalarApolloLink extends ApolloLink {
   constructor(pars: ScalarApolloLinkParams) {
     super();
     this.schema = pars.schema;
-    this.typesMap = pars.typesMap || {};
-    this.validateEnums = pars.validateEnums || false;
-    this.removeTypenameFromInputs = pars.removeTypenameFromInputs || false;
-    this.nullFunctions = pars.nullFunctions || defaultNullFunctions;
+    this.typesMap = pars.typesMap ?? {};
+    this.validateEnums = pars.validateEnums ?? false;
+    this.removeTypenameFromInputs = pars.removeTypenameFromInputs ?? false;
+    this.nullFunctions = pars.nullFunctions ?? defaultNullFunctions;
 
-    const leafTypesMap: any = {};
+    const leafTypesMap: Record<string, GraphQLLeafType> = {};
     for (const [key, value] of Object.entries(this.schema.getTypeMap())) {
       if (isLeafType(value)) {
         leafTypesMap[key] = value;
@@ -49,15 +49,15 @@ export class ScalarApolloLink extends ApolloLink {
   public request(givenOperation: Operation, forward: NextLink): Observable<FetchResult> | null {
     const operation = this.cleanVariables(givenOperation);
 
-    return new Observable((observer: any) => {
+    return new Observable((observer) => {
       let sub: ZenSubscription;
 
       try {
         sub = forward(operation).subscribe({
-          next: (result: any) => {
+          next: (result) => {
             try {
               observer.next(this.parse(operation, result));
-            } catch (treatError: any) {
+            } catch (treatError) {
               const errors = result.errors ? [...result.errors] : [];
               if (treatError instanceof GraphQLError) {
                 errors.push(treatError);
@@ -95,8 +95,8 @@ export class ScalarApolloLink extends ApolloLink {
    */
   protected cleanVariables(operation: Operation): Operation {
     const o = operation.query.definitions.find(isOperationDefinitionNode);
-    const varDefs = o?.variableDefinitions || [];
-    varDefs.forEach((vd: any) => {
+    const varDefs = o?.variableDefinitions ?? [];
+    varDefs.forEach((vd) => {
       const key = vd.variable.name.value;
       operation.variables[key] = this.serialize(operation.variables[key], vd.type);
     });

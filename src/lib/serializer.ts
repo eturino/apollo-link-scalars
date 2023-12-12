@@ -57,8 +57,9 @@ export class Serializer {
   }
 
   protected serializeInputObject(givenValue: any, type: GraphQLInputObjectType): any {
-    const value = givenValue;
+    let value = givenValue;
     if (this.removeTypenameFromInputs) {
+      value = { ...givenValue };
       delete value["__typename"];
     }
 
