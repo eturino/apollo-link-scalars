@@ -10,9 +10,6 @@ import {
   isNonNullType,
   isScalarType,
 } from "graphql";
-import has from "lodash/has";
-import mapValues from "lodash/mapValues";
-import omit from "lodash/omit";
 import { FunctionsMap } from "../types/functions-map";
 import { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
@@ -60,13 +57,17 @@ export class Serializer {
   }
 
   protected serializeInputObject(givenValue: any, type: GraphQLInputObjectType): any {
-    const value =
-      this.removeTypenameFromInputs && has(givenValue, "__typename") ? omit(givenValue, "__typename") : givenValue;
+    const value = givenValue;
+    if (this.removeTypenameFromInputs) {
+      delete value["__typename"];
+    }
 
+    const ret: any = {};
     const fields = type.getFields();
-    return mapValues(value, (v, key) => {
+    for (const [key, val] of Object.entries(value)) {
       const f = fields[key];
-      return f ? this.serialize(v, f.type) : v;
-    });
+      ret[key] = f ? this.serialize(val, f.type) : val;
+    }
+    return ret;
   }
 }

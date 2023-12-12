@@ -19,7 +19,6 @@ import {
   isObjectType,
   isScalarType,
 } from "graphql";
-import reduce from "lodash/reduce";
 import { FunctionsMap } from "..";
 import { MutOrRO } from "../types/mut-or-ro";
 import { NullFunctions } from "../types/null-functions";
@@ -46,8 +45,10 @@ export class Parser {
     selections: MutOrRO<ReducedFieldNode[]>
   ): Data {
     const fieldMap = type.getFields();
-    const fn = (d: Data, fieldNode: ReducedFieldNode) => this.treatSelection(d, fieldMap, fieldNode);
-    return reduce(selections, fn, data);
+    for (const s of selections) {
+      data = this.treatSelection(data, fieldMap, s);
+    }
+    return data;
   }
 
   protected treatSelection(
@@ -107,7 +108,7 @@ export class Parser {
   protected validateEnum(value: any, type: GraphQLEnumType): void {
     if (!this.validateEnums || !value) return;
 
-    const enumValues = type.getValues().map((v) => v.value);
+    const enumValues = type.getValues().map((v: any) => v.value);
     if (!enumValues.includes(value)) {
       throw new GraphQLError(`enum "${type.name}" with invalid value`);
     }
