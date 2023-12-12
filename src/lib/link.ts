@@ -1,7 +1,6 @@
 import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
 import { GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
-import pickBy from "lodash/pickBy";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { NullFunctions } from "../types/null-functions";
@@ -36,7 +35,12 @@ export class ScalarApolloLink extends ApolloLink {
     this.removeTypenameFromInputs = pars.removeTypenameFromInputs || false;
     this.nullFunctions = pars.nullFunctions || defaultNullFunctions;
 
-    const leafTypesMap = pickBy(this.schema.getTypeMap(), isLeafType);
+    const leafTypesMap: any = {};
+    for (const [key, value] of Object.entries(this.schema.getTypeMap())) {
+      if (isLeafType(value)) {
+        leafTypesMap[key] = value;
+      }
+    }
     this.functionsMap = { ...leafTypesMap, ...this.typesMap };
     this.serializer = new Serializer(this.schema, this.functionsMap, this.removeTypenameFromInputs, this.nullFunctions);
   }
@@ -45,12 +49,12 @@ export class ScalarApolloLink extends ApolloLink {
   public request(givenOperation: Operation, forward: NextLink): Observable<FetchResult> | null {
     const operation = this.cleanVariables(givenOperation);
 
-    return new Observable((observer) => {
+    return new Observable((observer: any) => {
       let sub: ZenSubscription;
 
       try {
         sub = forward(operation).subscribe({
-          next: (result) => {
+          next: (result: any) => {
             try {
               observer.next(this.parse(operation, result));
             } catch (treatError: any) {
@@ -92,7 +96,7 @@ export class ScalarApolloLink extends ApolloLink {
   protected cleanVariables(operation: Operation): Operation {
     const o = operation.query.definitions.find(isOperationDefinitionNode);
     const varDefs = o?.variableDefinitions || [];
-    varDefs.forEach((vd) => {
+    varDefs.forEach((vd: any) => {
       const key = vd.variable.name.value;
       operation.variables[key] = this.serialize(operation.variables[key], vd.type);
     });
