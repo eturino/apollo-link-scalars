@@ -120,12 +120,7 @@ export class Parser {
 
   protected parseNestedObject(
     value: any,
-    givenType:
-      | GraphQLObjectType
-      | GraphQLInterfaceType
-      | GraphQLUnionType
-      | GraphQLInterfaceType
-      | GraphQLInputObjectType,
+    givenType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType,
     fieldNode: ReducedFieldNode
   ): any {
     if (!value || !fieldNode || !fieldNode.selectionSet || !fieldNode.selectionSet.selections.length) {
