@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.3](https://github.com/eturino/apollo-link-scalars/compare/v4.0.2...v4.0.3) (2023-12-12)
+
+
+### Bug Fixes
+
+* **deps:** bump @babel/traverse from 7.21.2 to 7.23.2 ([#1074](https://github.com/eturino/apollo-link-scalars/issues/1074)) ([9141ab8](https://github.com/eturino/apollo-link-scalars/commit/9141ab8c10497043b4485483ba77d8d2c400f4b5))
+* **deps:** bump semver from 5.7.1 to 5.7.2 ([#1012](https://github.com/eturino/apollo-link-scalars/issues/1012)) ([599b5ec](https://github.com/eturino/apollo-link-scalars/commit/599b5ecf9e35ee11e6c55ff87ebd6e350ae77961))
+* **deps:** bump word-wrap from 1.2.3 to 1.2.4 ([#1016](https://github.com/eturino/apollo-link-scalars/issues/1016)) ([acc8345](https://github.com/eturino/apollo-link-scalars/commit/acc8345c7c410efb3e6810019e3b0eca37309b96))
+
 ### [4.0.2](https://github.com/eturino/apollo-link-scalars/compare/v4.0.1...v4.0.2) (2023-03-13)
 
 
