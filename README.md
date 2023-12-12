@@ -1,7 +1,7 @@
 # `apollo-link-scalars`
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![npm version](https://badge.fury.io/js/apollo-link-scalars.svg)](https://badge.fury.io/js/apollo-link-scalars)
@@ -360,6 +360,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://jaffparker.dev"><img src="https://avatars.githubusercontent.com/u/10477757?v=4?s=100" width="100px;" alt="Jaff Parker"/><br /><sub><b>Jaff Parker</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/issues?q=author%3AJaffParker" title="Bug reports">🐛</a> <a href="#infra-JaffParker" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/frec-kenneth"><img src="https://avatars.githubusercontent.com/u/98547003?v=4?s=100" width="100px;" alt="Kenneth"/><br /><sub><b>Kenneth</b></sub></a><br /><a href="https://github.com/eturino/apollo-link-scalars/commits?author=frec-kenneth" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://jstassen.com"><img src="https://avatars.githubusercontent.com/u/220755?v=4?s=100" width="100px;" alt="Sir.Nathan (Jonathan Stassen)"/><br /><sub><b>Sir.Nathan (Jonathan Stassen)</b></sub></a><br /><a href="#infra-TheBox193" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#platform-TheBox193" title="Packaging/porting to new platform">📦</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/burner"><img src="https://avatars.githubusercontent.com/u/13327?v=4?s=100" width="100px;" alt="Robert Schadek"/><br /><sub><b>Robert Schadek</b></sub></a><br /><a href="#infra-burner" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/eturino/apollo-link-scalars/commits?author=burner" title="Code">💻</a> <a href="#platform-burner" title="Packaging/porting to new platform">📦</a></td>
     </tr>
   </tbody>
 </table>
