@@ -3,16 +3,22 @@ import { Dictionary } from "../types/dictionary";
 import { MutOrRO } from "../types/mut-or-ro";
 import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";
 
+function existsAlready<T extends FieldNode>(nodes: T[], newNode: T): boolean {
+  const t = JSON.stringify(fieldNodeKeyTuple(newNode));
+  for (const it of nodes) {
+    if (t == JSON.stringify(fieldNodeKeyTuple(it))) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
   const ret: T[] = [];
-  outer: for (const fn of nodes) {
-    const t = JSON.stringify(fieldNodeKeyTuple(fn));
-    for (const it of ret) {
-      if (t == JSON.stringify(fieldNodeKeyTuple(it))) {
-        continue outer;
-      }
+  for (const fn of nodes) {
+    if (!existsAlready(ret, fn)) {
+      ret.push(fn);
     }
-    ret.push(fn);
   }
   return ret;
 }
