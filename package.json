@@ -67,7 +67,7 @@
     "graphql": "16.x"
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
+    "@commitlint/cli": "^19.0.1",
     "@commitlint/config-conventional": "^18.4.3",
     "@graphql-tools/schema": "^10.0.2",
     "@types/jest": "^29.5.11",
