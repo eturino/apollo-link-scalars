@@ -697,32 +697,31 @@
     "@shikijs/types" "^3.12.1"
     "@shikijs/vscode-textmate" "^10.0.2"
 
-"@graphql-tools/merge@^9.1.2":
-  version "9.1.2"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-9.1.2.tgz#87df125621c207e0dbcb05d206757d921cd1c314"
-  integrity sha512-Ny9YhWKv+KxZFdXYt+wlyEW55GzhFiq4daV4wYgpP0aRbwQaczNJd1L3VjjBsPKjmW8lctZXUoqYTqU5QPcBGw==
+"@graphql-tools/merge@^9.1.3":
+  version "9.1.3"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-9.1.3.tgz#7cf79f4d865f087fc88d201a5967b27421ed65d4"
+  integrity sha512-O53kiNwGU/moJxX8m4BKpf9xHxVhmThhrctZ1gqHkdC3fYmafzWdzyNGkBsZcoh9x0wKM1ORPPuaE6Bwp3OFBA==
   dependencies:
-    "@graphql-tools/utils" "^10.10.0"
+    "@graphql-tools/utils" "^10.10.1"
     tslib "^2.4.0"
 
 "@graphql-tools/schema@^10.0.2":
-  version "10.0.26"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-10.0.26.tgz#ecc29b0d31a6a53c8c4ec7ecffbc56602e5fe2f4"
-  integrity sha512-KOmjuiWa9poP/Lza4HV0ZBPYGJI3VE3QzXA/8e0+wjcsRuEmxMLP82re1PUg0QRzp2UzifAB/gd7DoXmVGG9Fg==
+  version "10.0.27"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/schema/-/schema-10.0.27.tgz#b6d33a6ae69bff90df98529392e8c2df7b6bbb4e"
+  integrity sha512-Lb5mJG8eF3TPnW0TXS9qoqR40S5rrnS3DFaY9dGf+8y3petTF2nc1khcOaLlOsvyvfSWSMUgkB/U6LRofRjb6w==
   dependencies:
-    "@graphql-tools/merge" "^9.1.2"
-    "@graphql-tools/utils" "^10.10.0"
+    "@graphql-tools/merge" "^9.1.3"
+    "@graphql-tools/utils" "^10.10.1"
     tslib "^2.4.0"
 
-"@graphql-tools/utils@^10.10.0":
-  version "10.10.0"
-  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-10.10.0.tgz#9b8eb5cb9bb101442c1145ee35beddda87ae40d3"
-  integrity sha512-OOeab5Y9qeKq0zfoJCSScMcDfGcIxp05+LW2xYVCS2l3su+K3lYcg5+cAAx9n0SFxpJl8zF5denq2QDsfM7NnQ==
+"@graphql-tools/utils@^10.10.1":
+  version "10.10.1"
+  resolved "https://registry.yarnpkg.com/@graphql-tools/utils/-/utils-10.10.1.tgz#eeec3bdc5f5521b8b11c5148cdf0c8affb4f9aed"
+  integrity sha512-9iOZ7x6tuIpp/dviNmTCSH1cDDNLIcrj6T3WKH9lU4nRWx5Pr0e7Faj7T/HmP2Njrjik63dJWuDVRxfQSTOc4g==
   dependencies:
     "@graphql-typed-document-node/core" "^3.1.1"
     "@whatwg-node/promise-helpers" "^1.0.0"
     cross-inspect "1.0.1"
-    dset "^3.1.4"
     tslib "^2.4.0"
 
 "@graphql-typed-document-node/core@^3.1.1":
@@ -3007,11 +3006,6 @@ dotgitignore@^2.1.0:
   dependencies:
     find-up "^3.0.0"
     minimatch "^3.0.4"
-
-dset@^3.1.4:
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/dset/-/dset-3.1.4.tgz#f8eaf5f023f068a036d08cd07dc9ffb7d0065248"
-  integrity sha512-2QF/g9/zTaPDc3BjNcVTGoBbXBgYfMTTceLaYcFJ/W9kggFUkhxD/hMEeuLKbugyef9SqAx8cpgwlIP/jinUTA==
 
 dunder-proto@^1.0.0, dunder-proto@^1.0.1:
   version "1.0.1"
