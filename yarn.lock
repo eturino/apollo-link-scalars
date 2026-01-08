@@ -484,11 +484,11 @@
     yargs "^17.0.0"
 
 "@commitlint/config-conventional@^20.0.0":
-  version "20.3.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-20.3.0.tgz#a0133c67fe76dcb16faf2818492890911e288858"
-  integrity sha512-g1OXVl6E2v0xF1Ru2RpxQ+Vfy7XUcUsCmLKzGUrhFLS4hSNykje0QSy6djBtzOiOBQCepBrmIlqx/gRlzrSh5A==
+  version "20.3.1"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-20.3.1.tgz#0060d47c2f79dd7063ac1d28951ec460889fe672"
+  integrity sha512-NCzwvxepstBZbmVXsvg49s+shCxlJDJPWxXqONVcAtJH9wWrOlkMQw/zyl+dJmt8lyVopt5mwQ3mR5M2N2rUWg==
   dependencies:
-    "@commitlint/types" "^20.2.0"
+    "@commitlint/types" "^20.3.1"
     conventional-changelog-conventionalcommits "^7.0.2"
 
 "@commitlint/config-validator@^20.2.0":
@@ -617,10 +617,10 @@
   dependencies:
     find-up "^7.0.0"
 
-"@commitlint/types@^20.2.0":
-  version "20.2.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-20.2.0.tgz#8486ef31ecfc7b4d10f8bf5c47934872bcd8657e"
-  integrity sha512-KTy0OqRDLR5y/zZMnizyx09z/rPlPC/zKhYgH8o/q6PuAjoQAKlRfY4zzv0M64yybQ//6//4H1n14pxaLZfUnA==
+"@commitlint/types@^20.2.0", "@commitlint/types@^20.3.1":
+  version "20.3.1"
+  resolved "https://registry.yarnpkg.com/@commitlint/types/-/types-20.3.1.tgz#084cf4cb142826d7a0eab378f838514e3e75f048"
+  integrity sha512-VmIFV/JkBRhDRRv7N5B7zEUkNZIx9Mp+8Pe65erz0rKycXLsi8Epcw0XJ+btSeRXgTzE7DyOyA9bkJ9mn/yqVQ==
   dependencies:
     "@types/conventional-commits-parser" "^5.0.0"
     chalk "^5.3.0"
