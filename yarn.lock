@@ -484,9 +484,9 @@
     yargs "^17.0.0"
 
 "@commitlint/config-conventional@^20.0.0":
-  version "20.4.0"
-  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-20.4.0.tgz#6522e0059e1ad6169b756c2ed0e42b21dab729b1"
-  integrity sha512-nolhFe2YKIix0D4+tPXAWnnIc9WB5fOCgmm4h2EcRyEShC64oH/DpM9n++85NRdItvIhKb+Szsaeuug7KcEeIA==
+  version "20.4.2"
+  resolved "https://registry.yarnpkg.com/@commitlint/config-conventional/-/config-conventional-20.4.2.tgz#58c114116bcf2b8e91467307f5d3bf9167ce6579"
+  integrity sha512-rwkTF55q7Q+6dpSKUmJoScV0f3EpDlWKw2UPzklkLS4o5krMN1tPWAVOgHRtyUTMneIapLeQwaCjn44Td6OzBQ==
   dependencies:
     "@commitlint/types" "^20.4.0"
     conventional-changelog-conventionalcommits "^9.1.0"
