@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "..";
 
@@ -17,13 +17,10 @@ describe("builtin scalars behave like usual", () => {
       day
     }
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
     variables: {},
-    operationName: queryOperationName,
   };
 
   const response = {
@@ -36,7 +33,7 @@ describe("builtin scalars behave like usual", () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
-        return Observable.of(response);
+        return observableOf(response);
       }),
     ]);
 

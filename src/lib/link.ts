@@ -1,4 +1,4 @@
-import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
+import { ApolloLink, FetchResult, Observable, Operation } from "@apollo/client";
 import { GraphQLLeafType, GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
@@ -46,7 +46,7 @@ export class ScalarApolloLink extends ApolloLink {
   }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
-  public request(givenOperation: Operation, forward: NextLink): Observable<FetchResult> | null {
+  public request(givenOperation: Operation, forward: ApolloLink.ForwardFunction): Observable<FetchResult> {
     const operation = this.cleanVariables(givenOperation);
 
     return new Observable((observer) => {

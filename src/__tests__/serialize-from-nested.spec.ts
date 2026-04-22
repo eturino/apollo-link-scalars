@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import cloneDeep from "lodash/cloneDeep";
@@ -236,8 +236,6 @@ describe("scalars in nested input objects", () => {
   const queryDocument: DocumentNode = gql`
     ${querySource}
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
@@ -252,7 +250,6 @@ describe("scalars in nested input objects", () => {
         },
       },
     },
-    operationName: queryOperationName,
   };
 
   const response = {
@@ -313,7 +310,7 @@ describe("scalars in nested input objects", () => {
             },
           },
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {
@@ -346,7 +343,7 @@ describe("scalars in nested input objects", () => {
             },
           },
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {
@@ -381,7 +378,7 @@ describe("scalars in nested input objects", () => {
             },
           },
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {
@@ -411,7 +408,7 @@ describe("scalars in nested input objects", () => {
             second: { morning: rawMorning, list: [rawMorning, rawMorning2] },
           },
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {

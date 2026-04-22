@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import cloneDeep from "lodash/cloneDeep";
@@ -209,8 +209,6 @@ describe("scalar returned directly from first level queries", () => {
   const queryDocument: DocumentNode = gql`
     ${querySource}
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
@@ -219,7 +217,6 @@ describe("scalar returned directly from first level queries", () => {
       morning: parsedMorning,
       mornings: [parsedMorning, parsedMorning2],
     },
-    operationName: queryOperationName,
   };
 
   const response = {
@@ -272,7 +269,7 @@ describe("scalar returned directly from first level queries", () => {
           day: rawDay,
           mornings: [rawMorning, rawMorning2],
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {
@@ -299,7 +296,6 @@ describe("scalar returned directly from first level queries", () => {
         mornings: [parsedMorningCustom, parsedMorningCustom2],
         day: parsedDay,
       },
-      operationName: queryOperationName,
     };
 
     const link = ApolloLink.from([
@@ -310,7 +306,7 @@ describe("scalar returned directly from first level queries", () => {
           mornings: [rawMorning, rawMorning2],
           day: rawDay,
         });
-        return Observable.of(cloneDeep(response));
+        return observableOf(cloneDeep(response));
       }),
     ]);
     const expectedResponse = {

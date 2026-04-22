@@ -32,6 +32,7 @@
     "test:eslint": "eslint \"src/**/*.ts\"",
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest --coverage --config=\"jest.config.js\"",
+    "test:integration": "RUN_INTEGRATION=1 jest --config=\"jest.config.js\" --testPathPatterns integration",
     "cov": "run-s build cov:html && open-cli coverage/index.html",
     "cov:html": "jest --coverage --config=\"jest.html.config.js\"",
     "watch": "run-s clean build:main && run-p \"build:main -- -w\" \"test:unit -- --watch\"",
@@ -63,7 +64,7 @@
     "zen-observable-ts": "^1.1.0"
   },
   "peerDependencies": {
-    "@apollo/client": "3.x",
+    "@apollo/client": "^4.0.0",
     "graphql": "16.x"
   },
   "devDependencies": {

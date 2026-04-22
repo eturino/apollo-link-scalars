@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql } from "graphql";
 import { withScalars } from "..";
@@ -44,13 +44,10 @@ describe("skip directive on non-nullable field", () => {
   const queryDocument: DocumentNode = gql`
     ${querySource}
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
     variables: { skip: true },
-    operationName: queryOperationName,
   };
 
   const response = {
@@ -71,7 +68,7 @@ describe("skip directive on non-nullable field", () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
-        return Observable.of(response);
+        return observableOf(response);
       }),
     ]);
     const expectedResponse = {

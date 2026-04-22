@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import isNumber from "lodash/isNumber";
@@ -187,13 +187,10 @@ fragment FragmentB on SomeFieldB {
   const queryDocument: DocumentNode = gql`
     ${querySource}
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
     variables: {},
-    operationName: queryOperationName,
   };
 
   const response = {
@@ -231,7 +228,7 @@ fragment FragmentB on SomeFieldB {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
-        return Observable.of(response);
+        return observableOf(response);
       }),
     ]);
     const expectedResponse = {
@@ -263,7 +260,7 @@ fragment FragmentB on SomeFieldB {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink(() => {
-        return Observable.of(response);
+        return observableOf(response);
       }),
     ]);
     const expectedResponse = {

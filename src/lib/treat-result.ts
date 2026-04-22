@@ -1,4 +1,4 @@
-import { FetchResult, Operation } from "@apollo/client/core";
+import { FetchResult, Operation } from "@apollo/client";
 import { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
 import { FunctionsMap } from "..";
 import { NullFunctions } from "../types/null-functions";

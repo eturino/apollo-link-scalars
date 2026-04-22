@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLError } from "graphql";
 import { withScalars } from "..";
@@ -46,13 +46,10 @@ describe("enum returned directly from first level queries", () => {
   const queryDocument: DocumentNode = gql`
     ${querySource}
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const request: GraphQLRequest = {
     query: queryDocument,
     variables: {},
-    operationName: queryOperationName,
   };
 
   const validResponse = {
@@ -88,7 +85,7 @@ describe("enum returned directly from first level queries", () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
-          return Observable.of(validResponse);
+          return observableOf(validResponse);
         }),
       ]);
 
@@ -104,7 +101,7 @@ describe("enum returned directly from first level queries", () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
-          return Observable.of(validResponse);
+          return observableOf(validResponse);
         }),
       ]);
 
@@ -122,7 +119,7 @@ describe("enum returned directly from first level queries", () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
-          return Observable.of(invalidResponse);
+          return observableOf(invalidResponse);
         }),
       ]);
 
@@ -138,7 +135,7 @@ describe("enum returned directly from first level queries", () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
-          return Observable.of(invalidResponse);
+          return observableOf(invalidResponse);
         }),
       ]);
 
