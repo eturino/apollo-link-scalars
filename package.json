@@ -33,7 +33,12 @@
     "test:prettier": "prettier \"src/**/*.ts\" --list-different",
     "test:unit": "jest --coverage --config=\"jest.config.js\"",
     "test:integration": "RUN_INTEGRATION=1 jest --config=\"jest.config.js\" --testPathPatterns integration",
-    "test:matrix": "tav",
+    "test:full": "run-s test test:integration",
+    "install:v3": "pnpm add --save-dev @apollo/client@^3.8.0 graphql@^16.8.0",
+    "install:v4": "pnpm add --save-dev @apollo/client@^4.0.0 graphql@^16.8.0",
+    "test:v3": "run-s install:v3 test:full",
+    "test:v4": "run-s install:v4 test:full",
+    "test:matrix": "run-s test:v3 test:v4",
     "check:cycles": "dpdm --no-tree --no-warning --exit-code circular:1 src/index.ts",
     "check:dead-code": "knip --no-config-hints",
     "cov": "run-s build cov:html && open-cli coverage/index.html",
@@ -44,7 +49,7 @@
     "doc:json": "typedoc src/index.ts --exclude **/*.spec.ts --json build/docs/typedoc.json",
     "doc:publish": "gh-pages -m \"[ci skip] Updates\" -d build/docs",
     "version": "standard-version",
-    "reset": "git clean -dfx -e .idea && git reset --hard && yarn install",
+    "reset": "git clean -dfx -e .idea && git reset --hard && pnpm install",
     "clean": "trash build test",
     "prepare-release": "run-s reset test doc:html version doc:publish"
   },
@@ -82,7 +87,7 @@
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "gh-pages": "^6.3.0",
-    "graphql": "^16.13.2",
+    "graphql": "^16.8.0",
     "husky": "^9.1.7",
     "jest": "^30.3.0",
     "knip": "^6.6.1",
@@ -93,7 +98,6 @@
     "prettier-plugin-organize-imports": "^4.3.0",
     "rxjs": "^7.8.2",
     "standard-version": "^9.5.0",
-    "test-all-versions": "^6.2.0",
     "trash-cli": "^7.2.0",
     "ts-jest": "^29.4.9",
     "typedoc": "^0.28.19",
@@ -101,13 +105,8 @@
     "typescript-eslint": "^8.59.0",
     "zen-observable-ts": "^1.1.0"
   },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
+  "packageManager": "pnpm@10.33.1",
   "volta": {
-    "node": "24.15.0",
-    "yarn": "1.22.22"
+    "node": "24.15.0"
   }
 }
