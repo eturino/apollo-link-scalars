@@ -1,4 +1,4 @@
-import { ApolloLink, FetchResult, NextLink, Observable, Operation } from "@apollo/client/core";
+import { ApolloLink, FetchResult, Observable, Operation } from "@apollo/client/core";
 import { GraphQLLeafType, GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import { Subscription as ZenSubscription } from "zen-observable-ts";
@@ -17,6 +17,10 @@ type ScalarApolloLinkParams = {
   removeTypenameFromInputs?: boolean;
   nullFunctions?: NullFunctions;
 };
+
+// Forward-function shape that is structurally compatible with both
+// v3 `NextLink` and v4 `ApolloLink.ForwardFunction`.
+type ForwardFn = (operation: Operation) => Observable<FetchResult> | null;
 
 export class ScalarApolloLink extends ApolloLink {
   public readonly schema: GraphQLSchema;
@@ -46,14 +50,25 @@ export class ScalarApolloLink extends ApolloLink {
   }
 
   // ApolloLink code based on https://github.com/with-heart/apollo-link-response-resolver
-  public request(givenOperation: Operation, forward: NextLink): Observable<FetchResult> | null {
+  // forward is optional to stay compatible with v3's `forward?: NextLink`.
+  // v4 requires it, but a wider signature is still assignable to v4's parent.
+  public request(givenOperation: Operation, forward?: ForwardFn): Observable<FetchResult> {
     const operation = this.cleanVariables(givenOperation);
 
     return new Observable((observer) => {
       let sub: ZenSubscription;
 
       try {
-        sub = forward(operation).subscribe({
+        if (!forward) {
+          observer.complete();
+          return;
+        }
+        const forwarded = forward(operation);
+        if (!forwarded) {
+          observer.complete();
+          return;
+        }
+        sub = forwarded.subscribe({
           next: (result) => {
             try {
               observer.next(this.parse(operation, result));

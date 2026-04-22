@@ -1,0 +1,7 @@
+"@apollo/client":
+  versions:
+    include: "3.x || 4.x"
+    mode: latest-majors
+  commands:
+    - yarn test
+    - yarn test:integration
