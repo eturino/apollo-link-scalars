@@ -1,7 +1,7 @@
-import { FetchResult, Operation } from "@apollo/client/core";
-import { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
-import { FunctionsMap } from "..";
-import { NullFunctions } from "../types/null-functions";
+import type { FetchResult, Operation } from "@apollo/client/core";
+import type { GraphQLObjectType, GraphQLSchema, OperationDefinitionNode } from "graphql";
+import type { FunctionsMap } from "../types/functions-map";
+import type { NullFunctions } from "../types/null-functions";
 import { fragmentReducer } from "./fragment-reducer";
 import { isFieldNode } from "./node-types";
 import { Parser } from "./parser";

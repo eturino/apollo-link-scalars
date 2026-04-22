@@ -1,19 +1,19 @@
 import {
-  DefinitionNode,
-  FieldNode,
-  FragmentDefinitionNode,
-  FragmentSpreadNode,
-  InlineFragmentNode,
+  type DefinitionNode,
+  type FieldNode,
+  type FragmentDefinitionNode,
+  type FragmentSpreadNode,
+  type InlineFragmentNode,
   Kind,
-  ListTypeNode,
-  NamedTypeNode,
-  NonNullTypeNode,
-  OperationDefinitionNode,
-  SelectionNode,
-  SelectionSetNode,
-  TypeNode,
+  type ListTypeNode,
+  type NamedTypeNode,
+  type NonNullTypeNode,
+  type OperationDefinitionNode,
+  type SelectionNode,
+  type SelectionSetNode,
+  type TypeNode,
 } from "graphql";
-import { MutOrRO } from "../types/mut-or-ro";
+import type { MutOrRO } from "../types/mut-or-ro";
 
 type ReducedSelectionSetNode = Omit<SelectionSetNode, "selections"> & {
   selections: MutOrRO<ReducedFieldNode[]>;
@@ -46,6 +46,12 @@ export function isFragmentSpreadNode(node: SelectionNode): node is FragmentSprea
 export function isInlineFragmentNode(node: SelectionNode): node is InlineFragmentNode {
   return node.kind === Kind.INLINE_FRAGMENT;
 }
+
+/**
+ * @public - kept as part of the complete GraphQL-AST type-guard set exposed
+ * by this internal module even if no other module in the library currently
+ * imports it.
+ */
 export function isNamedTypeNode(node: TypeNode): node is NamedTypeNode {
   return node.kind === Kind.NAMED_TYPE;
 }
