@@ -11,28 +11,24 @@ function rootTypeFor(
   schema: GraphQLSchema
 ): GraphQLObjectType | null {
   if (operationDefinitionNode.operation === "query") {
-    return schema.getQueryType() || null;
+    return schema.getQueryType() ?? null;
   }
 
   if (operationDefinitionNode.operation === "mutation") {
-    return schema.getMutationType() || null;
+    return schema.getMutationType() ?? null;
   }
 
-  if (operationDefinitionNode.operation === "subscription") {
-    return schema.getSubscriptionType() || null;
-  }
-
-  return null;
+  return schema.getSubscriptionType() ?? null;
 }
 
-type TreatResultParams = {
+interface TreatResultParams {
   schema: GraphQLSchema;
   functionsMap: FunctionsMap;
   operation: Operation;
   result: FetchResult;
   validateEnums: boolean;
   nullFunctions: NullFunctions;
-};
+}
 
 export function treatResult({
   schema,

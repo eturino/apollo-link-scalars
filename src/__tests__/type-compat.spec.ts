@@ -2,7 +2,9 @@ import { Subscription as ZenSubscription } from "zen-observable-ts";
 
 // The structural shape we use internally for `sub` in `link.ts`. Kept in sync
 // with the definition there - if it narrows, this file must narrow too.
-type LinkSubscription = { unsubscribe(): void };
+interface LinkSubscription {
+  unsubscribe(): void;
+}
 
 describe("type compatibility with Observable subscription shapes", () => {
   it("zen-observable Subscription (v3 Apollo Observable) assigns to LinkSubscription", () => {
@@ -15,7 +17,10 @@ describe("type compatibility with Observable subscription shapes", () => {
   it("ad-hoc {unsubscribe} (v4 rxjs Subscription shape) assigns to LinkSubscription", () => {
     // rxjs isn't a direct dependency, so we model its Subscription structurally.
     // This matches `import('rxjs').Subscription` minus the bells and whistles.
-    type RxLikeSubscription = { unsubscribe(): void; closed: boolean };
+    interface RxLikeSubscription {
+      unsubscribe(): void;
+      closed: boolean;
+    }
     const assignRx = (s: RxLikeSubscription): LinkSubscription => s;
     expect(assignRx).toBeInstanceOf(Function);
   });

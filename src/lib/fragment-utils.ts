@@ -4,7 +4,7 @@ import { MutOrRO } from "../types/mut-or-ro";
 import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";
 
 function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
-  const hashes: Set<string> = new Set();
+  const hashes = new Set<string>();
   const ret: T[] = [];
   for (const fn of nodes) {
     const hash = JSON.stringify(fieldNodeKeyTuple(fn));
@@ -17,7 +17,11 @@ function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
 }
 
 type KeyTuple = [string | undefined, string, string[]];
-type SelectionKey = { field?: KeyTuple; inlineFragments?: SelectionKey[]; namedFragment?: string };
+interface SelectionKey {
+  field?: KeyTuple;
+  inlineFragments?: SelectionKey[];
+  namedFragment?: string;
+}
 
 function fieldNodeKeyTuple(fn: FieldNode): KeyTuple {
   const alias = fn.alias?.value;

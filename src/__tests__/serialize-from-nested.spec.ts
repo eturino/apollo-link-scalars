@@ -40,10 +40,22 @@ describe("scalars in nested input objects", () => {
     scalar StartOfDay
   `;
 
-  type MyInput = { first: MainDate; second: MyNested };
-  type MyNested = { morning: MainDate; list: MainDate[] };
-  type MyResponse = { first: MainDate; nested: MyNestedResponse };
-  type MyNestedResponse = { nestedDay: MainDate; days: MainDate[] };
+  interface MyInput {
+    first: MainDate;
+    second: MyNested;
+  }
+  interface MyNested {
+    morning: MainDate;
+    list: MainDate[];
+  }
+  interface MyResponse {
+    first: MainDate;
+    nested: MyNestedResponse;
+  }
+  interface MyNestedResponse {
+    nestedDay: MainDate;
+    days: MainDate[];
+  }
 
   class CustomDate {
     public readonly internalDate: Date;
