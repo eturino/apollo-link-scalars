@@ -1,4 +1,4 @@
-import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client/core";
+import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
 import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLError } from "graphql";

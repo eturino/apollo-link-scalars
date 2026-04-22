@@ -1,17 +1,17 @@
 import {
-  GraphQLEnumType,
+  type GraphQLEnumType,
   GraphQLError,
-  GraphQLFieldMap,
-  GraphQLInputFieldMap,
-  GraphQLInputObjectType,
-  GraphQLInterfaceType,
-  GraphQLList,
-  GraphQLNullableType,
-  GraphQLObjectType,
-  GraphQLScalarType,
-  GraphQLSchema,
-  GraphQLType,
-  GraphQLUnionType,
+  type GraphQLFieldMap,
+  type GraphQLInputFieldMap,
+  type GraphQLInputObjectType,
+  type GraphQLInterfaceType,
+  type GraphQLList,
+  type GraphQLNullableType,
+  type GraphQLObjectType,
+  type GraphQLScalarType,
+  type GraphQLSchema,
+  type GraphQLType,
+  type GraphQLUnionType,
   isEnumType,
   isInputObjectType,
   isListType,
@@ -19,11 +19,11 @@ import {
   isObjectType,
   isScalarType,
 } from "graphql";
-import { FunctionsMap } from "..";
-import { MutOrRO } from "../types/mut-or-ro";
-import { NullFunctions } from "../types/null-functions";
+import type { FunctionsMap } from "../types/functions-map";
+import type { MutOrRO } from "../types/mut-or-ro";
+import type { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
-import { ReducedFieldNode } from "./node-types";
+import type { ReducedFieldNode } from "./node-types";
 
 type Data = Record<string, any>;
 

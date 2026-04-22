@@ -1,7 +1,7 @@
-import { FragmentDefinitionNode, Kind } from "graphql";
-import { Dictionary } from "../../types/dictionary";
+import { type FragmentDefinitionNode, Kind } from "graphql";
+import type { Dictionary } from "../../types/dictionary";
 import { fragmentMapFrom } from "../fragment-utils";
-import { ReducedFieldNode } from "../node-types";
+import type { ReducedFieldNode } from "../node-types";
 
 export const fragments: FragmentDefinitionNode[] = [
   {
