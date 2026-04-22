@@ -1,4 +1,4 @@
-import { DocumentNode, Kind, OperationDefinitionNode, OperationTypeNode } from "graphql";
+import { type DocumentNode, Kind, type OperationDefinitionNode, OperationTypeNode } from "graphql";
 
 export const operationQuery: DocumentNode = {
   kind: Kind.DOCUMENT,

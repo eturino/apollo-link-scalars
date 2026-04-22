@@ -2,8 +2,8 @@ import {
   ApolloClient,
   ApolloLink,
   execute as apolloExecute,
-  FetchResult,
-  GraphQLRequest,
+  type FetchResult,
+  type GraphQLRequest,
   InMemoryCache,
   Observable,
 } from "@apollo/client/core";

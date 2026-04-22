@@ -72,6 +72,20 @@ module.exports = [
       ],
       "no-return-await": "error",
       eqeqeq: ["error", "always"],
+
+      // Force regular imports to stay for runtime code only; type-only
+      // imports must use `import type ...` or inline `import { type X }`.
+      // Keeps the generated JS lean and makes intent obvious at the
+      // import site.
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+          disallowTypeAnnotations: true,
+        },
+      ],
+      "@typescript-eslint/no-import-type-side-effects": "error",
     },
   },
 

@@ -1,17 +1,17 @@
 import {
   getNullableType,
-  GraphQLEnumType,
-  GraphQLInputObjectType,
-  GraphQLInputType,
-  GraphQLScalarType,
-  GraphQLSchema,
+  type GraphQLEnumType,
+  type GraphQLInputObjectType,
+  type GraphQLInputType,
+  type GraphQLScalarType,
+  type GraphQLSchema,
   isEnumType,
   isListType,
   isNonNullType,
   isScalarType,
 } from "graphql";
-import { FunctionsMap } from "../types/functions-map";
-import { NullFunctions } from "../types/null-functions";
+import type { FunctionsMap } from "../types/functions-map";
+import type { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
 import { mapIfArray } from "./map-if-array";
 

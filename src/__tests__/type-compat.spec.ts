@@ -1,4 +1,4 @@
-import { Subscription as ZenSubscription } from "zen-observable-ts";
+import type { Subscription as ZenSubscription } from "zen-observable-ts";
 
 // The structural shape we use internally for `sub` in `link.ts`. Kept in sync
 // with the definition there - if it narrows, this file must narrow too.

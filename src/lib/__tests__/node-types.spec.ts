@@ -1,4 +1,4 @@
-import { DefinitionNode, SelectionNode } from "graphql";
+import type { DefinitionNode, SelectionNode } from "graphql";
 import {
   isFieldNode,
   isFragmentDefinitionNode,

@@ -1,8 +1,15 @@
-import { ApolloLink, FetchResult, Observable, Operation } from "@apollo/client/core";
-import { GraphQLLeafType, GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
+import { ApolloLink, type FetchResult, Observable, type Operation } from "@apollo/client/core";
+import {
+  type GraphQLLeafType,
+  type GraphQLSchema,
+  isInputType,
+  isLeafType,
+  type NamedTypeNode,
+  type TypeNode,
+} from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
-import { FunctionsMap } from "..";
-import { NullFunctions } from "../types/null-functions";
+import type { FunctionsMap } from "../types/functions-map";
+import type { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";
 import { mapIfArray } from "./map-if-array";
 import { isListTypeNode, isNonNullTypeNode, isOperationDefinitionNode } from "./node-types";

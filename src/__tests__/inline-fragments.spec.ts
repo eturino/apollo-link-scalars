@@ -1,9 +1,7 @@
-import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client/core";
+import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
 import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
-import isNumber from "lodash/isNumber";
-import isString from "lodash/isString";
 import { withScalars } from "..";
 
 describe("prevent conflicts with inline-fragments", () => {
@@ -122,7 +120,7 @@ fragment FragmentB on SomeFieldB {
       parseValue: (raw) => {
         if (!raw) return null;
         if (raw instanceof Date) return raw;
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           return new Date(raw);
         }
         throw new Error(`'invalid value to parse (no date, no string, no number): ${raw}'`);
@@ -140,7 +138,7 @@ fragment FragmentB on SomeFieldB {
       parseValue: (raw) => {
         if (!raw) return null;
         if (raw instanceof Date) return raw;
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           const d = new Date(raw);
           d.setUTCHours(0);
           d.setUTCMinutes(0);
@@ -165,7 +163,7 @@ fragment FragmentB on SomeFieldB {
       parseValue: (raw: unknown): CustomDate | null => {
         if (!raw) return null;
         if (raw instanceof Date) return new CustomDate(raw);
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           const d = new Date(raw);
           d.setUTCHours(0);
           d.setUTCMinutes(0);
