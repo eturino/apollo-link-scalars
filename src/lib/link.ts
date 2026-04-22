@@ -1,7 +1,6 @@
 import { ApolloLink, FetchResult, Observable, Operation } from "@apollo/client/core";
 import { GraphQLLeafType, GraphQLSchema, isInputType, isLeafType, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
-import { Subscription as ZenSubscription } from "zen-observable-ts";
 import { FunctionsMap } from "..";
 import { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";
@@ -21,6 +20,10 @@ type ScalarApolloLinkParams = {
 // Forward-function shape that is structurally compatible with both
 // v3 `NextLink` and v4 `ApolloLink.ForwardFunction`.
 type ForwardFn = (operation: Operation) => Observable<FetchResult> | null;
+
+// Structural subscription type that covers both v3 zen-observable `Subscription`
+// and v4 rxjs `Subscription`. We only ever call `unsubscribe()` on it.
+type LinkSubscription = { unsubscribe(): void };
 
 export class ScalarApolloLink extends ApolloLink {
   public readonly schema: GraphQLSchema;
@@ -56,7 +59,7 @@ export class ScalarApolloLink extends ApolloLink {
     const operation = this.cleanVariables(givenOperation);
 
     return new Observable((observer) => {
-      let sub: ZenSubscription;
+      let sub: LinkSubscription | undefined;
 
       try {
         if (!forward) {

@@ -61,9 +61,6 @@
   "engines": {
     "node": ">=10.0"
   },
-  "dependencies": {
-    "zen-observable-ts": "^1.1.0"
-  },
   "peerDependencies": {
     "@apollo/client": "3.x || 4.x",
     "graphql": "16.x"
@@ -102,7 +99,8 @@
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "zen-observable-ts": "^1.1.0"
   },
   "config": {
     "commitizen": {
