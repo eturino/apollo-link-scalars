@@ -5,16 +5,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "yarn"
-      - run: yarn install
+      - run: yarn install --frozen-lockfile
       - run: yarn test
 
+  matrix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "yarn"
+      - run: yarn install --frozen-lockfile
+      - name: Run test-all-versions (v3 + v4 of @apollo/client)
+        run: yarn test:matrix
+
   automerge:
-    needs: test
+    needs: [test, matrix]
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
