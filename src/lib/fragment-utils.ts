@@ -1,7 +1,7 @@
-import { FieldNode, FragmentDefinitionNode, SelectionNode } from "graphql";
-import { Dictionary } from "../types/dictionary";
-import { MutOrRO } from "../types/mut-or-ro";
-import { isFieldNode, isInlineFragmentNode, ReducedFieldNode } from "./node-types";
+import type { FieldNode, FragmentDefinitionNode, SelectionNode } from "graphql";
+import type { Dictionary } from "../types/dictionary";
+import type { MutOrRO } from "../types/mut-or-ro";
+import { isFieldNode, isInlineFragmentNode, type ReducedFieldNode } from "./node-types";
 
 function uniqueNodes<T extends FieldNode>(nodes: T[]): T[] {
   const hashes = new Set<string>();

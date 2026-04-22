@@ -1,4 +1,4 @@
-import { NullFunctions } from "../types/null-functions";
+import type { NullFunctions } from "../types/null-functions";
 
 /**
  * By default, make no transforms for null types. If you prefer, you could use these transforms to e.g.

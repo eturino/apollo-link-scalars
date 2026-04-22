@@ -1,10 +1,8 @@
-import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client/core";
+import { cloneDeep } from "es-toolkit";
+import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
 import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
-import cloneDeep from "lodash/cloneDeep";
-import isNumber from "lodash/isNumber";
-import isString from "lodash/isString";
 import { withScalars } from "..";
 
 describe("scalar returned directly from first level queries", () => {
@@ -114,7 +112,7 @@ describe("scalar returned directly from first level queries", () => {
         if (raw instanceof MainDate) return raw;
         if (raw instanceof Date) return new MainDate(raw.toISOString());
 
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           return new MainDate(raw);
         }
 
@@ -141,7 +139,7 @@ describe("scalar returned directly from first level queries", () => {
         if (raw instanceof MainDate) return raw;
         if (raw instanceof Date) return new MainDate(raw.toISOString());
 
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           const d = new Date(raw);
           d.setUTCHours(0);
           d.setUTCMinutes(0);
@@ -180,7 +178,7 @@ describe("scalar returned directly from first level queries", () => {
         if (raw instanceof CustomDate) return raw;
         if (raw instanceof Date) return new CustomDate(raw.toISOString());
 
-        if (isString(raw) || isNumber(raw)) {
+        if (typeof raw === "string" || typeof raw === "number") {
           const d = new Date(raw);
           d.setUTCHours(0);
           d.setUTCMinutes(0);

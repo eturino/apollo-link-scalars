@@ -1,6 +1,6 @@
-import { DocumentNode } from "graphql";
+import type { DocumentNode } from "graphql";
 import { fragmentMapFrom, replaceFragmentsOn } from "./fragment-utils";
-import { isFragmentDefinitionNode, isOperationDefinitionNode, ReducedOperationDefinitionNode } from "./node-types";
+import { isFragmentDefinitionNode, isOperationDefinitionNode, type ReducedOperationDefinitionNode } from "./node-types";
 
 export function fragmentReducer(doc: DocumentNode): ReducedOperationDefinitionNode | null {
   // Defensive checks covered by an existing test that calls this with

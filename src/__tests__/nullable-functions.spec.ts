@@ -1,9 +1,9 @@
-import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client/core";
+import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
 import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "..";
 import { isNone } from "../lib/is-none";
-import { NullFunctions } from "../types/null-functions";
+import type { NullFunctions } from "../types/null-functions";
 
 describe("nullable-functions", () => {
   const typeDefs = gql`

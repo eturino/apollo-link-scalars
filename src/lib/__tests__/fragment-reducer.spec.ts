@@ -1,4 +1,4 @@
-import { DocumentNode } from "graphql";
+import type { DocumentNode } from "graphql";
 import { fragmentReducer } from "../fragment-reducer";
 import { expectedFragmentsReduced as efr1, operationQuery as op1 } from "./common1.fixtures";
 import { expectedFragmentsReduced as efr2, operationQuery as op2 } from "./common2.fixtures";
