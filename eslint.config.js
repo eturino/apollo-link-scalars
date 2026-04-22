@@ -5,10 +5,14 @@
 // @typescript-eslint so we catch common footguns (floating promises,
 // misused promises, unsafe assignments, etc.) while keeping the rules
 // that made sense in the previous setup.
+//
+// `eslint-plugin-import` was dropped: its lint value for a TypeScript
+// project (unresolved imports, invalid named/default imports, export
+// conflicts) is fully covered by the TypeScript compiler, and its peer
+// dep range kept us from moving to ESLint 10.
 
 const js = require("@eslint/js");
 const tseslint = require("typescript-eslint");
-const importPlugin = require("eslint-plugin-import");
 const prettier = require("eslint-config-prettier");
 
 module.exports = [
@@ -20,20 +24,11 @@ module.exports = [
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
 
-  importPlugin.flatConfigs.errors,
-  importPlugin.flatConfigs.warnings,
-  importPlugin.flatConfigs.typescript,
-
   {
     languageOptions: {
       parserOptions: {
         projectService: true,
         tsconfigRootDir: __dirname,
-      },
-    },
-    settings: {
-      "import/resolver": {
-        typescript: { alwaysTryTypes: true },
       },
     },
     rules: {
@@ -77,13 +72,6 @@ module.exports = [
       ],
       "no-return-await": "error",
       eqeqeq: ["error", "always"],
-
-      // Noise we already lived with pre-upgrade.
-      "import/no-cycle": "off",
-      "import/no-named-as-default": "off",
-      "import/default": "off",
-      "import/named": "off",
-      "import/no-named-as-default-member": "off",
     },
   },
 
