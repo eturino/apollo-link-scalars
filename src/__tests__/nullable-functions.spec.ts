@@ -105,10 +105,10 @@ describe("nullable-functions", () => {
   });
 
   describe("with custom null functions", () => {
-    type Maybe<T> = {
+    interface Maybe<T> {
       typename: "just" | "nothing";
       value?: T;
-    };
+    }
 
     const request: GraphQLRequest = {
       query: queryDocument,

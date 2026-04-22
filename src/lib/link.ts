@@ -9,13 +9,13 @@ import { isListTypeNode, isNonNullTypeNode, isOperationDefinitionNode } from "./
 import { Serializer } from "./serializer";
 import { treatResult } from "./treat-result";
 
-type ScalarApolloLinkParams = {
+interface ScalarApolloLinkParams {
   schema: GraphQLSchema;
   typesMap?: FunctionsMap;
   validateEnums?: boolean;
   removeTypenameFromInputs?: boolean;
   nullFunctions?: NullFunctions;
-};
+}
 
 // Forward-function shape that is structurally compatible with both
 // v3 `NextLink` and v4 `ApolloLink.ForwardFunction`.
@@ -23,7 +23,9 @@ type ForwardFn = (operation: Operation) => Observable<FetchResult> | null;
 
 // Structural subscription type that covers both v3 zen-observable `Subscription`
 // and v4 rxjs `Subscription`. We only ever call `unsubscribe()` on it.
-type LinkSubscription = { unsubscribe(): void };
+interface LinkSubscription {
+  unsubscribe(): void;
+}
 
 export class ScalarApolloLink extends ApolloLink {
   public readonly schema: GraphQLSchema;

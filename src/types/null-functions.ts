@@ -1,4 +1,4 @@
-export type NullFunctions = {
+export interface NullFunctions {
   serialize(input: any): any | null;
   parseValue(raw: any | null): any;
-};
+}
