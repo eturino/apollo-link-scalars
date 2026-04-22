@@ -11,7 +11,8 @@
 
   "ignoreDependencies": [
     "prettier-plugin-organize-imports",
-    "cz-conventional-changelog"
+    "cz-conventional-changelog",
+    "rxjs"
   ],
 
   "ignoreBinaries": ["npm-scripts-info"],
