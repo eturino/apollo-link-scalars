@@ -25,7 +25,7 @@ import { NullFunctions } from "../types/null-functions";
 import { isNone } from "./is-none";
 import { ReducedFieldNode } from "./node-types";
 
-type Data = { [key: string]: any };
+type Data = Record<string, any>;
 
 function ensureNullable(type: GraphQLType): GraphQLNullableType {
   return isNonNullType(type) ? type.ofType : type;
@@ -101,7 +101,7 @@ export class Parser {
   }
 
   protected parseScalar(value: any, type: GraphQLScalarType): any {
-    const fns = this.functionsMap[type.name] || type;
+    const fns = this.functionsMap[type.name] ?? type;
     return fns.parseValue(value);
   }
 
@@ -123,7 +123,7 @@ export class Parser {
     givenType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType,
     fieldNode: ReducedFieldNode
   ): any {
-    if (!value || !fieldNode || !fieldNode.selectionSet || !fieldNode.selectionSet.selections.length) {
+    if (!value || !fieldNode.selectionSet?.selections.length) {
       return value;
     }
 
@@ -134,7 +134,7 @@ export class Parser {
 
   protected getObjectTypeFrom(
     value: any,
-    type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInterfaceType | GraphQLInputObjectType
+    type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType
   ): GraphQLObjectType | GraphQLInputObjectType | null {
     if (isInputObjectType(type) || isObjectType(type)) return type;
     if (!value.__typename) return null;
