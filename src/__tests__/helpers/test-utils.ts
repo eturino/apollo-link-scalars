@@ -8,7 +8,6 @@ import {
   Observable,
 } from "@apollo/client/core";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const apolloPkgVersion: string = require("@apollo/client/package.json").version;
 const isV4 = apolloPkgVersion.startsWith("4.");
 
@@ -16,13 +15,16 @@ const testClient = new ApolloClient({ cache: new InMemoryCache(), link: ApolloLi
 
 // v4's `execute` requires a third `{ client }` context arg; v3's signature is 2-arg.
 // Normalise both behind the same call shape so specs don't branch on version.
+// The signature differs between majors, so we route through `any` to satisfy
+// whichever one happens to be installed.
+const executeAny = apolloExecute as unknown as (
+  l: ApolloLink,
+  r: GraphQLRequest,
+  c?: { client: unknown }
+) => Observable<FetchResult>;
+
 export function execute(link: ApolloLink, request: GraphQLRequest): Observable<FetchResult> {
-  if (isV4) {
-    return (
-      apolloExecute as unknown as (l: ApolloLink, r: GraphQLRequest, c: { client: unknown }) => Observable<FetchResult>
-    )(link, request, { client: testClient });
-  }
-  return (apolloExecute as unknown as (l: ApolloLink, r: GraphQLRequest) => Observable<FetchResult>)(link, request);
+  return isV4 ? executeAny(link, request, { client: testClient }) : executeAny(link, request);
 }
 
 // v3 ships `Observable.of` (zen-observable); v4 swapped to rxjs which has no such static.

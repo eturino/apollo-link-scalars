@@ -52,7 +52,7 @@ export class Serializer {
   }
 
   protected serializeLeaf(value: any, type: GraphQLScalarType | GraphQLEnumType): any {
-    const fns = this.functionsMap[type.name] || type;
+    const fns = this.functionsMap[type.name] ?? type;
     return fns.serialize(value);
   }
 
@@ -60,7 +60,7 @@ export class Serializer {
     let value = givenValue;
     if (this.removeTypenameFromInputs) {
       value = { ...givenValue };
-      delete value["__typename"];
+      delete value.__typename;
     }
 
     const ret: any = {};

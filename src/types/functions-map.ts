@@ -1,10 +1,8 @@
 import { GraphQLLeafType, GraphQLScalarSerializer, GraphQLScalarValueParser } from "graphql";
 
-export type ParsingFunctionsObject<TParsed = any, TRaw = any> = {
+export interface ParsingFunctionsObject<TParsed = any, TRaw = any> {
   serialize: GraphQLScalarSerializer<TRaw>;
   parseValue: GraphQLScalarValueParser<TParsed>;
-};
+}
 
-export type FunctionsMap = {
-  [key: string]: GraphQLLeafType | ParsingFunctionsObject;
-};
+export type FunctionsMap = Record<string, GraphQLLeafType | ParsingFunctionsObject>;
