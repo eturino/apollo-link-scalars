@@ -1,5 +1,5 @@
-import { ApolloLink, DocumentNode, execute, gql, GraphQLRequest, Observable } from "@apollo/client/core";
-import { getOperationName } from "@apollo/client/utilities";
+import { ApolloLink, DocumentNode, gql, GraphQLRequest } from "@apollo/client/core";
+import { execute, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "..";
 import { isNone } from "../lib/is-none";
@@ -40,8 +40,6 @@ describe("nullable-functions", () => {
       }
     }
   `;
-  const queryOperationName = getOperationName(queryDocument);
-  if (!queryOperationName) throw new Error("invalid query operation name");
 
   const responseWithNulls = {
     data: {
@@ -74,13 +72,12 @@ describe("nullable-functions", () => {
     const request: GraphQLRequest = {
       query: queryDocument,
       variables: { input: { nullField: "a" } },
-      operationName: queryOperationName,
     };
     it("parses nulls correctly", (done) => {
       const link = ApolloLink.from([
         withScalars({ schema }),
         new ApolloLink(() => {
-          return Observable.of(responseWithNulls);
+          return observableOf(responseWithNulls);
         }),
       ]);
 
@@ -95,7 +92,7 @@ describe("nullable-functions", () => {
       const link = ApolloLink.from([
         withScalars({ schema }),
         new ApolloLink(() => {
-          return Observable.of(responseWithoutNulls);
+          return observableOf(responseWithoutNulls);
         }),
       ]);
 
@@ -116,7 +113,6 @@ describe("nullable-functions", () => {
     const request: GraphQLRequest = {
       query: queryDocument,
       variables: { input: { nullField: { typename: "just", value: "a" } } },
-      operationName: queryOperationName,
     };
 
     const nullFunctions: NullFunctions = {
@@ -144,7 +140,7 @@ describe("nullable-functions", () => {
       const link = ApolloLink.from([
         withScalars({ schema, nullFunctions }),
         new ApolloLink(() => {
-          return Observable.of(responseWithNulls);
+          return observableOf(responseWithNulls);
         }),
       ]);
 
@@ -169,7 +165,7 @@ describe("nullable-functions", () => {
       const link = ApolloLink.from([
         withScalars({ schema, nullFunctions }),
         new ApolloLink(() => {
-          return Observable.of(responseWithoutNulls);
+          return observableOf(responseWithoutNulls);
         }),
       ]);
 
