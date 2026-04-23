@@ -23,6 +23,7 @@ const schema = buildSchema(`
     createdAt: DateTime
     tags: [String!]
     prices: [Money!]
+    requiredPrices: [Money!]!
     meta: Meta
     author: Author
   }
@@ -33,6 +34,7 @@ const schema = buildSchema(`
 
   type Query {
     post(id: ID!): Post
+    now(scale: String): DateTime
   }
 `);
 
@@ -172,6 +174,32 @@ describe("reviveScalarsInCache", () => {
     const out = reviveScalarsInCache(extracted, schema, typesMap);
     // Unknown typename -> untouched, no crash.
     expect(out["Ghost:1"].createdAt).toBe("2017-11-04T18:48:46.250Z");
+  });
+
+  it("parses every element of a non-null list of non-null scalars", () => {
+    const extracted = {
+      "Post:1": {
+        __typename: "Post",
+        id: "1",
+        title: "hello",
+        requiredPrices: ["1.50", "2.99", "10.00"],
+      },
+    };
+    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    expect(out["Post:1"].requiredPrices).toEqual([150, 299, 1000]);
+  });
+
+  it("parses a scalar field with arguments stored under ROOT_QUERY", () => {
+    const extracted = {
+      ROOT_QUERY: {
+        __typename: "Query",
+        'now({"scale":"utc"})': "2021-06-15T12:00:00.000Z",
+      },
+    };
+    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const value = out.ROOT_QUERY['now({"scale":"utc"})'];
+    expect(value).toBeInstanceOf(Date);
+    expect((value as unknown as Date).toISOString()).toBe("2021-06-15T12:00:00.000Z");
   });
 
   it("is idempotent when parseValue returns the same shape", () => {
