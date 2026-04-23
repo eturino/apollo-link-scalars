@@ -27,6 +27,14 @@ export function execute(link: ApolloLink, request: GraphQLRequest): Observable<F
   return isV4 ? executeAny(link, request, { client: testClient }) : executeAny(link, request);
 }
 
+// Promise helper: subscribe once, resolve on the first `next`, reject on error.
+// Used by specs to convert the old jest `done`-callback pattern into async/await.
+export function firstValue<T>(observable: Observable<T>): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    observable.subscribe({ next: resolve, error: reject });
+  });
+}
+
 // v3 ships `Observable.of` (zen-observable); v4 swapped to rxjs which has no such static.
 // Use the static when available, fall back to the constructor pattern (works on both).
 export function observableOf<T>(value: T): Observable<T> {

@@ -1,6 +1,6 @@
 import { cloneDeep } from "es-toolkit";
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import { withScalars } from "..";
@@ -258,7 +258,7 @@ describe("scalar returned directly from first level queries", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to serialize", (done) => {
+  it("use the scalar resolvers in the schema to serialize", async () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink((operation) => {
@@ -278,15 +278,11 @@ describe("scalar returned directly from first level queries", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(request));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(request)));
+    expect(value).toEqual(expectedResponse);
   });
 
-  it("override the scala resolvers with the custom functions map", (done) => {
+  it("override the scala resolvers with the custom functions map", async () => {
     const customRequest: GraphQLRequest = {
       query: { ...queryDocument },
       variables: {
@@ -315,11 +311,7 @@ describe("scalar returned directly from first level queries", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(customRequest));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(customRequest)));
+    expect(value).toEqual(expectedResponse);
   });
 });

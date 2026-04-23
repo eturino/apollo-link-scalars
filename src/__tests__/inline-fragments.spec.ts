@@ -1,5 +1,5 @@
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import { withScalars } from "..";
@@ -222,7 +222,7 @@ fragment FragmentB on SomeFieldB {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to parse back", (done) => {
+  it("use the scalar resolvers in the schema to parse back", async () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
@@ -246,15 +246,11 @@ fragment FragmentB on SomeFieldB {
       },
     };
 
-    const observable = execute(link, request);
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(1);
+    const value = await firstValue(execute(link, request));
+    expect(value).toEqual(expectedResponse);
   });
 
-  it("override the scalar resolvers with the custom functions map", (done) => {
+  it("override the scalar resolvers with the custom functions map", async () => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink(() => {
@@ -278,11 +274,7 @@ fragment FragmentB on SomeFieldB {
       },
     };
 
-    const observable = execute(link, request);
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(1);
+    const value = await firstValue(execute(link, request));
+    expect(value).toEqual(expectedResponse);
   });
 });
