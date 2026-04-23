@@ -9,7 +9,15 @@ import {
   isScalarType,
 } from "graphql";
 import type { FunctionsMap } from "../types/functions-map";
+import type { NullFunctions } from "../types/null-functions";
+import defaultNullFunctions from "./default-null-functions";
 import { isNone } from "./is-none";
+
+export interface ReviveScalarsInCacheOptions {
+  schema: GraphQLSchema;
+  typesMap: FunctionsMap;
+  nullFunctions?: NullFunctions;
+}
 
 /**
  * Re-applies the custom scalar `parseValue` functions to a cache snapshot that
@@ -28,11 +36,11 @@ import { isNone } from "./is-none";
  *
  * @example
  * const raw = JSON.parse(await AsyncStorage.getItem("apollo-cache"));
- * cache.restore(reviveScalarsInCache(raw, schema, typesMap));
+ * cache.restore(reviveScalarsInCache(raw, { schema, typesMap }));
  *
  * @example
  * await persistCache({ cache, storage });
- * cache.restore(reviveScalarsInCache(cache.extract(), schema, typesMap));
+ * cache.restore(reviveScalarsInCache(cache.extract(), { schema, typesMap }));
  *
  * @remarks
  * Mutates `extracted` in place and returns the same reference. The
@@ -41,11 +49,13 @@ import { isNone } from "./is-none";
  * live cache) or a `JSON.parse(...)` result; don't pass a live
  * in-memory structure shared with the rest of the app.
  *
- * Merges `typesMap` with the schema's own leaf types the same way
- * `withScalars` does (see `src/lib/link.ts`). A scalar defined
- * programmatically via `new GraphQLScalarType({ parseValue })` will
- * therefore be applied on rehydration even when the caller's
- * `typesMap` omits it, matching the network-path behavior.
+ * Merges `typesMap` with the schema's own leaf types and honors
+ * `nullFunctions` the same way `withScalars` does (see
+ * `src/lib/link.ts`). A scalar defined programmatically via
+ * `new GraphQLScalarType({ parseValue })` is therefore applied on
+ * rehydration even when the caller's `typesMap` omits it, and any
+ * null-monad transform passed to `withScalars` can be repeated here
+ * to keep both paths producing the same shape.
  *
  * Idempotence is caller-contingent. `reviveScalarsInCache` calls
  * `parseValue` once per field per pass, so invoking it twice on the
@@ -60,16 +70,25 @@ import { isNone } from "./is-none";
  */
 export function reviveScalarsInCache<T extends Record<string, unknown>>(
   extracted: T,
-  schema: GraphQLSchema,
-  typesMap: FunctionsMap
+  options: ReviveScalarsInCacheOptions
 ): T {
-  const functionsMap = buildFunctionsMap(schema, typesMap);
+  const ctx: RevivalContext = {
+    schema: options.schema,
+    functionsMap: buildFunctionsMap(options.schema, options.typesMap),
+    nullFunctions: options.nullFunctions ?? defaultNullFunctions,
+  };
   for (const value of Object.values(extracted)) {
     if (isEntityObject(value)) {
-      reviveEntity(value, schema, functionsMap);
+      reviveEntity(value, ctx);
     }
   }
   return extracted;
+}
+
+interface RevivalContext {
+  schema: GraphQLSchema;
+  functionsMap: FunctionsMap;
+  nullFunctions: NullFunctions;
 }
 
 // Mirror of `ScalarApolloLink`'s constructor logic (`src/lib/link.ts`):
@@ -107,10 +126,10 @@ function extractFieldName(cacheKey: string): string {
   return boundaries.length === 0 ? cacheKey : cacheKey.slice(0, Math.min(...boundaries));
 }
 
-function reviveEntity(entity: EntityObject, schema: GraphQLSchema, functionsMap: FunctionsMap): void {
+function reviveEntity(entity: EntityObject, ctx: RevivalContext): void {
   const typename = entity.__typename;
   if (!typename) return;
-  const type = schema.getType(typename);
+  const type = ctx.schema.getType(typename);
   if (!isObjectType(type)) return;
   const fields = type.getFields();
 
@@ -118,33 +137,39 @@ function reviveEntity(entity: EntityObject, schema: GraphQLSchema, functionsMap:
     if (cacheKey === "__typename") continue;
     const field = fields[extractFieldName(cacheKey)];
     if (!field) continue;
-    entity[cacheKey] = reviveValue(entity[cacheKey], field.type, schema, functionsMap);
+    entity[cacheKey] = reviveValue(entity[cacheKey], field.type, ctx);
   }
 }
 
-function reviveValue(
-  value: unknown,
-  type: GraphQLOutputType,
-  schema: GraphQLSchema,
-  functionsMap: FunctionsMap
-): unknown {
-  if (isNone(value)) return value;
+// Matches `parser.ts`'s `treatValue` / `treatValueNullable` split: only
+// nullable fields get wrapped through `nullFunctions.parseValue`, and the
+// wrap happens AFTER the inner scalar / list / object revival.
+function reviveValue(value: unknown, type: GraphQLOutputType, ctx: RevivalContext): unknown {
+  if (isNonNullType(type)) {
+    return reviveValueInternal(value, type, ctx);
+  }
+  const wrapped = reviveValueInternal(value, type, ctx);
+  return ctx.nullFunctions.parseValue(wrapped);
+}
+
+function reviveValueInternal(value: unknown, type: GraphQLOutputType, ctx: RevivalContext): unknown {
   const nullable = isNonNullType(type) ? type.ofType : type;
+  if (isNone(value)) return value;
 
   if (isListType(nullable)) {
     if (!Array.isArray(value)) return value;
-    return value.map((element) => reviveValue(element, nullable.ofType, schema, functionsMap));
+    return value.map((element) => reviveValue(element, nullable.ofType, ctx));
   }
 
   if (isScalarType(nullable)) {
-    const funcs = functionsMap[nullable.name] ?? nullable;
+    const funcs = ctx.functionsMap[nullable.name] ?? nullable;
     return funcs.parseValue(value);
   }
 
   // Embedded non-normalized object (has __typename inline) — recurse.
   // Normalized references (__ref) are walked via the top-level loop instead.
   if (isObjectType(nullable) && isEntityObject(value) && !isRef(value)) {
-    reviveEntity(value, schema, functionsMap);
+    reviveEntity(value, ctx);
   }
 
   // Interfaces, unions, enums, ref objects fall through unchanged.
