@@ -16,7 +16,7 @@
 
 [Github repo here](https://github.com/eturino/apollo-link-scalars)
 
-Custom Apollo Link to allow to parse custom scalars from responses, as well as serialize custom scalars in inputs. It can also validate enums, and cleanup `__typename` from inputs. (see [Usage](#usage) and [Options](#options)).
+Custom Apollo Link to parse custom scalars from GraphQL responses and serialize them back in variables. It also validates enums, can strip `__typename` from inputs, and now includes a cache rehydration helper for JSON-persisted Apollo caches. See [Usage](#usage), [Options](#options), and [Rehydrating a persisted cache (`reviveScalarsInCache`)](#rehydrating-a-persisted-cache-revivescalarsincache).
 
 ## Library Versions
 
@@ -26,9 +26,9 @@ The deprecated [Apollo Client v2](https://www.apollographql.com/docs/react/migra
 
 Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a [migration to 0.3.x is recommended](#breaking-change-removing-makeexecutableschema)
 
-### Apollo Client v3 -> `apollo-link-scalars` `v2.x`, `v3.x`, `v4.x`
+### Apollo Client v3 and v4 -> `apollo-link-scalars` `v5+`
 
-The current [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/) is used in the versions from 1.0
+`apollo-link-scalars` `v5+` supports both [Apollo Client v3](https://www.apollographql.com/docs/react/migrating/apollo-client-3-migration/) and Apollo Client v4.
 
 The 1.x family is considered deprecated and a [migration to 2.x or greater is recommended](#breaking-change-removing-makeexecutableschema)
 
@@ -51,26 +51,69 @@ In the [original Apollo Client Github issue thread about scalar parsing](https:/
 
 Apollo Client still does not support this natively. The original 2016 ticket was closed in 2018 as a housekeeping redirect to [`apollographql/apollo-feature-requests#368`](https://github.com/apollographql/apollo-feature-requests/issues/368), which has been open ever since. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.
 
-**UPDATE**: [@woltob](https://github.com/woltob) surfaced the JSON-backed persistence case in [issue #760](https://github.com/eturino/apollo-link-scalars/issues/760). The [`reviveScalarsInCache`](#rehydrating-a-persisted-cache-revivescalarsincache) helper documented below addresses it.
+**UPDATE**: [@woltob](https://github.com/woltob) surfaced the JSON-backed persistence case in [issue #760](https://github.com/eturino/apollo-link-scalars/issues/760). The [`reviveScalarsInCache`](#rehydrating-a-persisted-cache-revivescalarsincache) helper documented below is available in `apollo-link-scalars` `v5+`.
 
 ## Installation
 
-`pnpm add apollo-link-scalars graphql` or `npm install apollo-link-scalars graphql`.
+Install the library together with `graphql`, plus the Apollo Client version your app already uses.
+
+```sh
+pnpm add apollo-link-scalars graphql @apollo/client
+```
+
+Use `apollo-link-scalars` `v5+` if you are on `@apollo/client` v3 or v4.
+
+## What It Does
+
+- Parses custom scalar fields in GraphQL responses by walking the query result with your schema.
+- Serializes custom scalar input values before they are sent over the network.
+- Lets `typesMap` overrides win over schema scalar implementations when you need app-specific behavior.
+- Optionally validates enum values and removes `__typename` from inputs.
+- Rehydrates parsed scalar values back into a JSON-restored Apollo cache with `reviveScalarsInCache` in `v5+`.
+
+## Working Examples
+
+This repository includes small React/Vite apps that demonstrate the main supported scenarios:
+
+- [Apollo Client v3 example](./test-apps/apollo-v3-react) shows `withScalars` with Apollo Client v3.
+- [Apollo Client v4 example](./test-apps/apollo-v4-react) shows `withScalars` with Apollo Client v4.
+- [Persisted cache rehydration example](./test-apps/apollo-v4-persisted-cache) shows `reviveScalarsInCache` restoring parsed scalar values after JSON-backed cache persistence.
 
 ## Usage
 
-We need to pass a `GraphQLSchema`, and optionally we can also pass a map of custom serialization/parsing functions for specific types.
+At runtime you provide:
 
-You can build the link by calling the `withScalars()` function, passing to it the `schema` and optionally a `typesMap`.
+- a `GraphQLSchema`
+- optionally, a `typesMap` with custom `parseValue` / `serialize` functions
+- optionally, behavior flags such as enum validation, `__typename` stripping, and `nullFunctions`
+
+Build the link with `withScalars()` and place it before your HTTP link.
+
+### Basic Setup
+
+```typescript
+import { withScalars } from "apollo-link-scalars";
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client/core";
+import { schema } from "./my-schema";
+
+const httpLink = new HttpLink({ uri: "http://example.org/graphql" });
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: ApolloLink.from([withScalars({ schema }), httpLink]),
+});
+```
+
+### Overriding Scalar Behavior With `typesMap`
+
+You can override specific scalar parsing or serialization rules with `typesMap`. These functions take priority over any scalar implementation already present in the schema.
 
 ```typescript
 import { withScalars } from "apollo-link-scalars";
 import { ApolloLink, HttpLink } from "@apollo/client/core";
+import { isString } from "es-toolkit";
 import { schema } from "./my-schema";
 
-const link = ApolloLink.from([withScalars({ schema }), new HttpLink({ uri: "http://example.org/graphql" })]);
-
-// we can also pass a custom map of functions. These will have priority over the GraphQLTypes parsing and serializing functions from the Schema.
 const typesMap = {
   CustomScalar: {
     serialize: (parsed: unknown): string | null => (parsed instanceof CustomScalar ? parsed.toString() : null),
@@ -85,16 +128,16 @@ const typesMap = {
   },
 };
 
-const link2 = ApolloLink.from([withScalars({ schema, typesMap }), new HttpLink({ uri: "http://example.org/graphql" })]);
+const link = ApolloLink.from([withScalars({ schema, typesMap }), new HttpLink({ uri: "http://example.org/graphql" })]);
 ```
 
 ### Options
 
-We can pass extra options to `withScalars()` to modify the behaviour
+`withScalars()` accepts these extra options:
 
 - **`removeTypenameFromInputs`** (`Boolean`, default `false`): when enabled, it will remove from the inputs the `__typename` if it is found. This could be useful if we are using data received from a query as an input on another query.
 - **`validateEnums`** (`Boolean`, default `false`): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.
-- **`nullFunction`** (`NullFunction`, default `null`): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from the null types. See below for an example.
+- **`nullFunctions`** (`NullFunctions`, optional): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from null values. See [Changing the behaviour of nullable types](#changing-the-behaviour-of-nullable-types).
 
 ```typescript
 withScalars({
@@ -102,6 +145,24 @@ withScalars({
   typesMap,
   validateEnums: true,
   removeTypenameFromInputs: true,
+});
+```
+
+### End-To-End Example
+
+This is the usual shape in an application:
+
+```typescript
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
+import { withScalars } from "apollo-link-scalars";
+import { schema, typesMap } from "./graphql/scalars";
+
+const cache = new InMemoryCache();
+const httpLink = new HttpLink({ uri: "/graphql" });
+
+export const client = new ApolloClient({
+  cache,
+  link: ApolloLink.from([withScalars({ schema, typesMap, validateEnums: true }), httpLink]),
 });
 ```
 
@@ -186,7 +247,7 @@ const scalarsLink = withScalars({
 
 #### Changing the behaviour of nullable types
 
-By passing the `nullFunctions` parameter to `withScalar`, you can change the way that nullable types are handled. The default implementation will leave them exactly as is, i.e. `null` => `null` and `value` => `value`. If instead, you e.g. wish to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from [Seidr](https://github.com/hojberg/seidr) but any implementation will do.
+By passing the `nullFunctions` parameter to `withScalars`, you can change the way nullable types are handled. The default implementation leaves them as-is, i.e. `null => null` and `value => value`. If instead you want to transform nulls into a Maybe monad, you can supply functions corresponding to the following type. The examples below are based on the Maybe monad from [Seidr](https://github.com/hojberg/seidr), but any implementation will do.
 
 ```typescript
 type NullFunctions = {
@@ -268,6 +329,8 @@ const raw = JSON.parse(await AsyncStorage.getItem("apollo-cache"));
 cache.restore(reviveScalarsInCache(raw, { schema, typesMap }));
 ```
 
+Use the same `schema`, `typesMap`, and `nullFunctions` you already use in `withScalars` so network responses and cache rehydration produce the same shapes.
+
 Options:
 
 - **`schema`** (required) — the same `GraphQLSchema` you pass to `withScalars`.
@@ -294,7 +357,7 @@ I started working on this after following the Apollo feature request https://git
 <details><summary>See documentation for development</summary>
 <p>
 
-For the current release checklist, see [RELEASING.md](./RELEASING.md).
+For the current release checklist, CI publishing setup, and npm trusted publishing workflow, see [RELEASING.md](./RELEASING.md).
 
 ### Commits and CHANGELOG
 
@@ -318,35 +381,12 @@ You may find a tool like [**`wip`**](https://github.com/bitjson/wip) helpful for
 
 ### Release Process
 
-Recommended release flow for this repository:
+The canonical release process now lives in [RELEASING.md](./RELEASING.md). In short:
 
-```sh
-# start from a clean checkout of the release branch
-pnpm install --frozen-lockfile
-
-# run the full verification suite
-pnpm test:full
-pnpm e2e:run
-
-# optional: regenerate the docs locally and inspect them
-pnpm doc:html
-
-# create the release commit, changelog update, and git tag
-pnpm version
-
-# push the release commit and tag
-git push --follow-tags origin <release-branch>
-
-# publish the package to npm
-npm publish --provenance --access public
-```
-
-Notes:
-
-- `pnpm version` runs `standard-version`, which creates a `chore(release): x.y.z` commit, updates [`CHANGELOG.md`](CHANGELOG.md), and creates the `vx.y.z` tag.
-- Run releases from a clean branch tip after CI is green. Avoid mixing unrelated changes into the release commit.
-- Review the generated changelog before pushing the tag, especially if commit messages were noisy or inconsistent.
-- `npm publish --provenance` is the recommended modern npm publish mode when publishing from a trusted environment with npm support for provenance.
+- verify locally with `pnpm test:full` and `pnpm e2e:run`
+- run `pnpm version` to create the release commit, changelog update, and tag
+- push with `git push --follow-tags origin <release-branch>`
+- let GitHub Actions publish the package to npm via trusted publishing
 
 ### First Release / Special Cases
 
@@ -369,14 +409,11 @@ pnpm version -- --first-release
 # $ pnpm version -- --prerelease alpha
 ```
 
-After that, publish the docs if needed and push the new tag before publishing to npm.
+After that, publish the docs if needed and push the new tag.
 
 ```sh
 # Push to git
 git push --follow-tags origin <release-branch>
-
-# Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)
-npm publish --provenance --access public
 ```
 
 ### Publish the Docs
@@ -397,9 +434,6 @@ pnpm prepare-release
 
 # Push to git
 git push --follow-tags origin <release-branch>
-
-# Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)
-npm publish --provenance --access public
 ```
 
 </p>
