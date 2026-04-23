@@ -59,7 +59,7 @@ describe("reviveScalarsInCache", () => {
         createdAt: "2017-11-04T18:48:46.250Z",
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].createdAt).toBeInstanceOf(Date);
     expect((out["Post:1"].createdAt as unknown as Date).toISOString()).toBe("2017-11-04T18:48:46.250Z");
   });
@@ -68,7 +68,7 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Post:1": { __typename: "Post", id: "1", title: "hello" },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].title).toBe("hello");
   });
 
@@ -76,7 +76,7 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Post:1": { __typename: "Post", id: "1", title: "hello", createdAt: null },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].createdAt).toBeNull();
   });
 
@@ -89,7 +89,7 @@ describe("reviveScalarsInCache", () => {
         prices: ["1.50", "2.99"],
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].prices).toEqual([150, 299]);
   });
 
@@ -97,7 +97,7 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Post:1": { __typename: "Post", id: "1", title: "hello", tags: ["a", "b"] },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].tags).toEqual(["a", "b"]);
   });
 
@@ -114,7 +114,7 @@ describe("reviveScalarsInCache", () => {
         createdAt: "2017-11-04T18:48:46.250Z",
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].createdAt).toBeInstanceOf(Date);
     expect(out.ROOT_QUERY['post({"id":"1"})']).toEqual({ __ref: "Post:1" });
   });
@@ -128,7 +128,7 @@ describe("reviveScalarsInCache", () => {
         meta: { __typename: "Meta", lastEditedAt: "2020-01-02T00:00:00.000Z" },
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].meta).toBeDefined();
     const meta = out["Post:1"].meta as unknown as { lastEditedAt: Date };
     expect(meta.lastEditedAt).toBeInstanceOf(Date);
@@ -149,7 +149,7 @@ describe("reviveScalarsInCache", () => {
         joined: "1815-12-10T00:00:00.000Z",
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].author).toEqual({ __ref: "Author:42" });
     // The referenced entity is walked at the top level, not via the __ref hop.
     expect(out["Author:42"].joined).toBeInstanceOf(Date);
@@ -162,7 +162,7 @@ describe("reviveScalarsInCache", () => {
       nullEntry: null as unknown,
     };
     // Must not throw on non-object entries.
-    const out = reviveScalarsInCache(extracted as Record<string, unknown>, schema, typesMap);
+    const out = reviveScalarsInCache(extracted as Record<string, unknown>, { schema, typesMap });
     expect(out.stringEntry).toBe("wat");
     expect(out.nullEntry).toBeNull();
   });
@@ -171,7 +171,7 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Ghost:1": { __typename: "Ghost", id: "1", createdAt: "2017-11-04T18:48:46.250Z" },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     // Unknown typename -> untouched, no crash.
     expect(out["Ghost:1"].createdAt).toBe("2017-11-04T18:48:46.250Z");
   });
@@ -185,7 +185,7 @@ describe("reviveScalarsInCache", () => {
         requiredPrices: ["1.50", "2.99", "10.00"],
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     expect(out["Post:1"].requiredPrices).toEqual([150, 299, 1000]);
   });
 
@@ -196,7 +196,7 @@ describe("reviveScalarsInCache", () => {
         'now({"scale":"utc"})': "2021-06-15T12:00:00.000Z",
       },
     };
-    const out = reviveScalarsInCache(extracted, schema, typesMap);
+    const out = reviveScalarsInCache(extracted, { schema, typesMap });
     const value = out.ROOT_QUERY['now({"scale":"utc"})'];
     expect(value).toBeInstanceOf(Date);
     expect((value as unknown as Date).toISOString()).toBe("2021-06-15T12:00:00.000Z");
@@ -217,7 +217,7 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Event:1": { __typename: "Event", id: "1", when: "2022-08-01T00:00:00.000Z" },
     };
-    const out = reviveScalarsInCache(extracted, localSchema, {});
+    const out = reviveScalarsInCache(extracted, { schema: localSchema, typesMap: {} });
     expect(out["Event:1"].when).toBeInstanceOf(Date);
   });
 
@@ -233,10 +233,61 @@ describe("reviveScalarsInCache", () => {
     const extracted = {
       "Event:1": { __typename: "Event", id: "1", when: "2022-08-01T00:00:00.000Z" },
     };
-    const out = reviveScalarsInCache(extracted, localSchema, {
-      Timestamp: { serialize: (v) => v, parseValue: () => "from-typesMap" },
+    const out = reviveScalarsInCache(extracted, {
+      schema: localSchema,
+      typesMap: { Timestamp: { serialize: (v) => v, parseValue: () => "from-typesMap" } },
     });
     expect(out["Event:1"].when).toBe("from-typesMap");
+  });
+
+  it("wraps nullable field values through nullFunctions.parseValue but leaves non-null alone", () => {
+    // Mirrors `parser.ts` behavior: `nullFunctions.parseValue` only runs on
+    // nullable fields (see `parser.ts:77-80`). A caller using a Maybe monad
+    // on the network path via `withScalars` can repeat the same
+    // `nullFunctions` here and get the same shape after rehydration.
+    const localSchema = buildSchema(`
+      scalar DateTime
+      type Post { id: ID! nullableWhen: DateTime requiredWhen: DateTime! }
+      type Query { post(id: ID!): Post }
+    `);
+    const tsMap = {
+      DateTime: {
+        serialize: (v: unknown) => (v instanceof Date ? v.toISOString() : v),
+        parseValue: (v: unknown) => (typeof v === "string" ? new Date(v) : v),
+      },
+    };
+    const nullFunctions = {
+      serialize: (v: unknown) => v,
+      parseValue: (raw: unknown) =>
+        raw === null || raw === undefined ? { kind: "None" as const } : { kind: "Some" as const, value: raw },
+    };
+
+    const extracted = {
+      "Post:1": {
+        __typename: "Post",
+        id: "1",
+        nullableWhen: "2021-01-01T00:00:00.000Z",
+        requiredWhen: "2022-01-01T00:00:00.000Z",
+      },
+      "Post:2": {
+        __typename: "Post",
+        id: "2",
+        nullableWhen: null,
+        requiredWhen: "2022-01-01T00:00:00.000Z",
+      },
+    };
+
+    const out = reviveScalarsInCache(extracted, { schema: localSchema, typesMap: tsMap, nullFunctions });
+
+    // Nullable field with a value: scalar parsed first, then wrapped.
+    expect(out["Post:1"].nullableWhen).toEqual({
+      kind: "Some",
+      value: expect.any(Date),
+    });
+    // Non-null field: no wrap.
+    expect(out["Post:1"].requiredWhen).toBeInstanceOf(Date);
+    // Nullable field with null: scalar skipped, null wrapped.
+    expect(out["Post:2"].nullableWhen).toEqual({ kind: "None" });
   });
 
   it("is idempotent when parseValue returns the same shape", () => {
@@ -248,9 +299,9 @@ describe("reviveScalarsInCache", () => {
         createdAt: "2017-11-04T18:48:46.250Z",
       },
     };
-    const once = reviveScalarsInCache(extracted, schema, typesMap);
+    const once = reviveScalarsInCache(extracted, { schema, typesMap });
     // Second pass should be a no-op (parseValue keeps Date instances as-is).
-    const twice = reviveScalarsInCache(once, schema, typesMap);
+    const twice = reviveScalarsInCache(once, { schema, typesMap });
     expect(twice["Post:1"].createdAt).toBeInstanceOf(Date);
     expect((twice["Post:1"].createdAt as unknown as Date).toISOString()).toBe("2017-11-04T18:48:46.250Z");
   });
