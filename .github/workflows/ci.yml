@@ -32,10 +32,43 @@ jobs:
       - run: pnpm test
       - run: pnpm test:integration
 
+  # On `schedule`, decide whether the nightly e2e run has anything new to
+  # verify. Avoids burning CI minutes re-testing an idle repo against a
+  # live third-party endpoint. Skipped on `workflow_dispatch` (manual runs
+  # always proceed).
+  check-changes:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    outputs:
+      has_recent: ${{ steps.check.outputs.has_recent }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - id: check
+        run: |
+          # Schedule fires daily. Only run e2e if HEAD has a commit newer
+          # than the last schedule window (24h + 2h drift buffer).
+          LATEST=$(git log -1 --format=%ct)
+          NOW=$(date +%s)
+          AGE=$((NOW - LATEST))
+          THRESHOLD=$((26 * 3600))
+          if [ "$AGE" -lt "$THRESHOLD" ]; then
+            echo "has_recent=true" >> "$GITHUB_OUTPUT"
+            echo "Latest commit ${AGE}s old — running e2e"
+          else
+            echo "has_recent=false" >> "$GITHUB_OUTPUT"
+            echo "Latest commit ${AGE}s old (> ${THRESHOLD}s) — skipping e2e"
+          fi
+
   e2e:
-    # Gated: runs on manual dispatch and nightly cron only. PR/push skips to
-    # avoid flakes from the live rickandmortyapi.com endpoint blocking merges.
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    # Runs on manual dispatch always; on schedule only when check-changes
+    # finds a recent commit. PR/push never run here (covered by unit tests
+    # + matrix; e2e would block merges on live-endpoint flakes).
+    needs: [check-changes]
+    if: |
+      always() && (
+        github.event_name == 'workflow_dispatch' ||
+        (github.event_name == 'schedule' && needs.check-changes.outputs.has_recent == 'true')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
