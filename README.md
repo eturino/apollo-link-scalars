@@ -49,9 +49,9 @@ Parsing scalars at link level means that Apollo cache will receive them already 
 
 In the [original Apollo Client Github issue thread about scalar parsing](https://github.com/apollographql/apollo-client/issues/585), [this situation](https://github.com/apollographql/apollo-client/issues/585#issuecomment-400792837) [was discussed](https://github.com/apollographql/apollo-client/issues/585#issuecomment-400777797).
 
-At the time of this writing, Apollo Client still does not support this over 4 years after the original ticket was opened. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.
+Apollo Client still does not support this natively. The original 2016 ticket was closed in 2018 as a housekeeping redirect to [`apollographql/apollo-feature-requests#368`](https://github.com/apollographql/apollo-feature-requests/issues/368), which has been open ever since. A potential solution of parsing after the cache might have some other issues, like returning different instances for the cached data, which may not be ideal in some situations that rely on that (e.g. react re-render control). I think some users will benefit more from the automatic parsing and serializing than the cost of the potential cache interactions.
 
-**UPDATE**: [@woltob](https://github.com/woltob) has a proposal related to this: https://github.com/eturino/apollo-link-scalars/issues/760
+**UPDATE**: [@woltob](https://github.com/woltob) surfaced the JSON-backed persistence case in [issue #760](https://github.com/eturino/apollo-link-scalars/issues/760). The [`reviveScalarsInCache`](#rehydrating-a-persisted-cache-revivescalarsincache) helper documented below addresses it.
 
 ## Installation
 
@@ -236,6 +236,50 @@ if (isNone(value)) {
 const parsed = parseNonNullValue(value);
 return this.nullFunctions.parseValue(parsed);
 ```
+
+### Rehydrating a persisted cache (`reviveScalarsInCache`)
+
+`withScalars` runs inside the Apollo link chain, so it only parses operations flowing through the network. If you persist the Apollo cache with a JSON-backed store — [`apollo3-cache-persist`](https://github.com/apollographql/apollo-cache-persist), `AsyncStorage`, Redux-Persist, a custom adapter — the cache entries come back from storage as the shape JSON can hold: a custom `DateTime` becomes an ISO string, a custom `Money` becomes whatever `serialize` emitted, etc. The link never runs on rehydration, so the consumer never sees the parsed types. This is [issue #760](https://github.com/eturino/apollo-link-scalars/issues/760).
+
+`reviveScalarsInCache` is a pure, schema-driven helper that fixes this. Call it on the extracted cache snapshot to re-apply the custom `parseValue` functions to every scalar field declared in the schema, then hand the result back to `cache.restore`.
+
+```typescript
+import { reviveScalarsInCache, withScalars } from "apollo-link-scalars";
+import { LocalStorageWrapper, persistCache } from "apollo3-cache-persist";
+
+const cache = new InMemoryCache();
+
+await persistCache({ cache, storage: new LocalStorageWrapper(window.localStorage) });
+
+// `persistCache` has just repopulated the cache from storage. Revive the
+// snapshot so downstream cache reads see parsed scalars again.
+cache.restore(reviveScalarsInCache(cache.extract(), { schema, typesMap }));
+
+const client = new ApolloClient({
+  cache,
+  link: ApolloLink.from([withScalars({ schema, typesMap }), httpLink]),
+});
+```
+
+Works with any JSON-backed store, including ones that hand you the raw payload directly:
+
+```typescript
+const raw = JSON.parse(await AsyncStorage.getItem("apollo-cache"));
+cache.restore(reviveScalarsInCache(raw, { schema, typesMap }));
+```
+
+Options:
+
+- **`schema`** (required) — the same `GraphQLSchema` you pass to `withScalars`.
+- **`typesMap`** (required) — the same map you pass to `withScalars`. Entries here win over any `parseValue` defined on the schema scalar. Leaf types defined only on the schema are still applied (same merge behavior as `withScalars`).
+- **`nullFunctions`** (optional) — pass the same transform you pass to `withScalars` if you're boxing nullable values into a Maybe monad; nullable fields are wrapped through it on rehydration, matching what the link produces on the network path. Defaults to identity.
+
+Caveats:
+
+- Mutates the passed snapshot in place and returns the same reference. Pass a fresh object such as `cache.extract()` or a `JSON.parse(...)` result, not a live structure shared with the rest of the app.
+- Requires `__typename` on embedded non-normalized objects (Apollo's default — `new InMemoryCache()` adds it). Caches built with `addTypename: false` skip embedded object revival because there is no typename to look up in the schema. Top-level normalized entities still work because their `__typename` is part of the cache key Apollo writes regardless.
+- Interfaces, unions, and enum-scalar validation are out of scope in this first pass. Scalar fields nested under an interface- or union-typed field are not revived because the helper does not resolve the runtime `__typename` on the value itself the way the parser does.
+- Idempotence is caller-contingent. If you run the helper twice on the same snapshot, every scalar's `parseValue` runs twice. Safe only when `parseValue` detects its own output and short-circuits — e.g. `(v) => typeof v === "string" ? new Date(v) : v` leaves `Date` instances alone on a second pass. A naive `(v) => Number(v) * 100` will silently corrupt a second call (`150 -> 15000`).
 
 ## Acknowledgements
 

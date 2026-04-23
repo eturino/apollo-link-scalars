@@ -57,6 +57,21 @@ export interface ReviveScalarsInCacheOptions {
  * null-monad transform passed to `withScalars` can be repeated here
  * to keep both paths producing the same shape.
  *
+ * Requires `__typename` on embedded non-normalized objects, which is
+ * Apollo's default behavior. A cache built with
+ * `new InMemoryCache({ addTypename: false })` stores embedded objects
+ * without a `__typename` key, so `reviveScalarsInCache` cannot look
+ * them up in the schema and will leave their scalars unparsed.
+ * Top-level normalized entities still work because their cache key
+ * (`Foo:1`) and their `__typename` field are written by Apollo
+ * independent of the `addTypename` setting.
+ *
+ * Interfaces, unions, and enum-scalar validation are out of scope in
+ * this first pass. Scalar fields nested under an interface- or
+ * union-typed field are not revived because the helper does not
+ * resolve the runtime `__typename` on the value itself the way the
+ * network parser does.
+ *
  * Idempotence is caller-contingent. `reviveScalarsInCache` calls
  * `parseValue` once per field per pass, so invoking it twice on the
  * same snapshot parses every scalar twice. Safe only when the
