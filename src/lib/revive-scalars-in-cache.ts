@@ -31,6 +31,18 @@ import { isNone } from "./is-none";
  * @example
  * await persistCache({ cache, storage });
  * cache.restore(reviveScalarsInCache(cache.extract(), schema, typesMap));
+ *
+ * @remarks
+ * Idempotence is caller-contingent. `reviveScalarsInCache` calls
+ * `parseValue` once per field per pass, so invoking it twice on the
+ * same snapshot parses every scalar twice. Safe only when the
+ * supplied `parseValue` is itself idempotent — e.g. a `DateTime`
+ * parser that guards with `typeof v === "string"` before constructing
+ * a `Date` will leave `Date` instances alone on the second pass. A
+ * naive `Money` parser like `(v) => Number(v) * 100` is NOT
+ * idempotent: first pass turns `"1.50"` into `150`, second pass turns
+ * `150` into `15000` — silent corruption. When in doubt, make
+ * `parseValue` detect its own output and short-circuit.
  */
 export function reviveScalarsInCache<T extends Record<string, unknown>>(
   extracted: T,
