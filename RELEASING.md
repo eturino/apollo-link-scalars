@@ -1,6 +1,6 @@
 # Releasing
 
-This repository uses `standard-version` for release commits, changelog generation, and git tags.
+This repository uses `standard-version` for release commits, changelog generation, and git tags. Package publishing is intended to happen from GitHub Actions via npm trusted publishing.
 
 ## Prerequisites
 
@@ -13,7 +13,6 @@ This repository uses `standard-version` for release commits, changelog generatio
 ```sh
 pnpm install --frozen-lockfile
 pnpm test:full
-pnpm e2e:run
 
 # optional: regenerate docs locally and inspect them
 pnpm doc:html
@@ -30,10 +29,14 @@ git show --stat
 
 # publish commit + tag
 git push --follow-tags origin <release-branch>
-
-# publish to npm
-npm publish --provenance --access public
 ```
+
+Pushing the release tag triggers [`.github/workflows/publish.yml`](./.github/workflows/publish.yml), which:
+
+- installs dependencies with `pnpm install --frozen-lockfile`
+- runs `pnpm test:full`
+- runs `npm pack --dry-run`
+- publishes the package to npm using trusted publishing (OIDC)
 
 ## One-Step Local Prep
 
@@ -42,7 +45,6 @@ If you want the repo's bundled prep flow:
 ```sh
 pnpm prepare-release
 git push --follow-tags origin <release-branch>
-npm publish --provenance --access public
 ```
 
 `pnpm prepare-release` runs:
@@ -76,5 +78,5 @@ pnpm version -- --sign
 
 - `pnpm version` runs the package script, not the built-in npm versioning command.
 - Review `CHANGELOG.md` before pushing tags.
-- `npm publish --provenance` is the recommended npm publish mode when publishing from a supported trusted environment.
-- If the repository moves to GitHub Actions trusted publishing, the `npm publish` step should happen in CI rather than from a local machine.
+- npm trusted publishing automatically generates provenance for public packages published from this public GitHub repository, so the workflow uses plain `npm publish`.
+- Do not publish from a local machine unless you are intentionally bypassing the normal release path.

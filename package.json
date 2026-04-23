@@ -6,7 +6,10 @@
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/eturino/apollo-link-scalars",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eturino/apollo-link-scalars.git"
+  },
   "homepage": "https://github.com/eturino/apollo-link-scalars",
   "bugs": "https://github.com/eturino/apollo-link-scalars/issues",
   "license": "MIT",
