@@ -1,6 +1,6 @@
 import { cloneDeep } from "es-toolkit";
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLScalarType, Kind } from "graphql";
 import { withScalars } from "..";
@@ -305,7 +305,7 @@ describe("scalars in nested input objects", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("use the scalar resolvers in the schema to serialize (without removeTypenameFromInputs)", (done) => {
+  it("use the scalar resolvers in the schema to serialize (without removeTypenameFromInputs)", async () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink((operation) => {
@@ -332,15 +332,11 @@ describe("scalars in nested input objects", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(request));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(request)));
+    expect(value).toEqual(expectedResponse);
   });
 
-  it("use the scalar resolvers in the schema to serialize (with removeTypenameFromInputs -> removes __typename)", (done) => {
+  it("use the scalar resolvers in the schema to serialize (with removeTypenameFromInputs -> removes __typename)", async () => {
     const link = ApolloLink.from([
       withScalars({ schema, removeTypenameFromInputs: true }),
       new ApolloLink((operation) => {
@@ -365,15 +361,11 @@ describe("scalars in nested input objects", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(request));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(request)));
+    expect(value).toEqual(expectedResponse);
   });
 
-  it("override the scala resolvers with the custom functions map (without removeTypenameFromInputs)", (done) => {
+  it("override the scala resolvers with the custom functions map (without removeTypenameFromInputs)", async () => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap }),
       new ApolloLink((operation) => {
@@ -400,15 +392,11 @@ describe("scalars in nested input objects", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(request));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(request)));
+    expect(value).toEqual(expectedResponse);
   });
 
-  it("override the scala resolvers with the custom functions map (with removeTypenameFromInputs -> removes __typename)", (done) => {
+  it("override the scala resolvers with the custom functions map (with removeTypenameFromInputs -> removes __typename)", async () => {
     const link = ApolloLink.from([
       withScalars({ schema, typesMap, removeTypenameFromInputs: true }),
       new ApolloLink((operation) => {
@@ -430,11 +418,7 @@ describe("scalars in nested input objects", () => {
       },
     };
 
-    const observable = execute(link, cloneDeep(request));
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(2);
+    const value = await firstValue(execute(link, cloneDeep(request)));
+    expect(value).toEqual(expectedResponse);
   });
 });

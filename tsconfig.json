@@ -35,7 +35,10 @@
     "lib": [
       "es6"
     ],
-    // "types": [],
+    // @types/node for process/require; vitest globals come in via a
+    // triple-slash reference in src/types/vitest-globals.d.ts because
+    // classic moduleResolution can't follow vitest's package exports.
+    "types": ["node"],
     "typeRoots": [
       "node_modules/@types",
       "src/types"

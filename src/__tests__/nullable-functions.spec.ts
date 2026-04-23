@@ -1,5 +1,5 @@
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "..";
 import { isNone } from "../lib/is-none";
@@ -73,7 +73,7 @@ describe("nullable-functions", () => {
       query: queryDocument,
       variables: { input: { nullField: "a" } },
     };
-    it("parses nulls correctly", (done) => {
+    it("parses nulls correctly", async () => {
       const link = ApolloLink.from([
         withScalars({ schema }),
         new ApolloLink(() => {
@@ -81,14 +81,11 @@ describe("nullable-functions", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((result) => {
-        expect(result).toEqual(responseWithNulls);
-        done();
-      });
+      const result = await firstValue(execute(link, request));
+      expect(result).toEqual(responseWithNulls);
     });
 
-    it("parses non-nulls correctly", (done) => {
+    it("parses non-nulls correctly", async () => {
       const link = ApolloLink.from([
         withScalars({ schema }),
         new ApolloLink(() => {
@@ -96,11 +93,8 @@ describe("nullable-functions", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((result) => {
-        expect(result).toEqual(responseWithoutNulls);
-        done();
-      });
+      const result = await firstValue(execute(link, request));
+      expect(result).toEqual(responseWithoutNulls);
     });
   });
 
@@ -136,7 +130,7 @@ describe("nullable-functions", () => {
         }
       },
     };
-    it("parses nulls correctly", (done) => {
+    it("parses nulls correctly", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, nullFunctions }),
         new ApolloLink(() => {
@@ -144,24 +138,21 @@ describe("nullable-functions", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((result) => {
-        expect(result).toEqual({
-          data: {
-            exampleNullableArray: { typename: "nothing" },
-            exampleNullableNestedArray: { typename: "just", value: [{ typename: "nothing" }] },
-            nonNullObject: {
-              nullField: { typename: "nothing" },
-              nonNullField: "a",
-            },
-            nullObject: { typename: "nothing" },
+      const result = await firstValue(execute(link, request));
+      expect(result).toEqual({
+        data: {
+          exampleNullableArray: { typename: "nothing" },
+          exampleNullableNestedArray: { typename: "just", value: [{ typename: "nothing" }] },
+          nonNullObject: {
+            nullField: { typename: "nothing" },
+            nonNullField: "a",
           },
-        });
-        done();
+          nullObject: { typename: "nothing" },
+        },
       });
     });
 
-    it("parses non-nulls correctly", (done) => {
+    it("parses non-nulls correctly", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, nullFunctions }),
         new ApolloLink(() => {
@@ -169,29 +160,26 @@ describe("nullable-functions", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((result) => {
-        expect(result).toEqual({
-          data: {
-            exampleNullableArray: { typename: "just", value: ["a"] },
-            exampleNullableNestedArray: {
-              typename: "just",
-              value: [{ typename: "nothing" }, { typename: "just", value: "b" }],
-            },
-            nonNullObject: {
-              nullField: { typename: "just", value: "c" },
-              nonNullField: "d",
-            },
-            nullObject: {
-              typename: "just",
-              value: {
-                nullField: { typename: "just", value: "e" },
-                nonNullField: "f",
-              },
+      const result = await firstValue(execute(link, request));
+      expect(result).toEqual({
+        data: {
+          exampleNullableArray: { typename: "just", value: ["a"] },
+          exampleNullableNestedArray: {
+            typename: "just",
+            value: [{ typename: "nothing" }, { typename: "just", value: "b" }],
+          },
+          nonNullObject: {
+            nullField: { typename: "just", value: "c" },
+            nonNullField: "d",
+          },
+          nullObject: {
+            typename: "just",
+            value: {
+              nullField: { typename: "just", value: "e" },
+              nonNullField: "f",
             },
           },
-        });
-        done();
+        },
       });
     });
   });

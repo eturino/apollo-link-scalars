@@ -1,5 +1,5 @@
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql, GraphQLError } from "graphql";
 import { withScalars } from "..";
@@ -81,7 +81,7 @@ describe("enum returned directly from first level queries", () => {
   });
 
   describe("with valid enum values", () => {
-    it("validateEnums false (or missing) => return response", (done) => {
+    it("validateEnums false (or missing) => return response", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
@@ -89,15 +89,11 @@ describe("enum returned directly from first level queries", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((value) => {
-        expect(value).toEqual(validResponse);
-        done();
-      });
-      expect.assertions(1);
+      const value = await firstValue(execute(link, request));
+      expect(value).toEqual(validResponse);
     });
 
-    it("validateEnums false (or missing) => return response", (done) => {
+    it("validateEnums false (or missing) => return response", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
@@ -105,17 +101,13 @@ describe("enum returned directly from first level queries", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((value) => {
-        expect(value).toEqual(validResponse);
-        done();
-      });
-      expect.assertions(1);
+      const value = await firstValue(execute(link, request));
+      expect(value).toEqual(validResponse);
     });
   });
 
   describe("with invalid enum values", () => {
-    it("validateEnums false (or missing) => return invalid response", (done) => {
+    it("validateEnums false (or missing) => return invalid response", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: false }),
         new ApolloLink(() => {
@@ -123,15 +115,11 @@ describe("enum returned directly from first level queries", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((value) => {
-        expect(value).toEqual(invalidResponse);
-        done();
-      });
-      expect.assertions(1);
+      const value = await firstValue(execute(link, request));
+      expect(value).toEqual(invalidResponse);
     });
 
-    it("validateEnums true => return error", (done) => {
+    it("validateEnums true => return error", async () => {
       const link = ApolloLink.from([
         withScalars({ schema, validateEnums: true }),
         new ApolloLink(() => {
@@ -139,14 +127,10 @@ describe("enum returned directly from first level queries", () => {
         }),
       ]);
 
-      const observable = execute(link, request);
-      observable.subscribe((value) => {
-        expect(value).toEqual({
-          errors: [new GraphQLError(`enum "MyEnum" with invalid value`)],
-        });
-        done();
+      const value = await firstValue(execute(link, request));
+      expect(value).toEqual({
+        errors: [new GraphQLError(`enum "MyEnum" with invalid value`)],
       });
-      expect.assertions(1);
     });
   });
 });
