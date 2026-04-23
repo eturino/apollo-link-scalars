@@ -1,5 +1,5 @@
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "..";
 
@@ -29,7 +29,7 @@ describe("builtin scalars behave like usual", () => {
     },
   };
 
-  it("parses null values for nullable leaf types", (done) => {
+  it("parses null values for nullable leaf types", async () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
@@ -37,10 +37,7 @@ describe("builtin scalars behave like usual", () => {
       }),
     ]);
 
-    const observable = execute(link, request);
-    observable.subscribe((result) => {
-      expect(result).toEqual({ data: { day: null } });
-      done();
-    });
+    const result = await firstValue(execute(link, request));
+    expect(result).toEqual({ data: { day: null } });
   });
 });
