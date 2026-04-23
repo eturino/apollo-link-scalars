@@ -1,6 +1,6 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, gql } from "@apollo/client";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { withScalars } from "apollo-link-scalars";
+import { reviveScalarsInCache, withScalars } from "apollo-link-scalars";
 import { LocalStorageWrapper, persistCache } from "apollo3-cache-persist";
 
 const typeDefs = gql`
@@ -47,7 +47,7 @@ const trackingLink = new ApolloLink((operation, forward) => {
 
 const httpLink = new HttpLink({ uri: "https://rickandmortyapi.com/graphql" });
 
-export async function bootstrap(): Promise<ApolloClient> {
+export async function bootstrap({ applyFix = false }: { applyFix?: boolean } = {}): Promise<ApolloClient> {
   const cache = new InMemoryCache();
   await persistCache({
     cache,
@@ -56,6 +56,16 @@ export async function bootstrap(): Promise<ApolloClient> {
     // Playwright doesn't have to wait out the library's default debounce.
     debounce: 0,
   });
+
+  // persistCache has just repopulated InMemoryCache from localStorage. The
+  // restored entries have JSON-shaped scalars (Date -> ISO string etc.). When
+  // `applyFix` is on, snapshot the current state, run `reviveScalarsInCache`
+  // on the snapshot, and restore it back so downstream cache reads see
+  // properly typed scalars again.
+  if (applyFix) {
+    cache.restore(reviveScalarsInCache(cache.extract(), schema, typesMap));
+  }
+
   return new ApolloClient({
     cache,
     link: ApolloLink.from([withScalars({ schema, typesMap }), trackingLink, httpLink]),
