@@ -8,7 +8,7 @@ interface LinkSubscription {
 
 describe("type compatibility with Observable subscription shapes", () => {
   it("zen-observable Subscription (v3 Apollo Observable) assigns to LinkSubscription", () => {
-    // Compile-time check. The runtime body is a formality; `yarn type-check`
+    // Compile-time check. The runtime body is a formality; `pnpm type-check`
     // and the `build:*` scripts are where the real assertion happens.
     const assignZen = (s: ZenSubscription): LinkSubscription => s;
     expect(assignZen).toBeInstanceOf(Function);

@@ -55,7 +55,7 @@ Apollo Client still does not support this natively. The original 2016 ticket was
 
 ## Installation
 
-`yarn add apollo-link-scalars graphql` or `npm install apollo-link-scalars graphql`.
+`pnpm add apollo-link-scalars graphql` or `npm install apollo-link-scalars graphql`.
 
 ## Usage
 
@@ -294,84 +294,112 @@ I started working on this after following the Apollo feature request https://git
 <details><summary>See documentation for development</summary>
 <p>
 
-See [The Typescript-Starter docs](https://github.com/bitjson/typescript-starter#bump-version-update-changelog-commit--tag-release).
+For the current release checklist, see [RELEASING.md](./RELEASING.md).
 
 ### Commits and CHANGELOG
 
-For commits, you should use [`commitizen`](https://github.com/commitizen/cz-cli)
+Commits should follow the [Conventional Commits](https://www.conventionalcommits.org/) format. The repository enforces this with `commitlint`, and `standard-version` uses those commit messages to determine the version bump and generate [`CHANGELOG.md`](CHANGELOG.md).
+
+If you want help composing a compliant commit message, use [`commitizen`](https://github.com/commitizen/cz-cli):
 
 ```sh
-yarn global add commitizen
-
-#commit your changes:
-git cz
+# one-off interactive commit message helper
+pnpm dlx git-cz
 ```
 
-As typescript-starter docs state:
-
-This project is tooled for [conventional changelog](https://github.com/conventional-changelog/conventional-changelog) to make managing releases easier. See the [standard-version](https://github.com/conventional-changelog/standard-version) documentation for more information on the workflow, or [`CHANGELOG.md`](CHANGELOG.md) for an example.
+This project uses [standard-version](https://github.com/conventional-changelog/standard-version) for release commits, tags, and changelog generation.
 
 ```sh
 # bump package.json version, update CHANGELOG.md, git tag the release
-yarn run version
+pnpm version
 ```
 
 You may find a tool like [**`wip`**](https://github.com/bitjson/wip) helpful for managing work in progress before you're ready to create a meaningful commit.
 
-### Creating the first version
+### Release Process
+
+Recommended release flow for this repository:
+
+```sh
+# start from a clean checkout of the release branch
+pnpm install --frozen-lockfile
+
+# run the full verification suite
+pnpm test:full
+pnpm e2e:run
+
+# optional: regenerate the docs locally and inspect them
+pnpm doc:html
+
+# create the release commit, changelog update, and git tag
+pnpm version
+
+# push the release commit and tag
+git push --follow-tags origin <release-branch>
+
+# publish the package to npm
+npm publish --provenance --access public
+```
+
+Notes:
+
+- `pnpm version` runs `standard-version`, which creates a `chore(release): x.y.z` commit, updates [`CHANGELOG.md`](CHANGELOG.md), and creates the `vx.y.z` tag.
+- Run releases from a clean branch tip after CI is green. Avoid mixing unrelated changes into the release commit.
+- Review the generated changelog before pushing the tag, especially if commit messages were noisy or inconsistent.
+- `npm publish --provenance` is the recommended modern npm publish mode when publishing from a trusted environment with npm support for provenance.
+
+### First Release / Special Cases
 
 Once you are ready to create the first version, run the following (note that `reset` is destructive and will remove all files not in the git repo from the directory).
 
 ```sh
 # Reset the repo to the latest commit and build everything
-yarn run reset && yarn run test && yarn run doc:html
+pnpm reset && pnpm test:full && pnpm doc:html
 
 # Then version it with standard-version options. e.g.:
 # don't bump package.json version
-yarn run version -- --first-release
+pnpm version -- --first-release
 
 # Other popular options include:
 
 # PGP sign it:
-# $ yarn run version -- --sign
+# $ pnpm version -- --sign
 
 # alpha release:
-# $ yarn run version -- --prerelease alpha
+# $ pnpm version -- --prerelease alpha
 ```
 
-And after that, remember to [publish the docs](#publish-the-docs).
-
-And finally push the new tags to Github and publish the package to `npm`.
+After that, publish the docs if needed and push the new tag before publishing to npm.
 
 ```sh
 # Push to git
-git push --follow-tags origin master
+git push --follow-tags origin <release-branch>
 
 # Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)
-yarn publish --access public
+npm publish --provenance --access public
 ```
 
 ### Publish the Docs
 
 ```sh
-yarn run doc:html && yarn run doc:publish
+pnpm doc:html && pnpm doc:publish
 ```
 
 This will generate the docs and publish them in Github pages.
 
-### Generate a version
+### One-Step Release Prep
 
-There is a single yarn command for preparing a new release. See [One-step publish preparation script in TypeScript-Starter](https://github.com/bitjson/typescript-starter#one-step-publish-preparation-script)
+There is a single command for preparing a release candidate locally:
 
 ```sh
 # Prepare a standard release
-yarn prepare-release
+pnpm prepare-release
 
 # Push to git
-git push --follow-tags origin master
+git push --follow-tags origin <release-branch>
 
 # Publish to NPM (allowing public access, required if the package name is namespaced like `@somewhere/some-lib`)
-yarn publish --access public
+npm publish --provenance --access public
 ```
 
 </p>
