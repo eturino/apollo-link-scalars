@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * Fix path for issue #760: `reviveScalarsInCache(cache.extract(), schema,
  * typesMap)` re-applies `parseValue` to the cache snapshot after
- * `apollo3-cache-persist` rehydrates it from localStorage. The consumer
+ * `apollo4-cache-persist` rehydrates it from localStorage. The consumer
  * sees real Date instances again — both when reading synchronously on
  * mount and when Apollo serves the query from cache on a later call.
  */

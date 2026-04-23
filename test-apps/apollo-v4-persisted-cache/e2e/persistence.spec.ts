@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * Reproduction of issue #760: after apollo3-cache-persist round-trips the
+ * Reproduction of issue #760: after apollo4-cache-persist round-trips the
  * cache through localStorage (JSON), a custom scalar parsed by
  * apollo-link-scalars on the original network response comes back as a
  * plain JSON value (string for DateTime) on the next session. The scalar
@@ -37,7 +37,7 @@ test("custom scalars degrade to strings after localStorage rehydration (v4)", as
     /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/,
   );
 
-  // Wait for apollo3-cache-persist to flush the in-memory cache to
+  // Wait for apollo4-cache-persist to flush the in-memory cache to
   // localStorage. debounce is 0, so this is a single tick.
   await page.waitForFunction(
     () => window.localStorage.getItem("apollo-cache-persist") !== null,
