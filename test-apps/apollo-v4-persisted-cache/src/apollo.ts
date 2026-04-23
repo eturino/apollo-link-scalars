@@ -63,7 +63,7 @@ export async function bootstrap({ applyFix = false }: { applyFix?: boolean } = {
   // on the snapshot, and restore it back so downstream cache reads see
   // properly typed scalars again.
   if (applyFix) {
-    cache.restore(reviveScalarsInCache(cache.extract(), schema, typesMap));
+    cache.restore(reviveScalarsInCache(cache.extract(), { schema, typesMap }));
   }
 
   return new ApolloClient({
