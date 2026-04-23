@@ -82,7 +82,7 @@
     "graphql": "16.x"
   },
   "devDependencies": {
-    "@apollo/client": "^4.1.8",
+    "@apollo/client": "^4.1.9",
     "@commitlint/cli": "^20.0.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@eslint/js": "^10.0.1",
@@ -109,7 +109,7 @@
     "standard-version": "^9.5.0",
     "trash-cli": "^7.2.0",
     "typedoc": "^0.28.19",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0",
     "vitest": "^4.1.0",
     "zen-observable-ts": "^1.1.0"

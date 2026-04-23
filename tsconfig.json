@@ -3,7 +3,7 @@
     "target": "es6",
     "outDir": "build/main",
     "rootDir": "src",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "module": "commonjs",
     "resolveJsonModule": true,
     "declaration": true,
@@ -35,9 +35,8 @@
     "lib": [
       "es6"
     ],
-    // @types/node for process/require; vitest globals come in via a
-    // triple-slash reference in src/types/vitest-globals.d.ts because
-    // classic moduleResolution can't follow vitest's package exports.
+    // @types/node for process/require; vitest globals are currently
+    // provided by the local shim in src/types/vitest-globals.d.ts.
     "types": ["node"],
     "typeRoots": [
       "node_modules/@types",
@@ -45,7 +44,8 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.d.ts"
   ],
   "exclude": [
     "node_modules/**"
