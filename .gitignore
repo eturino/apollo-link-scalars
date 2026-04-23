@@ -14,3 +14,12 @@ package-lock.json
 
 .DS_Store
 README.pdf
+
+# Playwright
+/playwright-report
+/test-results
+/blob-report
+/.cache
+
+# Vite test-app output
+test-apps/*/dist
