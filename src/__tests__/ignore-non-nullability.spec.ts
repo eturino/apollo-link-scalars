@@ -1,5 +1,5 @@
 import { ApolloLink, type DocumentNode, gql, type GraphQLRequest } from "@apollo/client/core";
-import { execute, observableOf } from "./helpers/test-utils";
+import { execute, firstValue, observableOf } from "./helpers/test-utils";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { graphql } from "graphql";
 import { withScalars } from "..";
@@ -64,7 +64,7 @@ describe("skip directive on non-nullable field", () => {
     expect(queryResponse).toEqual(response);
   });
 
-  it("disregards field type non-nullability", (done) => {
+  it("disregards field type non-nullability", async () => {
     const link = ApolloLink.from([
       withScalars({ schema }),
       new ApolloLink(() => {
@@ -79,11 +79,7 @@ describe("skip directive on non-nullable field", () => {
       },
     };
 
-    const observable = execute(link, request);
-    observable.subscribe((value) => {
-      expect(value).toEqual(expectedResponse);
-      done();
-    });
-    expect.assertions(1);
+    const value = await firstValue(execute(link, request));
+    expect(value).toEqual(expectedResponse);
   });
 });

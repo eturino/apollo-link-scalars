@@ -6,8 +6,6 @@ import { execute } from "../helpers/test-utils";
 const runSuite = process.env.RUN_INTEGRATION ? describe : describe.skip;
 
 runSuite("integration: rickandmortyapi.com with DateTime custom scalar", () => {
-  jest.setTimeout(30_000);
-
   const typeDefs = gql`
     scalar DateTime
 
@@ -44,20 +42,24 @@ runSuite("integration: rickandmortyapi.com with DateTime custom scalar", () => {
     }
   `;
 
-  it("parses `created` as a Date instance", (done) => {
-    const observable = execute(link, { query, variables: { id: "1" } });
-
-    observable.subscribe({
-      next: (result) => {
-        expect(result.errors).toBeUndefined();
-        const character = (result.data as { character: { id: string; name: string; created: Date } }).character;
-        expect(character.id).toBe("1");
-        expect(character.name).toBe("Rick Sanchez");
-        expect(character.created).toBeInstanceOf(Date);
-        expect(Number.isFinite(character.created.getTime())).toBe(true);
-      },
-      error: done,
-      complete: () => done(),
+  it("parses `created` as a Date instance", { timeout: 30_000 }, async () => {
+    const result = await new Promise<{
+      errors?: readonly unknown[];
+      data?: Record<string, unknown> | null;
+    }>((resolve, reject) => {
+      execute(link, { query, variables: { id: "1" } }).subscribe({
+        next: (value) => {
+          resolve(value);
+        },
+        error: reject,
+      });
     });
+
+    expect(result.errors).toBeUndefined();
+    const character = (result.data as { character: { id: string; name: string; created: Date } }).character;
+    expect(character.id).toBe("1");
+    expect(character.name).toBe("Rick Sanchez");
+    expect(character.created).toBeInstanceOf(Date);
+    expect(Number.isFinite(character.created.getTime())).toBe(true);
   });
 });
