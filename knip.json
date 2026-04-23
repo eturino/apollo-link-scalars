@@ -1,14 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
 
-  "entry": [
-    "src/__tests__/**/*.spec.ts",
-    "src/lib/__tests__/**/*.spec.ts"
-  ],
-  "project": ["src/**/*.ts"],
-
-  "ignore": ["src/lib/__tests__/graphql-schema.fixtures.ts"],
-
   "ignoreDependencies": [
     "prettier-plugin-organize-imports",
     "cz-conventional-changelog",
@@ -21,5 +13,25 @@
 
   "rules": {
     "unresolved": "off"
+  },
+
+  "workspaces": {
+    ".": {
+      "entry": [
+        "src/__tests__/**/*.spec.ts",
+        "src/lib/__tests__/**/*.spec.ts",
+        "playwright.config.ts"
+      ],
+      "project": ["src/**/*.ts"],
+      "ignore": ["src/lib/__tests__/graphql-schema.fixtures.ts"]
+    },
+    "test-apps/*": {
+      "entry": [
+        "index.html",
+        "vite.config.ts",
+        "e2e/**/*.spec.ts"
+      ],
+      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"]
+    }
   }
 }
