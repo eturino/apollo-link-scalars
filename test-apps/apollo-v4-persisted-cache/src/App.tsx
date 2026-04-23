@@ -25,7 +25,7 @@ function describe(value: unknown): {
   };
 }
 
-export function App() {
+export function App({ applyFix }: { applyFix: boolean }) {
   const client = useApolloClient();
   const [lastSource, setLastSource] = useState<"never" | "network" | "cache">("never");
   const [renderedChar, setRenderedChar] = useState<Character | null>(null);
@@ -64,6 +64,10 @@ export function App() {
         Reproduces <a href="https://github.com/eturino/apollo-link-scalars/issues/760">issue #760</a>:
         custom scalars parsed by the link are re-hydrated from localStorage as plain JSON values,
         bypassing the scalar map.
+      </p>
+      <p>
+        Fix path: <span data-testid="fix-flag">{applyFix ? "on" : "off"}</span> — toggle by
+        navigating to <code>?fix=1</code>.
       </p>
 
       <section>
