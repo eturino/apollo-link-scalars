@@ -1,6 +1,8 @@
 import {
+  type GraphQLLeafType,
   type GraphQLOutputType,
   type GraphQLSchema,
+  isLeafType,
   isListType,
   isNonNullType,
   isObjectType,
@@ -33,6 +35,18 @@ import { isNone } from "./is-none";
  * cache.restore(reviveScalarsInCache(cache.extract(), schema, typesMap));
  *
  * @remarks
+ * Mutates `extracted` in place and returns the same reference. The
+ * generic signature is there for type flow, not copy semantics. Pass
+ * a fresh snapshot such as `cache.extract()` (already a clone of the
+ * live cache) or a `JSON.parse(...)` result; don't pass a live
+ * in-memory structure shared with the rest of the app.
+ *
+ * Merges `typesMap` with the schema's own leaf types the same way
+ * `withScalars` does (see `src/lib/link.ts`). A scalar defined
+ * programmatically via `new GraphQLScalarType({ parseValue })` will
+ * therefore be applied on rehydration even when the caller's
+ * `typesMap` omits it, matching the network-path behavior.
+ *
  * Idempotence is caller-contingent. `reviveScalarsInCache` calls
  * `parseValue` once per field per pass, so invoking it twice on the
  * same snapshot parses every scalar twice. Safe only when the
@@ -49,12 +63,25 @@ export function reviveScalarsInCache<T extends Record<string, unknown>>(
   schema: GraphQLSchema,
   typesMap: FunctionsMap
 ): T {
+  const functionsMap = buildFunctionsMap(schema, typesMap);
   for (const value of Object.values(extracted)) {
     if (isEntityObject(value)) {
-      reviveEntity(value, schema, typesMap);
+      reviveEntity(value, schema, functionsMap);
     }
   }
   return extracted;
+}
+
+// Mirror of `ScalarApolloLink`'s constructor logic (`src/lib/link.ts`):
+// take every leaf type off the schema and let the caller's `typesMap`
+// override it. Keeps the revive path and the network path in lockstep
+// on which scalars get `parseValue`'d.
+function buildFunctionsMap(schema: GraphQLSchema, typesMap: FunctionsMap): FunctionsMap {
+  const leafTypesMap: Record<string, GraphQLLeafType> = {};
+  for (const [key, value] of Object.entries(schema.getTypeMap())) {
+    if (isLeafType(value)) leafTypesMap[key] = value;
+  }
+  return { ...leafTypesMap, ...typesMap };
 }
 
 interface EntityObject {
@@ -80,7 +107,7 @@ function extractFieldName(cacheKey: string): string {
   return boundaries.length === 0 ? cacheKey : cacheKey.slice(0, Math.min(...boundaries));
 }
 
-function reviveEntity(entity: EntityObject, schema: GraphQLSchema, typesMap: FunctionsMap): void {
+function reviveEntity(entity: EntityObject, schema: GraphQLSchema, functionsMap: FunctionsMap): void {
   const typename = entity.__typename;
   if (!typename) return;
   const type = schema.getType(typename);
@@ -91,28 +118,33 @@ function reviveEntity(entity: EntityObject, schema: GraphQLSchema, typesMap: Fun
     if (cacheKey === "__typename") continue;
     const field = fields[extractFieldName(cacheKey)];
     if (!field) continue;
-    entity[cacheKey] = reviveValue(entity[cacheKey], field.type, schema, typesMap);
+    entity[cacheKey] = reviveValue(entity[cacheKey], field.type, schema, functionsMap);
   }
 }
 
-function reviveValue(value: unknown, type: GraphQLOutputType, schema: GraphQLSchema, typesMap: FunctionsMap): unknown {
+function reviveValue(
+  value: unknown,
+  type: GraphQLOutputType,
+  schema: GraphQLSchema,
+  functionsMap: FunctionsMap
+): unknown {
   if (isNone(value)) return value;
   const nullable = isNonNullType(type) ? type.ofType : type;
 
   if (isListType(nullable)) {
     if (!Array.isArray(value)) return value;
-    return value.map((element) => reviveValue(element, nullable.ofType, schema, typesMap));
+    return value.map((element) => reviveValue(element, nullable.ofType, schema, functionsMap));
   }
 
   if (isScalarType(nullable)) {
-    const funcs = typesMap[nullable.name];
-    return funcs ? funcs.parseValue(value) : value;
+    const funcs = functionsMap[nullable.name] ?? nullable;
+    return funcs.parseValue(value);
   }
 
   // Embedded non-normalized object (has __typename inline) — recurse.
   // Normalized references (__ref) are walked via the top-level loop instead.
   if (isObjectType(nullable) && isEntityObject(value) && !isRef(value)) {
-    reviveEntity(value, schema, typesMap);
+    reviveEntity(value, schema, functionsMap);
   }
 
   // Interfaces, unions, enums, ref objects fall through unchanged.

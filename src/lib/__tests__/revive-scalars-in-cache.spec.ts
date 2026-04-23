@@ -1,4 +1,4 @@
-import { buildSchema } from "graphql";
+import { buildSchema, type GraphQLScalarType } from "graphql";
 import { reviveScalarsInCache } from "../revive-scalars-in-cache";
 
 // A schema covering the shapes we need to walk over the extracted cache:
@@ -200,6 +200,43 @@ describe("reviveScalarsInCache", () => {
     const value = out.ROOT_QUERY['now({"scale":"utc"})'];
     expect(value).toBeInstanceOf(Date);
     expect((value as unknown as Date).toISOString()).toBe("2021-06-15T12:00:00.000Z");
+  });
+
+  it("uses the schema scalar's parseValue when typesMap has no entry", () => {
+    // Same shape `ScalarApolloLink` applies on the network path: scalar
+    // types carrying a programmatic `parseValue` are honored even when
+    // the caller's `typesMap` omits them.
+    const localSchema = buildSchema(`
+      scalar Timestamp
+      type Event { id: ID! when: Timestamp }
+      type Query { event(id: ID!): Event }
+    `);
+    const timestamp = localSchema.getType("Timestamp") as GraphQLScalarType;
+    timestamp.parseValue = (value: unknown) => (typeof value === "string" ? new Date(value) : value);
+
+    const extracted = {
+      "Event:1": { __typename: "Event", id: "1", when: "2022-08-01T00:00:00.000Z" },
+    };
+    const out = reviveScalarsInCache(extracted, localSchema, {});
+    expect(out["Event:1"].when).toBeInstanceOf(Date);
+  });
+
+  it("lets typesMap override the schema scalar's parseValue", () => {
+    const localSchema = buildSchema(`
+      scalar Timestamp
+      type Event { id: ID! when: Timestamp }
+      type Query { event(id: ID!): Event }
+    `);
+    const timestamp = localSchema.getType("Timestamp") as GraphQLScalarType;
+    timestamp.parseValue = () => "from-schema";
+
+    const extracted = {
+      "Event:1": { __typename: "Event", id: "1", when: "2022-08-01T00:00:00.000Z" },
+    };
+    const out = reviveScalarsInCache(extracted, localSchema, {
+      Timestamp: { serialize: (v) => v, parseValue: () => "from-typesMap" },
+    });
+    expect(out["Event:1"].when).toBe("from-typesMap");
   });
 
   it("is idempotent when parseValue returns the same shape", () => {
