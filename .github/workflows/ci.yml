@@ -1,5 +1,10 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
 
 jobs:
   test:
@@ -21,9 +26,32 @@ jobs:
       - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
       - run: pnpm install --frozen-lockfile
       - name: Pin @apollo/client to ${{ matrix.apollo-client }}
-        run: pnpm add --save-dev @apollo/client@${{ matrix.apollo-client }} graphql@^16.8.0
+        run: pnpm add --save-dev "@apollo/client@$APOLLO_CLIENT_VERSION" graphql@^16.8.0
+        env:
+          APOLLO_CLIENT_VERSION: ${{ matrix.apollo-client }}
       - run: pnpm test
       - run: pnpm test:integration
+
+  e2e:
+    # Gated: runs on manual dispatch and nightly cron only. PR/push skips to
+    # avoid flakes from the live rickandmortyapi.com endpoint blocking merges.
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e:run
+        env:
+          CI: "1"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
 
   automerge:
     needs: [test, matrix]
