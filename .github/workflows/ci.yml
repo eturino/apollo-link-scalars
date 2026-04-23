@@ -26,10 +26,15 @@ jobs:
       - uses: jdx/mise-action@c37c93293d6b742fc901e1406b8f764f6fb19dac # v2.4.4
       - run: pnpm install --frozen-lockfile
       - name: Pin @apollo/client to ${{ matrix.apollo-client }}
-        run: pnpm add --save-dev "@apollo/client@$APOLLO_CLIENT_VERSION" graphql@^16.8.0
+        # -w targets the workspace root explicitly. Without it, pnpm in a
+        # workspace refuses `add` at root with ERR_PNPM_ADDING_TO_ROOT.
+        run: pnpm add -w --save-dev "@apollo/client@$APOLLO_CLIENT_VERSION" graphql@^16.8.0
         env:
           APOLLO_CLIENT_VERSION: ${{ matrix.apollo-client }}
-      - run: pnpm test
+      # Lib-only scope: the matrix row pins the root's apollo-client, which
+      # would break the opposite-major test-app's tsc (its .d.ts imports
+      # resolve against root). test-apps are covered by the `test` job.
+      - run: pnpm test:lib
       - run: pnpm test:integration
 
   # On `schedule`, decide whether the nightly e2e run has anything new to
