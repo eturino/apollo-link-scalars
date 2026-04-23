@@ -1,7 +1,7 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, gql } from "@apollo/client";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import { LocalStorageWrapper, persistCache } from "apollo4-cache-persist";
 import { reviveScalarsInCache, withScalars } from "apollo-link-scalars";
-import { LocalStorageWrapper, persistCache } from "apollo3-cache-persist";
 
 const typeDefs = gql`
   scalar DateTime
