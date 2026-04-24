@@ -88,7 +88,7 @@ export class Parser {
     }
 
     if (isEnumTypeLike(type)) {
-      this.validateEnum(value, type);
+      this.validateEnum(value, type, fieldNode);
       return value;
     }
 
@@ -104,13 +104,27 @@ export class Parser {
     return fns.parseValue(value);
   }
 
-  protected validateEnum(value: any, type: GraphQLEnumType): void {
+  protected validateEnum(value: any, type: GraphQLEnumType, fieldNode: ReducedFieldNode): void {
     if (!this.validateEnums || !value) return;
 
-    const enumValues = type.getValues().map((v) => v.value);
-    if (!enumValues.includes(value)) {
-      throw new GraphQLError(`enum "${type.name}" with invalid value`);
-    }
+    const allowedValues = type.getValues().map((v) => v.value);
+    if (allowedValues.includes(value)) return;
+
+    const fieldName = fieldNode.alias?.value ?? fieldNode.name.value;
+    const allowedList = allowedValues.map((v) => JSON.stringify(v)).join(", ");
+    throw new GraphQLError(
+      `enum "${type.name}" with invalid value ${JSON.stringify(value)} at field "${fieldName}". Allowed values: ${allowedList}`,
+      {
+        nodes: [fieldNode],
+        extensions: {
+          code: "INVALID_ENUM_VALUE",
+          typeName: type.name,
+          fieldName,
+          invalidValue: value,
+          allowedValues,
+        },
+      }
+    );
   }
 
   protected parseArray(value: any, type: GraphQLList<GraphQLType>, fieldNode: ReducedFieldNode): any {

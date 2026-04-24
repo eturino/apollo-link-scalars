@@ -128,9 +128,21 @@ describe("enum returned directly from first level queries", () => {
       ]);
 
       const value = await firstValue(execute(link, request));
-      expect(value).toEqual({
-        errors: [new GraphQLError(`enum "MyEnum" with invalid value`)],
+      expect(value.data).toBeUndefined();
+      expect(value.errors).toHaveLength(1);
+      const err = value.errors?.[0] as GraphQLError;
+      expect(err).toBeInstanceOf(GraphQLError);
+      expect(err.message).toBe(
+        `enum "MyEnum" with invalid value "invalid" at field "otherFirst". Allowed values: "a", "b", "c"`
+      );
+      expect(err.extensions).toEqual({
+        code: "INVALID_ENUM_VALUE",
+        typeName: "MyEnum",
+        fieldName: "otherFirst",
+        invalidValue: "invalid",
+        allowedValues: ["a", "b", "c"],
       });
+      expect(err.nodes).toHaveLength(1);
     });
   });
 });
