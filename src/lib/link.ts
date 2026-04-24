@@ -1,16 +1,10 @@
 import { ApolloLink, type FetchResult, Observable, type Operation } from "@apollo/client/core";
-import {
-  type GraphQLLeafType,
-  type GraphQLSchema,
-  isInputType,
-  isLeafType,
-  type NamedTypeNode,
-  type TypeNode,
-} from "graphql";
+import type { GraphQLLeafType, GraphQLSchema, NamedTypeNode, TypeNode } from "graphql";
 import { GraphQLError } from "graphql/error/GraphQLError";
 import type { FunctionsMap } from "../types/functions-map";
 import type { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";
+import { isInputTypeLike, isLeafTypeLike } from "./graphql-type-guards";
 import { mapIfArray } from "./map-if-array";
 import { isListTypeNode, isNonNullTypeNode, isOperationDefinitionNode } from "./node-types";
 import { Serializer } from "./serializer";
@@ -53,7 +47,7 @@ export class ScalarApolloLink extends ApolloLink {
 
     const leafTypesMap: Record<string, GraphQLLeafType> = {};
     for (const [key, value] of Object.entries(this.schema.getTypeMap())) {
-      if (isLeafType(value)) {
+      if (isLeafTypeLike(value)) {
         leafTypesMap[key] = value;
       }
     }
@@ -146,7 +140,7 @@ export class ScalarApolloLink extends ApolloLink {
     const typeName = typeNode.name.value;
     const schemaType = this.schema.getType(typeName);
 
-    return schemaType && isInputType(schemaType) ? this.serializer.serialize(value, schemaType) : value;
+    return schemaType && isInputTypeLike(schemaType) ? this.serializer.serialize(value, schemaType) : value;
   }
 }
 

@@ -1,16 +1,14 @@
-import {
-  type GraphQLLeafType,
-  type GraphQLOutputType,
-  type GraphQLSchema,
-  isLeafType,
-  isListType,
-  isNonNullType,
-  isObjectType,
-  isScalarType,
-} from "graphql";
+import type { GraphQLLeafType, GraphQLOutputType, GraphQLSchema } from "graphql";
 import type { FunctionsMap } from "../types/functions-map";
 import type { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";
+import {
+  isLeafTypeLike,
+  isListTypeLike,
+  isNonNullTypeLike,
+  isObjectTypeLike,
+  isScalarTypeLike,
+} from "./graphql-type-guards";
 import { isNone } from "./is-none";
 
 export interface ReviveScalarsInCacheOptions {
@@ -113,7 +111,7 @@ interface RevivalContext {
 function buildFunctionsMap(schema: GraphQLSchema, typesMap: FunctionsMap): FunctionsMap {
   const leafTypesMap: Record<string, GraphQLLeafType> = {};
   for (const [key, value] of Object.entries(schema.getTypeMap())) {
-    if (isLeafType(value)) leafTypesMap[key] = value;
+    if (isLeafTypeLike(value)) leafTypesMap[key] = value;
   }
   return { ...leafTypesMap, ...typesMap };
 }
@@ -145,7 +143,7 @@ function reviveEntity(entity: EntityObject, ctx: RevivalContext): void {
   const typename = entity.__typename;
   if (!typename) return;
   const type = ctx.schema.getType(typename);
-  if (!isObjectType(type)) return;
+  if (!isObjectTypeLike(type)) return;
   const fields = type.getFields();
 
   for (const cacheKey of Object.keys(entity)) {
@@ -160,7 +158,7 @@ function reviveEntity(entity: EntityObject, ctx: RevivalContext): void {
 // nullable fields get wrapped through `nullFunctions.parseValue`, and the
 // wrap happens AFTER the inner scalar / list / object revival.
 function reviveValue(value: unknown, type: GraphQLOutputType, ctx: RevivalContext): unknown {
-  if (isNonNullType(type)) {
+  if (isNonNullTypeLike(type)) {
     return reviveValueInternal(value, type, ctx);
   }
   const wrapped = reviveValueInternal(value, type, ctx);
@@ -168,22 +166,22 @@ function reviveValue(value: unknown, type: GraphQLOutputType, ctx: RevivalContex
 }
 
 function reviveValueInternal(value: unknown, type: GraphQLOutputType, ctx: RevivalContext): unknown {
-  const nullable = isNonNullType(type) ? type.ofType : type;
+  const nullable = isNonNullTypeLike(type) ? type.ofType : type;
   if (isNone(value)) return value;
 
-  if (isListType(nullable)) {
+  if (isListTypeLike(nullable)) {
     if (!Array.isArray(value)) return value;
     return value.map((element) => reviveValue(element, nullable.ofType, ctx));
   }
 
-  if (isScalarType(nullable)) {
+  if (isScalarTypeLike(nullable)) {
     const funcs = ctx.functionsMap[nullable.name] ?? nullable;
     return funcs.parseValue(value);
   }
 
   // Embedded non-normalized object (has __typename inline) — recurse.
   // Normalized references (__ref) are walked via the top-level loop instead.
-  if (isObjectType(nullable) && isEntityObject(value) && !isRef(value)) {
+  if (isObjectTypeLike(nullable) && isEntityObject(value) && !isRef(value)) {
     reviveEntity(value, ctx);
   }
 

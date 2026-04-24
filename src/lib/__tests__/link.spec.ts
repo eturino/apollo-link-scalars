@@ -1,5 +1,10 @@
+import { mkdtempSync, cpSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { createRequire } from "node:module";
 import { gql, Observable, type Operation } from "@apollo/client/core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
+import introspectionSchemaResult from "./introspection.json";
 import { ScalarApolloLink } from "../link";
 
 function makeOperation(
@@ -101,5 +106,25 @@ describe("ScalarApolloLink.request", () => {
     subscription.unsubscribe();
 
     expect(unsubscribe).toHaveBeenCalledTimes(1);
+  });
+
+  it("accepts schemas built from another graphql module realm", () => {
+    const tmpRoot = mkdtempSync(path.join(tmpdir(), "graphql-realm-"));
+    const copiedGraphqlDir = path.join(tmpRoot, "graphql");
+    const graphqlPackageDir = path.dirname(require.resolve("graphql/package.json"));
+
+    cpSync(graphqlPackageDir, copiedGraphqlDir, { recursive: true });
+
+    try {
+      const otherRequire = createRequire(path.join(copiedGraphqlDir, "index.js"));
+      const otherGraphql = otherRequire(copiedGraphqlDir) as {
+        buildClientSchema: (introspection: unknown) => unknown;
+      };
+      const schemaFromOtherRealm = otherGraphql.buildClientSchema(introspectionSchemaResult);
+
+      expect(() => new ScalarApolloLink({ schema: schemaFromOtherRealm as never })).not.toThrow();
+    } finally {
+      rmSync(tmpRoot, { recursive: true, force: true });
+    }
   });
 });

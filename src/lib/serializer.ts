@@ -1,17 +1,19 @@
-import {
-  getNullableType,
-  type GraphQLEnumType,
-  type GraphQLInputObjectType,
-  type GraphQLInputType,
-  type GraphQLScalarType,
-  type GraphQLSchema,
-  isEnumType,
-  isListType,
-  isNonNullType,
-  isScalarType,
+import type {
+  GraphQLEnumType,
+  GraphQLInputObjectType,
+  GraphQLInputType,
+  GraphQLScalarType,
+  GraphQLSchema,
 } from "graphql";
 import type { FunctionsMap } from "../types/functions-map";
 import type { NullFunctions } from "../types/null-functions";
+import {
+  ensureNullableTypeLike,
+  isEnumTypeLike,
+  isListTypeLike,
+  isNonNullTypeLike,
+  isScalarTypeLike,
+} from "./graphql-type-guards";
 import { isNone } from "./is-none";
 import { mapIfArray } from "./map-if-array";
 
@@ -24,10 +26,11 @@ export class Serializer {
   ) {}
 
   public serialize(value: any, type: GraphQLInputType): any {
-    if (isNonNullType(type)) {
-      return this.serializeInternal(value, getNullableType(type));
+    const nullableType = ensureNullableTypeLike(type) as GraphQLInputType;
+    if (isNonNullTypeLike(type)) {
+      return this.serializeInternal(value, nullableType);
     } else {
-      return this.serializeNullable(value, getNullableType(type));
+      return this.serializeNullable(value, nullableType);
     }
   }
 
@@ -40,11 +43,11 @@ export class Serializer {
       return value;
     }
 
-    if (isScalarType(type) || isEnumType(type)) {
+    if (isScalarTypeLike(type) || isEnumTypeLike(type)) {
       return this.serializeLeaf(value, type);
     }
 
-    if (isListType(type)) {
+    if (isListTypeLike(type)) {
       return mapIfArray(value, (v) => this.serialize(v, type.ofType));
     }
 

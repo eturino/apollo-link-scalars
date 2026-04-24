@@ -12,24 +12,23 @@ import {
   type GraphQLSchema,
   type GraphQLType,
   type GraphQLUnionType,
-  isEnumType,
-  isInputObjectType,
-  isListType,
-  isNonNullType,
-  isObjectType,
-  isScalarType,
 } from "graphql";
 import type { FunctionsMap } from "../types/functions-map";
 import type { MutOrRO } from "../types/mut-or-ro";
 import type { NullFunctions } from "../types/null-functions";
+import {
+  ensureNullableTypeLike,
+  isEnumTypeLike,
+  isInputObjectTypeLike,
+  isListTypeLike,
+  isNonNullTypeLike,
+  isObjectTypeLike,
+  isScalarTypeLike,
+} from "./graphql-type-guards";
 import { isNone } from "./is-none";
 import type { ReducedFieldNode } from "./node-types";
 
 type Data = Record<string, any>;
-
-function ensureNullable(type: GraphQLType): GraphQLNullableType {
-  return isNonNullType(type) ? type.ofType : type;
-}
 
 export class Parser {
   constructor(
@@ -67,7 +66,7 @@ export class Parser {
   }
 
   protected treatValue(value: any, givenType: GraphQLType, fieldNode: ReducedFieldNode): any {
-    if (isNonNullType(givenType)) {
+    if (isNonNullTypeLike(givenType)) {
       return this.treatValueInternal(value, givenType, fieldNode);
     } else {
       return this.treatValueNullable(value, givenType, fieldNode);
@@ -80,20 +79,20 @@ export class Parser {
   }
 
   protected treatValueInternal(value: any, givenType: GraphQLType, fieldNode: ReducedFieldNode): any {
-    const type = ensureNullable(givenType);
+    const type: GraphQLNullableType = ensureNullableTypeLike(givenType);
 
     if (isNone(value)) return value;
 
-    if (isScalarType(type)) {
+    if (isScalarTypeLike(type)) {
       return this.parseScalar(value, type);
     }
 
-    if (isEnumType(type)) {
+    if (isEnumTypeLike(type)) {
       this.validateEnum(value, type);
       return value;
     }
 
-    if (isListType(type)) {
+    if (isListTypeLike(type)) {
       return this.parseArray(value, type, fieldNode);
     }
 
@@ -136,10 +135,10 @@ export class Parser {
     value: any,
     type: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType | GraphQLInputObjectType
   ): GraphQLObjectType | GraphQLInputObjectType | null {
-    if (isInputObjectType(type) || isObjectType(type)) return type;
+    if (isInputObjectTypeLike(type) || isObjectTypeLike(type)) return type;
     if (!value.__typename) return null;
 
     const valueType = this.schema.getType(value.__typename);
-    return isInputObjectType(valueType) || isObjectType(valueType) ? valueType : null;
+    return isInputObjectTypeLike(valueType) || isObjectTypeLike(valueType) ? valueType : null;
   }
 }
