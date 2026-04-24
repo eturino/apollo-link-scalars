@@ -6,7 +6,7 @@ on:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -30,3 +30,42 @@ jobs:
       - run: pnpm test:full
       - run: npm pack --dry-run
       - run: npm publish
+
+      # Extract the CHANGELOG section matching this tag. commit-and-tag-version
+      # writes a stable `## [X.Y.Z]` anchor line per release, so we can pull
+      # the block between this anchor and the next `## ` (or EOF). If the
+      # block is empty (missing entry, unexpected format), fall back to
+      # GitHub's auto-generated notes rather than shipping an empty release.
+      - name: Extract CHANGELOG section
+        id: changelog
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          TAG="$GITHUB_REF_NAME"
+          VERSION="${TAG#v}"
+          awk -v ver="$VERSION" '
+            $0 ~ "^##+ \\[" ver "\\]" { found=1; print; next }
+            found && /^##+ \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > release-body.md
+          if [ -s release-body.md ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release (from CHANGELOG)
+        if: steps.changelog.outputs.found == 'true'
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          body_path: release-body.md
+          draft: false
+          prerelease: false
+
+      - name: Create GitHub Release (auto-generated fallback)
+        if: steps.changelog.outputs.found != 'true'
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false
