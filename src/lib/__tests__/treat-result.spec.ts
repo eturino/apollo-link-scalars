@@ -4,6 +4,9 @@ import defaultNullFunctions from "../default-null-functions";
 import { treatResult } from "../treat-result";
 
 function makeOperation(query: ReturnType<typeof gql>): Operation {
+  // v4's Operation has more required members than v3's. Cast is necessary
+  // under v4 but flagged as unnecessary by the v3 matrix row.
+
   return {
     query,
     variables: {},

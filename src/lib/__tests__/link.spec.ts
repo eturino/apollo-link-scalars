@@ -14,6 +14,9 @@ function makeOperation(
     }
   `
 ): Operation {
+  // v4's Operation has more required members than v3's. Cast is necessary
+  // under v4 but flagged as unnecessary by the v3 matrix row.
+
   return {
     query,
     variables: {},
@@ -99,7 +102,7 @@ describe("ScalarApolloLink.request", () => {
 
     const subscription = link
       .request(makeOperation(), () => {
-        return new Observable(() => ({ unsubscribe }));
+        return new Observable(() => unsubscribe);
       })
       .subscribe({});
 

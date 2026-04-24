@@ -98,21 +98,16 @@ describe("cache-first queries with custom serialized variables", () => {
       fetchPolicy: "cache-first",
     });
 
-    expect(firstResult.data).toBeDefined();
-    expect(secondResult.data).toBeDefined();
-    expect(thirdResult.data).toBeDefined();
-
-    if (!firstResult.data || !secondResult.data || !thirdResult.data) {
-      throw new Error("expected all query results to include data");
-    }
-
     expect(networkCalls).toBe(2);
     expect(seenVariables).toEqual([toIsoWithOffset(firstAt), null]);
     expect(firstAt).toBeInstanceOf(Date);
     expect(thirdAt).toBeInstanceOf(Date);
-    expect(firstResult.data.events[0]?.id).toBe("hit-1");
-    expect(secondResult.data.events[0]?.id).toBe("hit-2");
-    expect(thirdResult.data.events[0]?.id).toBe("hit-1");
-    expect(thirdResult.data.events[0]?.at).toBeInstanceOf(Date);
+    // `data?.` is required under v4 (FetchResult.data is nullable) but flagged
+    // as unnecessary by the v3 matrix row.
+
+    expect(firstResult.data?.events[0]?.id).toBe("hit-1");
+    expect(secondResult.data?.events[0]?.id).toBe("hit-2");
+    expect(thirdResult.data?.events[0]?.id).toBe("hit-1");
+    expect(thirdResult.data?.events[0]?.at).toBeInstanceOf(Date);
   });
 });
