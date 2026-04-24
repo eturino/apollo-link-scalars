@@ -90,17 +90,6 @@ module.exports = [
   },
 
   {
-    // The test helper casts `apolloExecute` to bridge the v3/v4 signature
-    // gap. The cast is required on v4 and "unnecessary" on v3; rather than
-    // litter the file with version-specific disables, turn the rule off
-    // just for this helper.
-    files: ["src/__tests__/helpers/test-utils.ts"],
-    rules: {
-      "@typescript-eslint/no-unnecessary-type-assertion": "off",
-    },
-  },
-
-  {
     files: ["src/__tests__/**/*.ts", "**/*.spec.ts"],
     rules: {
       // Tests touch private helpers, assert on `any`, and sometimes
@@ -114,6 +103,15 @@ module.exports = [
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/no-require-imports": "off",
+
+      // Tests straddle the v3/v4 matrix. Apollo's public types differ
+      // between majors (e.g. `Operation` required members, `FetchResult.data`
+      // nullability), so a cast or optional chain that is required on one
+      // major is flagged as "unnecessary" on the other. Inline disables
+      // don't survive `eslint --fix` on the major where the rule is silent,
+      // so turn the two offenders off wholesale for test files.
+      "@typescript-eslint/no-unnecessary-type-assertion": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
     },
   },
 
