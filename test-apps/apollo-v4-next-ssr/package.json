@@ -1,0 +1,32 @@
+{
+  "name": "@test-apps/apollo-v4-next-ssr",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "next dev --port 5176",
+    "build": "next build",
+    "start": "next start --port 5176",
+    "lint": "eslint . --max-warnings=0",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apollo/client": "^4.1.9",
+    "@graphql-tools/schema": "^10.0.33",
+    "apollo-link-scalars": "workspace:*",
+    "graphql": "^16.8.0",
+    "next": "^16.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.0.0",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "globals": "^17.5.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.20.0"
+  }
+}

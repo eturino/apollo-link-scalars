@@ -78,6 +78,7 @@ This repository includes small React/Vite apps that demonstrate the main support
 - [Apollo Client v3 example](./test-apps/apollo-v3-react) shows `withScalars` with Apollo Client v3.
 - [Apollo Client v4 example](./test-apps/apollo-v4-react) shows `withScalars` with Apollo Client v4.
 - [Persisted cache rehydration example](./test-apps/apollo-v4-persisted-cache) shows `reviveScalarsInCache` restoring parsed scalar values after JSON-backed cache persistence.
+- [Next.js SSR hydration example](./test-apps/apollo-v4-next-ssr) shows the Next.js `getServerSideProps` JSON boundary from [issue #401](https://github.com/eturino/apollo-link-scalars/issues/401), plus the `reviveScalarsInCache` fix on the client restore path.
 
 ## Usage
 

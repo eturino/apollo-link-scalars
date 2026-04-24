@@ -29,9 +29,15 @@
       "entry": [
         "index.html",
         "vite.config.ts",
+        "pages/**/*.tsx",
         "e2e/**/*.spec.ts"
       ],
-      "project": ["src/**/*.{ts,tsx}", "e2e/**/*.ts"]
+      "project": [
+        "src/**/*.{ts,tsx}",
+        "pages/**/*.{ts,tsx}",
+        "lib/**/*.{ts,tsx}",
+        "e2e/**/*.ts"
+      ]
     }
   }
 }

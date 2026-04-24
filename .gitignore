@@ -23,6 +23,8 @@ README.pdf
 
 # Vite test-app output
 test-apps/*/dist
+test-apps/*/.next
+test-apps/*/tsconfig.tsbuildinfo
 
 # Git Worktrees
 .worktrees/

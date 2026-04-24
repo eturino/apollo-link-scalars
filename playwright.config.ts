@@ -23,6 +23,11 @@ export default defineConfig({
       testMatch: /apollo-v4-persisted-cache\/e2e\/.*\.spec\.ts/,
       use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5175" },
     },
+    {
+      name: "apollo-v4-next-ssr",
+      testMatch: /apollo-v4-next-ssr\/e2e\/.*\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5176" },
+    },
   ],
   webServer: [
     {
@@ -44,6 +49,14 @@ export default defineConfig({
     {
       command: "pnpm --filter ./test-apps/apollo-v4-persisted-cache dev",
       url: "http://localhost:5175",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+    {
+      command: "pnpm --filter ./test-apps/apollo-v4-next-ssr dev",
+      url: "http://localhost:5176",
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
       stdout: "pipe",
