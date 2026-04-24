@@ -157,6 +157,64 @@ importers:
         specifier: ^8.0.10
         version: 8.0.10(@types/node@25.6.0)(jiti@2.6.1)(terser@5.46.2)(yaml@2.8.3)
 
+  test-apps/apollo-v4-issue-1041:
+    dependencies:
+      '@apollo/client':
+        specifier: ^4.1.9
+        version: 4.1.9(graphql@16.13.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+      '@graphql-tools/schema':
+        specifier: ^10.0.33
+        version: 10.0.33(graphql@16.13.2)
+      apollo-link-scalars:
+        specifier: workspace:*
+        version: link:../..
+      graphql:
+        specifier: ^16.8.0
+        version: 16.13.2
+      react:
+        specifier: ^19.0.0
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.5(react@19.2.5)
+      rxjs:
+        specifier: ^7.8.0
+        version: 7.8.2
+    devDependencies:
+      '@eslint/js':
+        specifier: ^10.0.0
+        version: 10.0.1(eslint@10.2.1(jiti@2.6.1))
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.0.0
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.1
+        version: 6.0.1(vite@8.0.10(@types/node@25.6.0)(jiti@2.6.1)(terser@5.46.2)(yaml@2.8.3))
+      eslint:
+        specifier: ^10.0.0
+        version: 10.2.1(jiti@2.6.1)
+      eslint-plugin-react-hooks:
+        specifier: ^7.1.0
+        version: 7.1.1(eslint@10.2.1(jiti@2.6.1))
+      eslint-plugin-react-refresh:
+        specifier: ^0.5.2
+        version: 0.5.2(eslint@10.2.1(jiti@2.6.1))
+      globals:
+        specifier: ^17.5.0
+        version: 17.5.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      typescript-eslint:
+        specifier: ^8.20.0
+        version: 8.59.0(eslint@10.2.1(jiti@2.6.1))(typescript@6.0.3)
+      vite:
+        specifier: ^8.0.10
+        version: 8.0.10(@types/node@25.6.0)(jiti@2.6.1)(terser@5.46.2)(yaml@2.8.3)
+
   test-apps/apollo-v4-next-ssr:
     dependencies:
       '@apollo/client':

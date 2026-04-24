@@ -111,10 +111,13 @@ export class ScalarApolloLink extends ApolloLink {
   }
 
   /**
-   * mutate the operation object with the serialized variables
+   * Detach and serialize the operation variables without mutating the caller's
+   * original variables object, so Apollo can keep using it for cache identity.
    * @param operation
    */
   protected cleanVariables(operation: Operation): Operation {
+    operation.variables = { ...operation.variables };
+
     const o = operation.query.definitions.find(isOperationDefinitionNode);
     const varDefs = o?.variableDefinitions ?? [];
     varDefs.forEach((vd) => {
