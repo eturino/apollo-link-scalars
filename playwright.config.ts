@@ -36,6 +36,14 @@ export default defineConfig({
   ],
   webServer: [
     {
+      command: "pnpm --filter ./test-apps/graphql-test-server dev",
+      url: "http://127.0.0.1:5178/health",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+    {
       command: "pnpm --filter ./test-apps/apollo-v3-react dev",
       url: "http://localhost:5173",
       reuseExistingServer: !process.env.CI,

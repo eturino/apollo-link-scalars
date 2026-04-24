@@ -20,10 +20,15 @@
       "entry": [
         "src/__tests__/**/*.spec.ts",
         "src/lib/__tests__/**/*.spec.ts",
+        "src/__tests__/integration/vitest.global-setup.ts",
         "playwright.config.ts"
       ],
       "project": ["src/**/*.ts"],
       "ignore": ["src/lib/__tests__/graphql-schema.fixtures.ts"]
+    },
+    "test-apps/graphql-test-server": {
+      "entry": ["src/cli.ts", "src/index.ts"],
+      "project": ["src/**/*.ts"]
     },
     "test-apps/*": {
       "entry": [

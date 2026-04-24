@@ -3,9 +3,15 @@ import { makeExecutableSchema } from "@graphql-tools/schema";
 import { withScalars } from "../..";
 import { execute } from "../helpers/test-utils";
 
+// The local graphql-test-server (test-apps/graphql-test-server) mirrors the
+// rickandmortyapi.com schema for the surface we exercise here. Booting is
+// handled by the vitest globalSetup that sits alongside this spec.
+
 const runSuite = process.env.RUN_INTEGRATION ? describe : describe.skip;
 
-runSuite("integration: rickandmortyapi.com with DateTime custom scalar", () => {
+const TEST_SERVER_URL = process.env.TEST_SERVER_URL ?? "http://127.0.0.1:5178/graphql";
+
+runSuite("integration: local graphql-test-server with DateTime custom scalar", () => {
   const typeDefs = gql`
     scalar DateTime
 
@@ -29,7 +35,7 @@ runSuite("integration: rickandmortyapi.com with DateTime custom scalar", () => {
     },
   };
 
-  const httpLink = new HttpLink({ uri: "https://rickandmortyapi.com/graphql" });
+  const httpLink = new HttpLink({ uri: TEST_SERVER_URL });
   const link = ApolloLink.from([withScalars({ schema, typesMap }), httpLink]);
 
   const query = gql`

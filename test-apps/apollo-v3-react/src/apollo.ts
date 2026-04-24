@@ -33,7 +33,7 @@ const typesMap = {
   },
 };
 
-const httpLink = new HttpLink({ uri: "https://rickandmortyapi.com/graphql" });
+const httpLink = new HttpLink({ uri: "http://localhost:5178/graphql" });
 
 export const client = new ApolloClient({
   cache: new InMemoryCache(),

@@ -45,7 +45,7 @@ const trackingLink = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-const httpLink = new HttpLink({ uri: "https://rickandmortyapi.com/graphql" });
+const httpLink = new HttpLink({ uri: "http://localhost:5178/graphql" });
 
 export async function bootstrap({ applyFix = false }: { applyFix?: boolean } = {}): Promise<ApolloClient> {
   const cache = new InMemoryCache();
