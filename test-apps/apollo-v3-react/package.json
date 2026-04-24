@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@apollo/client": "^3.13.0",
+    "@apollo/client": "^4.1.9",
     "@graphql-tools/schema": "^10.0.33",
     "apollo-link-scalars": "workspace:*",
     "graphql": "^16.8.0",
