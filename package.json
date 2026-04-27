@@ -14,6 +14,16 @@
   "bugs": "https://github.com/eturino/apollo-link-scalars/issues",
   "license": "MIT",
   "keywords": [],
+  "files": [
+    "build",
+    "src/index.ts",
+    "src/lib/*.ts",
+    "src/types/dictionary.ts",
+    "src/types/functions-map.ts",
+    "src/types/mut-or-ro.ts",
+    "src/types/null-functions.ts",
+    "CHANGELOG.md"
+  ],
   "lint-staged": {
     "src/**/*.ts": [
       "eslint --fix",
@@ -25,7 +35,7 @@
     "prepare": "husky",
     "describe": "npm-scripts-info",
     "build": "run-s clean && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
+    "build:main": "tsc -p tsconfig.build.json",
     "build:module": "tsc -p tsconfig.module.json",
     "fix": "run-s fix:*",
     "fix:prettier": "prettier \"src/**/*.ts\" --write",
@@ -86,7 +96,7 @@
   },
   "devDependencies": {
     "@apollo/client": "^4.1.9",
-    "@commitlint/cli": "^20.0.0",
+    "@commitlint/cli": "^20.5.2",
     "@commitlint/config-conventional": "^20.0.0",
     "@eslint/js": "^10.0.1",
     "@graphql-tools/schema": "^10.0.33",
@@ -103,7 +113,7 @@
     "gh-pages": "^6.3.0",
     "graphql": "^16.8.0",
     "husky": "^9.1.7",
-    "knip": "^6.6.2",
+    "knip": "^6.7.0",
     "lint-staged": "^16.4.0",
     "npm-run-all": "^4.1.5",
     "open-cli": "^9.0.0",

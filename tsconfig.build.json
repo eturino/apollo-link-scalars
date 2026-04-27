@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig",
+  "exclude": [
+    "node_modules/**",
+    "src/**/__tests__/**",
+    "src/**/*.spec.ts",
+    "src/types/vitest-globals.d.ts"
+  ]
+}

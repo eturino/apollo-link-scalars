@@ -10,6 +10,8 @@ tsconfig.module.json
 .idea
 build/docs
 **/*.spec.*
+**/__tests__/**
+src/types/vitest-globals.d.ts
 coverage
 .nyc_output
 *.log
