@@ -1,0 +1,90 @@
+name: Upstream Major Watch
+
+# Weekly poke when @apollo/client or graphql ship a new major above
+# the current `peerDependencies` range. Dependabot is configured to
+# ignore major bumps for these packages (see .github/dependabot.yml),
+# so without this workflow a new upstream major would slip past us.
+#
+# Behavior:
+# - reads current peer range from package.json
+# - asks npm for the latest published version
+# - if latest_major > current_max_major, opens (or no-ops) an issue
+# - matches existing issues by exact title across both states, so
+#   closing the issue silences the ping; manual workflow_dispatch
+#   re-checks on demand
+#
+# Inputs are limited to npm registry data and our own package.json.
+# No github.event payload is consumed, so workflow injection vectors
+# (issue titles, commit messages, PR bodies) do not apply here.
+
+on:
+  schedule:
+    - cron: "0 8 * * MON"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watch:
+    if: github.repository == 'eturino/apollo-link-scalars'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Check for new majors of @apollo/client and graphql
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          for pkg in "@apollo/client" "graphql"; do
+            latest=$(npm view "$pkg" version)
+            latest_major=${latest%%.*}
+
+            peer_range=$(jq -r --arg p "$pkg" '.peerDependencies[$p]' package.json)
+            # peer range convention is `X.x [|| Y.x ...]`. Pick the
+            # highest `N.x` tag and use that as the supported ceiling.
+            current_max=$(echo "$peer_range" | grep -oE '[0-9]+\.x' | sed 's/\.x//' | sort -n | tail -1)
+
+            echo "$pkg: latest=$latest (major $latest_major) | peer range='$peer_range' (max $current_max)"
+
+            if [ -z "$current_max" ]; then
+              echo "::warning::could not parse peer range for $pkg; skipping"
+              continue
+            fi
+
+            if [ "$latest_major" -le "$current_max" ]; then
+              echo "$pkg under current peer range; nothing to do"
+              continue
+            fi
+
+            title="upstream: $pkg v$latest_major available"
+            existing=$(gh issue list --state all --search "$title in:title" --json number,title --jq ".[] | select(.title == \"$title\") | .number" | head -1)
+
+            if [ -n "$existing" ]; then
+              echo "$pkg v$latest_major notice already exists as #$existing; skipping"
+              continue
+            fi
+
+            body=$(cat <<EOF
+          \`$pkg\` has published **v$latest_major** (latest version: \`$latest\`). The current \`peerDependencies\` range is \`$peer_range\`, which excludes the new major.
+
+          Dependabot is configured to ignore major bumps for this package, so you have to drive the upgrade yourself.
+
+          Suggested upgrade flow:
+
+          1. Widen \`peerDependencies["$pkg"]\` in \`package.json\` to include the new major.
+          2. Bump the relevant package(s) under \`test-apps/\` and update their lockfiles.
+          3. Add a matrix row in \`.github/workflows/ci.yml\` (the \`matrix\` job) for the new major if relevant.
+          4. Run \`pnpm test:matrix\` locally to confirm both old and new majors still pass.
+          5. Cut a new major of \`apollo-link-scalars\` per RELEASING.md.
+
+          This issue is auto-opened by [\`upstream-major-watch.yml\`](.github/workflows/upstream-major-watch.yml). Close it (without action) to silence the recurring ping for this specific major. A new issue will be opened if a higher major lands later.
+          EOF
+          )
+
+            echo "creating issue: $title"
+            gh issue create --title "$title" --body "$body"
+          done
