@@ -32,6 +32,12 @@ Of the 0.x family, the versions 0.1.x and 0.2.x are deprecated and a [migration 
 
 The 1.x family is considered deprecated and a [migration to 2.x or greater is recommended](#breaking-change-removing-makeexecutableschema)
 
+#### What's new in `v5`
+
+- `@apollo/client` v4 support alongside the existing v3 support. The `peerDependencies` range is now `3.x || 4.x`.
+- New `reviveScalarsInCache` helper for re-applying custom `parseValue` to a JSON-restored Apollo cache. See [Rehydrating a persisted cache (`reviveScalarsInCache`)](#rehydrating-a-persisted-cache-revivescalarsincache).
+- No source-level breaking changes for code already using `withScalars` on `4.x`. Upgrading from `4.0.3` to `5.x` is a drop-in bump.
+
 ### Breaking Change: removing `makeExecutableSchema`
 
 The versions that included `makeExecutableSchema` from `graphql-tools` are deprecated. This are the versions:
@@ -362,7 +368,7 @@ For the current release checklist, CI publishing setup, and npm trusted publishi
 
 ### Commits and CHANGELOG
 
-Commits should follow the [Conventional Commits](https://www.conventionalcommits.org/) format. The repository enforces this with `commitlint`, and `standard-version` uses those commit messages to determine the version bump and generate [`CHANGELOG.md`](CHANGELOG.md).
+Commits should follow the [Conventional Commits](https://www.conventionalcommits.org/) format. The repository enforces this with `commitlint`, and [`commit-and-tag-version`](https://github.com/absolute-version/commit-and-tag-version) uses those commit messages to determine the version bump and generate [`CHANGELOG.md`](CHANGELOG.md).
 
 If you want help composing a compliant commit message, use [`commitizen`](https://github.com/commitizen/cz-cli):
 
@@ -371,7 +377,7 @@ If you want help composing a compliant commit message, use [`commitizen`](https:
 pnpm dlx git-cz
 ```
 
-This project uses [standard-version](https://github.com/conventional-changelog/standard-version) for release commits, tags, and changelog generation.
+This project uses [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for release commits, tags, and changelog generation.
 
 ```sh
 # bump package.json version, update CHANGELOG.md, git tag the release
@@ -391,31 +397,7 @@ The canonical release process now lives in [RELEASING.md](./RELEASING.md). In sh
 
 ### First Release / Special Cases
 
-Once you are ready to create the first version, run the following (note that `reset` is destructive and will remove all files not in the git repo from the directory).
-
-```sh
-# Reset the repo to the latest commit and build everything
-pnpm reset && pnpm test:full && pnpm doc:html
-
-# Then version it with standard-version options. e.g.:
-# don't bump package.json version
-pnpm version -- --first-release
-
-# Other popular options include:
-
-# PGP sign it:
-# $ pnpm version -- --sign
-
-# alpha release:
-# $ pnpm version -- --prerelease alpha
-```
-
-After that, publish the docs if needed and push the new tag.
-
-```sh
-# Push to git
-git push --follow-tags origin <release-branch>
-```
+See [RELEASING.md](./RELEASING.md#first-release--special-cases) for `--first-release`, `--prerelease`, and `--sign` flags.
 
 ### Publish the Docs
 
