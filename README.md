@@ -381,8 +381,10 @@ This project uses [commit-and-tag-version](https://github.com/absolute-version/c
 
 ```sh
 # bump package.json version, update CHANGELOG.md, git tag the release
-pnpm version
+pnpm run version
 ```
+
+> **Gotcha:** `pnpm version` (without `run`) hits pnpm's built-in `version` command, which prints engine versions and ignores the package script. Always invoke the script as `pnpm run version` so `commit-and-tag-version` actually runs.
 
 You may find a tool like [**`wip`**](https://github.com/bitjson/wip) helpful for managing work in progress before you're ready to create a meaningful commit.
 
@@ -391,7 +393,7 @@ You may find a tool like [**`wip`**](https://github.com/bitjson/wip) helpful for
 The canonical release process now lives in [RELEASING.md](./RELEASING.md). In short:
 
 - verify locally with `pnpm test:full` and `pnpm e2e:run`
-- run `pnpm version` to create the release commit, changelog update, and tag
+- run `pnpm run version` to create the release commit, changelog update, and tag
 - push with `git push --follow-tags origin <release-branch>`
 - let GitHub Actions publish the package to npm via trusted publishing
 
