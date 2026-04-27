@@ -9,3 +9,18 @@ updates:
       prefix: fix
       prefix-development: chore
       include: scope
+    # The library supports both Apollo Client v3 and v4 via the
+    # `3.x || 4.x` peerDependency range. The v3-react test-app is the
+    # canonical v3 surface and must stay on 3.x; the v4-* test-apps and
+    # the root devDep pin are the v4 surface and must stay on 4.x.
+    # Dependabot raising a major bump (3 -> 4 in the v3 app, or 4 -> 5
+    # whenever that lands) would silently erase one of those surfaces,
+    # so we ignore @apollo/client majors across the workspace and let
+    # the maintainer drive that bump explicitly. Same logic for graphql:
+    # the peer range is `16.x`, so a 16 -> 17 PR is never the right
+    # default. Minor and patch bumps still flow through normally.
+    ignore:
+      - dependency-name: "@apollo/client"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "graphql"
+        update-types: ["version-update:semver-major"]
