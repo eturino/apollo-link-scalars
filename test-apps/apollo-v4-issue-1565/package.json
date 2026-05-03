@@ -1,0 +1,34 @@
+{
+  "name": "@test-apps/apollo-v4-issue-1565",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --max-warnings=0",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@apollo/client": "^4.1.9",
+    "apollo-link-scalars": "workspace:*",
+    "graphql": "^16.8.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react-hooks": "^7.1.0",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.20.0",
+    "vite": "^8.0.10"
+  }
+}

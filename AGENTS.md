@@ -18,7 +18,8 @@ Entry: `src/index.ts`. Main runtime type is `ScalarApolloLink` in `src/lib/link.
   - `apollo-v4-persisted-cache` — Vite + React, Apollo v4 with cache persistence, port 5175. Hits the local test server for `character(id)`.
   - `apollo-v4-next-ssr` — Next.js 16, Apollo v4 SSR, port 5176.
   - `apollo-v4-issue-1041` — Vite + React, Apollo v4, port 5177. Isolated repro for issue #1041 (cache-first with custom-serialized variables). Hosts its own minimal `events(at: DateTime)` GraphQL schema via vite `configureServer` middleware.
-- `playwright.config.ts` (root) — boots the test server first, then the five app dev servers
+  - `apollo-v4-issue-1565` — Vite + React, Apollo v4, port 5179. Isolated repro for issue #1565 (`withScalars` link no-ops in `vite build` output because graphql-js class names get minified). Runs against `vite build && vite preview` (NOT `vite dev`) since the bug only reproduces in the minified production bundle. Hosts its own `Date` scalar schema via vite `configureServer` AND `configurePreviewServer` middleware.
+- `playwright.config.ts` (root) — boots the test server first, then the six app servers (five via `vite dev`, plus `apollo-v4-issue-1565` via `vite build && vite preview`)
 
 ## CRITICAL build gotcha — test apps consume `build/`, not `src/`
 
@@ -51,7 +52,7 @@ Full matrix: `pnpm test:matrix` runs against Apollo v3 and v4 sequentially by sw
 - `pnpm test:lib` — build + eslint + prettier check + unit + dep cycle check (dpdm) + dead code (knip) + type-check
 - `pnpm test:apps` — type-check + lint + build across all test-apps
 - `pnpm test:full` — `test` + `test:integration`
-- `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`.
+- `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`, `apollo-v4-issue-1565`.
 
 ## Issue #1041 — cache-first with custom-serialized variables
 
@@ -67,6 +68,18 @@ Full matrix: `pnpm test:matrix` runs against Apollo v3 and v4 sequentially by sw
 - E2E: `test-apps/apollo-v4-issue-1041/e2e/issue-1041.spec.ts` — requires a rebuilt `build/` to go RED on the unfixed source (see the build gotcha above).
 
 The `apollo-v4-issue-1041` app is a dedicated, minimal repro: its `vite.config.ts` hosts a `/graphql` endpoint via `configureServer` middleware with a `events(at: DateTime): [Event!]!` query; `src/App.tsx` exposes `Load A` / `Load B` / `Reset` buttons that exercise `useQuery` + `fetchPolicy: "cache-first"` + a custom `DateTime` serializer that produces an offset-suffixed ISO string (asymmetric vs. `Date.prototype.toJSON`).
+
+## Issue #1565 — `withScalars` link no-ops in vite production builds
+
+**Bug:** `src/lib/graphql-type-guards.ts` identified graphql-js types via `value.constructor.name === "GraphQLScalarType"` (introduced in #1056 to support cross-realm schemas). esbuild/terser mangle class names in production bundles — `GraphQLScalarType` becomes `Dn`, `GraphQLObjectType` becomes `On`, etc. — so every guard returned `false`, the `functionsMap` ended up empty, and the link silently passed responses through unparsed. Dev mode (no minification) worked.
+
+**Fix:** read `value[Symbol.toStringTag]` first (graphql-js v16 defines a getter on each type class returning the unminifiable string literal `"GraphQLScalarType"` etc.), and only fall back to `constructor.name` when no tag is present. Tag values are string literals, so they survive minification AND cross-realm.
+
+**Tests covering the regression:**
+- Unit: `src/lib/__tests__/graphql-type-guards.spec.ts` — covers real graphql-js instances, simulated minified instances (constructor renamed to `"a"` but `Symbol.toStringTag` preserved), and the constructor-name fallback.
+- E2E: `test-apps/apollo-v4-issue-1565/e2e/issue-1565.spec.ts` — runs against `vite build && vite preview` (NOT `vite dev`). The playwright project's `webServer` entry triggers the build per run; without this, the bug is invisible.
+
+The `apollo-v4-issue-1565` app mirrors the user's repro from https://github.com/floriancargoet/apollo-link-scalars-bug-repro: it builds an introspection JSON in-process, round-trips it through `buildClientSchema`, and uses a `Date` scalar against a `film(filmID: ID): Film` query served by a vite middleware that mounts on BOTH `configureServer` (for `vite dev`) and `configurePreviewServer` (for `vite preview`).
 
 ## Local graphql-test-server (port 5178)
 

@@ -33,6 +33,11 @@ export default defineConfig({
       testMatch: /apollo-v4-issue-1041\/e2e\/.*\.spec\.ts/,
       use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5177" },
     },
+    {
+      name: "apollo-v4-issue-1565",
+      testMatch: /apollo-v4-issue-1565\/e2e\/.*\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5179" },
+    },
   ],
   webServer: [
     {
@@ -78,6 +83,16 @@ export default defineConfig({
     {
       command: "pnpm --filter ./test-apps/apollo-v4-issue-1041 dev",
       url: "http://localhost:5177",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+    // Issue #1565 reproduces only in a production bundle, so build first then
+    // serve via `vite preview` to exercise the minified output.
+    {
+      command: "pnpm --filter ./test-apps/apollo-v4-issue-1565 exec sh -c 'vite build && vite preview --port 5179 --strictPort'",
+      url: "http://localhost:5179",
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
       stdout: "pipe",
