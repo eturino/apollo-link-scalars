@@ -10,7 +10,7 @@ importers:
     devDependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@commitlint/cli':
         specifier: ^20.5.2
         version: 20.5.3(@types/node@25.6.0)(conventional-commits-parser@6.4.0)(typescript@6.0.3)
@@ -106,7 +106,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^3.13.0
-        version: 3.14.1(@types/react@19.2.14)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 3.14.1(@types/react@19.2.14)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -121,7 +121,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
     devDependencies:
       '@eslint/js':
         specifier: ^10.0.0
@@ -161,7 +161,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -176,7 +176,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -219,7 +219,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       apollo-link-scalars:
         specifier: workspace:*
         version: link:../..
@@ -231,7 +231,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -274,7 +274,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -289,7 +289,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -332,7 +332,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -344,13 +344,13 @@ importers:
         version: 16.14.0
       next:
         specifier: ^16.2.4
-        version: 16.2.5(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+        version: 16.2.5(@playwright/test@1.59.1)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)
       react:
         specifier: ^19.0.0
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -384,7 +384,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -393,7 +393,7 @@ importers:
         version: link:../..
       apollo4-cache-persist:
         specifier: ^1.0.10
-        version: 1.0.10(@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2))(react-native@0.85.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.5))(rxjs@7.8.2)
+        version: 1.0.10(@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2))(react-native@0.85.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.5))(rxjs@7.8.2)
       graphql:
         specifier: ^16.8.0
         version: 16.14.0
@@ -402,7 +402,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -445,7 +445,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: ^4.1.9
-        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+        version: 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       '@graphql-tools/schema':
         specifier: ^10.0.33
         version: 10.0.33(graphql@16.14.0)
@@ -460,7 +460,7 @@ importers:
         version: 19.2.5
       react-dom:
         specifier: ^19.0.0
-        version: 19.2.5(react@19.2.5)
+        version: 19.2.6(react@19.2.5)
       rxjs:
         specifier: ^7.8.0
         version: 7.8.2
@@ -4460,10 +4460,10 @@ packages:
   react-devtools-core@6.1.5:
     resolution: {integrity: sha512-ePrwPfxAnB+7hgnEr8vpKxL9cmnp7F322t8oqcPshbIQQhDKgFDW4tjhF2wjVbdXF9O/nyuy3sQWd9JGpiLPvA==}
 
-  react-dom@19.2.5:
-    resolution: {integrity: sha512-J5bAZz+DXMMwW/wV3xzKke59Af6CHY7G4uYLN1OvBcKEsWOs4pQExj86BBKamxl/Ik5bx9whOrvBlSDfWzgSag==}
+  react-dom@19.2.6:
+    resolution: {integrity: sha512-0prMI+hvBbPjsWnxDLxlCGyM8PN6UuWjEUCYmZhO67xIV9Xasa/r/vDnq+Xyq4Lo27g8QSbO5YzARu0D1Sps3g==}
     peerDependencies:
-      react: ^19.2.5
+      react: ^19.2.6
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -5462,7 +5462,7 @@ snapshots:
     dependencies:
       graphql: 16.14.0
 
-  '@apollo/client@3.14.1(@types/react@19.2.14)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)':
+  '@apollo/client@3.14.1(@types/react@19.2.14)(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.0)
       '@wry/caches': 1.0.1
@@ -5481,11 +5481,11 @@ snapshots:
     optionalDependencies:
       graphql-ws: 6.0.8(graphql@16.14.0)(ws@8.20.0)
       react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react-dom: 19.2.6(react@19.2.5)
     transitivePeerDependencies:
       - '@types/react'
 
-  '@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)':
+  '@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.14.0)
       '@wry/caches': 1.0.1
@@ -5499,7 +5499,7 @@ snapshots:
     optionalDependencies:
       graphql-ws: 6.0.8(graphql@16.14.0)(ws@8.20.0)
       react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react-dom: 19.2.6(react@19.2.5)
 
   '@apollo/protobufjs@1.2.8':
     dependencies:
@@ -6890,9 +6890,9 @@ snapshots:
 
   ansi-styles@6.2.3: {}
 
-  apollo4-cache-persist@1.0.10(@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2))(react-native@0.85.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.5))(rxjs@7.8.2):
+  apollo4-cache-persist@1.0.10(@apollo/client@4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2))(react-native@0.85.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.5))(rxjs@7.8.2):
     dependencies:
-      '@apollo/client': 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
+      '@apollo/client': 4.1.9(graphql-ws@6.0.8(graphql@16.14.0)(ws@8.20.0))(graphql@16.14.0)(react-dom@19.2.6(react@19.2.5))(react@19.2.5)(rxjs@7.8.2)
       react-native: 0.85.2(@babel/core@7.29.0)(@types/react@19.2.14)(react@19.2.5)
       rxjs: 7.8.2
 
@@ -9066,7 +9066,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  next@16.2.5(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5):
+  next@16.2.5(@playwright/test@1.59.1)(react-dom@19.2.6(react@19.2.5))(react@19.2.5):
     dependencies:
       '@next/env': 16.2.5
       '@swc/helpers': 0.5.15
@@ -9074,7 +9074,7 @@ snapshots:
       caniuse-lite: 1.0.30001792
       postcss: 8.4.31
       react: 19.2.5
-      react-dom: 19.2.5(react@19.2.5)
+      react-dom: 19.2.6(react@19.2.5)
       styled-jsx: 5.1.6(react@19.2.5)
     optionalDependencies:
       '@next/swc-darwin-arm64': 16.2.5
@@ -9498,7 +9498,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  react-dom@19.2.5(react@19.2.5):
+  react-dom@19.2.6(react@19.2.5):
     dependencies:
       react: 19.2.5
       scheduler: 0.27.0
