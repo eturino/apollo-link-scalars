@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.1.0](https://github.com/eturino/apollo-link-scalars/compare/v5.0.1...v5.1.0) (2026-05-06)
+
+Adds an opt-in `ensureSerializableVariables` flag to fix `TypeError: Do not know how to serialize a BigInt` when using `BigInt` GraphQL variables. The flag installs the standard MDN `BigInt.prototype.toJSON` shim only if no `toJSON` is already present. See the README's "Using `BigInt` variables" section for the full caveats.
+
+### Features
+
+* add ensureSerializableVariables option for BigInt variable cache identity ([d98feaf](https://github.com/eturino/apollo-link-scalars/commit/d98feaf9781a8e2af5442619a0ee6748e4b3bde1)), closes [#1041](https://github.com/eturino/apollo-link-scalars/issues/1041)
+
+
+### Bug Fixes
+
+* **deps:** bump @apollo/server from 5.5.0 to 5.5.1 ([#1573](https://github.com/eturino/apollo-link-scalars/issues/1573)) ([de76441](https://github.com/eturino/apollo-link-scalars/commit/de764416707cdbd997f7c012cafdd96f8253555f))
+
 ## [5.0.1](https://github.com/eturino/apollo-link-scalars/compare/v5.0.0...v5.0.1) (2026-05-03)
 
 Patch release fixing a silent regression introduced in 5.0.0 where `withScalars` no-ops in production bundles built by Vite, esbuild, terser, etc. — scalar values come back unparsed even though dev mode parses them correctly ([#1565](https://github.com/eturino/apollo-link-scalars/issues/1565)).
