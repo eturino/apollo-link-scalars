@@ -145,6 +145,7 @@ const link = ApolloLink.from([withScalars({ schema, typesMap }), new HttpLink({ 
 - **`removeTypenameFromInputs`** (`Boolean`, default `false`): when enabled, it will remove from the inputs the `__typename` if it is found. This could be useful if we are using data received from a query as an input on another query.
 - **`validateEnums`** (`Boolean`, default `false`): when enabled, it will validate the enums on parsing, throwing an error if it sees a value that is not one of the enum values.
 - **`nullFunctions`** (`NullFunctions`, optional): by passing a set of transforms on how to box and unbox null types, you can automatically construct e.g. Maybe monads from null values. See [Changing the behaviour of nullable types](#changing-the-behaviour-of-nullable-types).
+- **`ensureSerializableVariables`** (`Boolean`, default `false`): opt-in fix for `BigInt`-typed variables. Installs a default `BigInt.prototype.toJSON` (calling `.toString()`) globally on first link instantiation, but only if no `toJSON` is already defined. **This is a process-wide side effect** — read the warnings in [Using `BigInt` variables](#using-bigint-variables) before enabling it.
 
 ```typescript
 withScalars({
@@ -154,6 +155,39 @@ withScalars({
   removeTypenameFromInputs: true,
 });
 ```
+
+#### Using `BigInt` variables
+
+If you pass a `BigInt` value as a GraphQL variable (with a custom `BigInt` scalar registered in `typesMap`), Apollo Client throws `TypeError: Do not know how to serialize a BigInt` from `QueryManager.readCache` (cache-first queries) or `markMutationResult` (mutation cache writes).
+
+This is **not something `withScalars` can fix in the link request path**: Apollo computes cache identity by calling `JSON.stringify` (via its internal `canonicalStringify`) on the variables BEFORE the link chain executes, so the link itself cannot intercept the call. `JSON.stringify(1n)` throws because the JavaScript spec does not define `BigInt.prototype.toJSON`.
+
+The standard workaround is to install a `BigInt.prototype.toJSON` shim, as documented on [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json). Setting `ensureSerializableVariables: true` does this for you on first link instantiation:
+
+```typescript
+withScalars({
+  schema,
+  typesMap,
+  ensureSerializableVariables: true,
+});
+```
+
+The shim that gets installed:
+
+```js
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
+```
+
+**Warnings — read before enabling:**
+
+- **Process-wide side effect.** This modifies `BigInt.prototype` for every `BigInt` in your runtime, not just those passed as GraphQL variables. Anywhere your application calls `JSON.stringify` on a value containing a `BigInt`, the result will now be a JSON string (e.g. `JSON.stringify({ id: 1n })` becomes `'{"id":"1"}'` instead of throwing). If your codebase relies on the throw as a guardrail, this changes that behavior.
+- **No-op if a `toJSON` already exists.** The shim is installed only when `BigInt.prototype.toJSON` is `undefined`. If your app, another library, or a polyfill has already defined one (e.g. the MDN-style envelope `{ $bigint: "..." }`), it is left untouched. This means the option is safe to combine with an existing shim, but the *shape* of `BigInt` values in `JSON.stringify` output will be whatever was already installed.
+- **Wire format vs. cache identity.** The shim only governs how Apollo's `canonicalStringify` produces local cache keys. The wire format sent to your GraphQL server is still driven by the `serialize` function you registered for the `BigInt` scalar in `typesMap`. The two are independent.
+- **Choice of envelope.** The default shim returns `this.toString()` (e.g. `"123"`), which mirrors how a `BigInt` scalar is conventionally represented on the wire. The MDN documentation also shows an envelope variant (`{ $bigint: "..." }`) intended for round-trip JSON between two endpoints that both recognize the envelope. The envelope variant is **not** appropriate for talking to a generic GraphQL server, which expects a scalar literal — if a `BigInt` ever leaks past your `typesMap.BigInt.serialize` (e.g. due to a misconfigured scalar) the envelope shape would surface as a malformed object on the wire, while the `toString` shape surfaces as a plain string the server will usually still accept. If you want the envelope behavior anyway, install your own `BigInt.prototype.toJSON` **before** constructing `withScalars(...)`; our installer will detect it and not overwrite.
+- **`Symbol`, functions, circular references.** This option only addresses `BigInt`. `Symbol` values silently disappear under `JSON.stringify`, functions are dropped, circular references throw — none of those are touched.
+- **Default is `false`.** Existing apps see no behavior change unless they explicitly opt in.
 
 ### End-To-End Example
 

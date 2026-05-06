@@ -38,6 +38,11 @@ export default defineConfig({
       testMatch: /apollo-v4-issue-1565\/e2e\/.*\.spec\.ts/,
       use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5179" },
     },
+    {
+      name: "apollo-v4-issue-bigint",
+      testMatch: /apollo-v4-issue-bigint\/e2e\/.*\.spec\.ts/,
+      use: { ...devices["Desktop Chrome"], baseURL: "http://localhost:5180" },
+    },
   ],
   webServer: [
     {
@@ -93,6 +98,14 @@ export default defineConfig({
     {
       command: "pnpm --filter ./test-apps/apollo-v4-issue-1565 exec sh -c 'vite build && vite preview --port 5179 --strictPort'",
       url: "http://localhost:5179",
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+      stdout: "pipe",
+      stderr: "pipe",
+    },
+    {
+      command: "pnpm --filter ./test-apps/apollo-v4-issue-bigint dev",
+      url: "http://localhost:5180",
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
       stdout: "pipe",

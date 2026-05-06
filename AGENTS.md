@@ -19,7 +19,8 @@ Entry: `src/index.ts`. Main runtime type is `ScalarApolloLink` in `src/lib/link.
   - `apollo-v4-next-ssr` — Next.js 16, Apollo v4 SSR, port 5176.
   - `apollo-v4-issue-1041` — Vite + React, Apollo v4, port 5177. Isolated repro for issue #1041 (cache-first with custom-serialized variables). Hosts its own minimal `events(at: DateTime)` GraphQL schema via vite `configureServer` middleware.
   - `apollo-v4-issue-1565` — Vite + React, Apollo v4, port 5179. Isolated repro for issue #1565 (`withScalars` link no-ops in `vite build` output because graphql-js class names get minified). Runs against `vite build && vite preview` (NOT `vite dev`) since the bug only reproduces in the minified production bundle. Hosts its own `Date` scalar schema via vite `configureServer` AND `configurePreviewServer` middleware.
-- `playwright.config.ts` (root) — boots the test server first, then the six app servers (five via `vite dev`, plus `apollo-v4-issue-1565` via `vite build && vite preview`)
+  - `apollo-v4-issue-bigint` — Vite + React, Apollo v4, port 5180. Repro for the post-5.0.1 BigInt regression: a cache-first query and a mutation, both with a `BigInt` variable. Exercises `withScalars({ ensureSerializableVariables: true })`. Hosts its own `BigInt` scalar schema via vite `configureServer` middleware.
+- `playwright.config.ts` (root) — boots the test server first, then the seven app servers (six via `vite dev`, plus `apollo-v4-issue-1565` via `vite build && vite preview`)
 
 ## CRITICAL build gotcha — test apps consume `build/`, not `src/`
 
@@ -52,7 +53,7 @@ Full matrix: `pnpm test:matrix` runs against Apollo v3 and v4 sequentially by sw
 - `pnpm test:lib` — build + eslint + prettier check + unit + dep cycle check (dpdm) + dead code (knip) + type-check
 - `pnpm test:apps` — type-check + lint + build across all test-apps
 - `pnpm test:full` — `test` + `test:integration`
-- `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`, `apollo-v4-issue-1565`.
+- `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`, `apollo-v4-issue-1565`, `apollo-v4-issue-bigint`.
 
 ## Issue #1041 — cache-first with custom-serialized variables
 
@@ -80,6 +81,18 @@ The `apollo-v4-issue-1041` app is a dedicated, minimal repro: its `vite.config.t
 - E2E: `test-apps/apollo-v4-issue-1565/e2e/issue-1565.spec.ts` — runs against `vite build && vite preview` (NOT `vite dev`). The playwright project's `webServer` entry triggers the build per run; without this, the bug is invisible.
 
 The `apollo-v4-issue-1565` app mirrors the user's repro from https://github.com/floriancargoet/apollo-link-scalars-bug-repro: it builds an introspection JSON in-process, round-trips it through `buildClientSchema`, and uses a `Date` scalar against a `film(filmID: ID): Film` query served by a vite middleware that mounts on BOTH `configureServer` (for `vite dev`) and `configurePreviewServer` (for `vite preview`).
+
+## BigInt regression after #1041 fix — `ensureSerializableVariables` opt-in
+
+**Bug:** since 5.0.1's #1041 fix stopped mutating the caller's `operation.variables` in place, any `BigInt`-typed variable now reaches Apollo's internal `canonicalStringify` (used for cache identity) untouched. `JSON.stringify(1n)` throws — there is no `BigInt.prototype.toJSON` in the spec. Manifests as `TypeError: Do not know how to serialize a BigInt` from `QueryManager.readCache` (cache-first queries) or `markMutationResult` (mutation cache writes).
+
+**Why a link-level fix can't solve it:** `canonicalStringify` runs INSIDE `QueryManager.fetchQueryByPolicy` and `markMutationResult`, BEFORE the link chain executes for cache reads and AFTER for mutation writes. For cache-first queries the link can never intercept the call.
+
+**Fix:** opt-in `ensureSerializableVariables` flag on `ScalarApolloLinkParams`. When `true`, the link installs a default `BigInt.prototype.toJSON` (calling `.toString()`) on first instantiation, but only if `toJSON` is not already defined. This is a process-wide side effect — required because Apollo's cache identity goes through plain `JSON.stringify` and there is no public hook to customize it. Wire format is still driven by the user's `BigInt` serializer in `typesMap`; the shim only governs how Apollo stringifies the original value for local cache identity.
+
+**Tests covering the regression:**
+- Unit: `src/__tests__/bigint-serialized-variables.spec.ts` — covers cache-first query (A → B → A), nested BigInt inside an input-object variable, the #1041 Date-stays-intact regression guard, and the prototype shim install.
+- E2E: `test-apps/apollo-v4-issue-bigint/e2e/issue-bigint.spec.ts` — runs against `vite dev` on port 5180. Hosts a `BigInt` scalar schema with `items(amount: BigInt)` query and `recordItem(amount: BigInt!)` mutation. Asserts cache hit on the third A read and that the mutation roundtrip resolves with a `bigint`-typed result.
 
 ## Local graphql-test-server (port 5178)
 
