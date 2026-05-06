@@ -22,7 +22,7 @@ pnpm doc:html
 # - CHANGELOG.md update
 # - chore(release): x.y.z commit
 # - vx.y.z git tag
-pnpm version
+pnpm run version
 
 # review the generated release commit and changelog
 git show --stat
@@ -43,11 +43,11 @@ Pushing the release tag triggers [`.github/workflows/publish.yml`](./.github/wor
 
 `commit-and-tag-version` writes the new entry as a flat list of commit subjects grouped by type. For a notable release (major bump, headline feature) it is often worth prefacing the auto-generated bullets with a short prose summary so the GitHub Release page reads well.
 
-The auto-generated commit and tag both happen inside `pnpm version`, so the supported edit flow is amend-then-retag:
+The auto-generated commit and tag both happen inside `pnpm run version`, so the supported edit flow is amend-then-retag (the `run` is mandatory; `pnpm version` without `run` hits pnpm's built-in command and ignores the package script):
 
 ```sh
 # 1. generate the release commit + tag as usual
-pnpm version
+pnpm run version
 
 # 2. edit CHANGELOG.md - add a summary block at the top of the new entry,
 #    just under the `## [X.Y.Z]` heading, before the auto-generated bullets
@@ -64,10 +64,10 @@ git tag -a vX.Y.Z -m "vX.Y.Z"
 git push --follow-tags origin <release-branch>
 ```
 
-Alternative: pass `--skip.tag` to `pnpm version` so the tag is not created until you are happy with the changelog, then tag manually.
+Alternative: pass `--skip.tag` to the version script so the tag is not created until you are happy with the changelog, then tag manually.
 
 ```sh
-pnpm version --skip.tag
+pnpm run version --skip.tag
 # edit CHANGELOG.md, amend the chore(release) commit if needed
 git tag -a vX.Y.Z -m "vX.Y.Z"
 git push --follow-tags origin <release-branch>
@@ -90,7 +90,7 @@ git push --follow-tags origin <release-branch>
 pnpm reset
 pnpm test
 pnpm doc:html
-pnpm version
+pnpm run version
 pnpm doc:publish
 ```
 
@@ -98,22 +98,23 @@ Note that `pnpm reset` is destructive.
 
 ## First Release / Special Cases
 
-Examples:
+Examples (note: `pnpm run version` is mandatory; `pnpm version` is intercepted by pnpm's built-in command):
 
 ```sh
 # first release without bumping the existing version first
-pnpm version -- --first-release
+pnpm run version -- --first-release
 
 # prerelease
-pnpm version -- --prerelease alpha
+pnpm run version -- --prerelease alpha
 
 # signed tag / commit
-pnpm version -- --sign
+pnpm run version -- --sign
 ```
 
 ## Notes
 
-- `pnpm version` runs the package script, not the built-in npm versioning command.
+- Always invoke as `pnpm run version`. Running `pnpm version` (no `run`) hits pnpm's built-in `version` command, which prints engine versions and ignores the package script entirely. The `prepare-release` script chain works regardless because it calls `run-s version` (a script-runner that bypasses the built-in shadowing).
+- `commit-and-tag-version` rewrites the CHANGELOG.md preamble (lines 1-3) from a built-in template on every run, so edits to those lines do not survive across releases. The version-entry body and everything below survive normally.
 - Review `CHANGELOG.md` before pushing tags.
 - The publish workflow does not regenerate the typedoc Github Pages site. If you want the site refreshed for a release, run `pnpm doc:html && pnpm doc:publish` locally before tagging.
 - npm trusted publishing automatically generates provenance for public packages published from this public GitHub repository, so the workflow uses plain `npm publish`.

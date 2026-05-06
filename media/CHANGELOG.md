@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.1.0](https://github.com/eturino/apollo-link-scalars/compare/v5.0.1...v5.1.0) (2026-05-06)
+
+Adds an opt-in `ensureSerializableVariables` flag to fix `TypeError: Do not know how to serialize a BigInt` when using `BigInt` GraphQL variables. The flag installs the standard MDN `BigInt.prototype.toJSON` shim only if no `toJSON` is already present. See the README's "Using `BigInt` variables" section for the full caveats.
+
+### Features
+
+* add ensureSerializableVariables option for BigInt variable cache identity ([d98feaf](https://github.com/eturino/apollo-link-scalars/commit/d98feaf9781a8e2af5442619a0ee6748e4b3bde1)), closes [#1041](https://github.com/eturino/apollo-link-scalars/issues/1041)
+
+
+### Bug Fixes
+
+* **deps:** bump @apollo/server from 5.5.0 to 5.5.1 ([#1573](https://github.com/eturino/apollo-link-scalars/issues/1573)) ([de76441](https://github.com/eturino/apollo-link-scalars/commit/de764416707cdbd997f7c012cafdd96f8253555f))
+
+## [5.0.1](https://github.com/eturino/apollo-link-scalars/compare/v5.0.0...v5.0.1) (2026-05-03)
+
+Patch release fixing a silent regression introduced in 5.0.0 where `withScalars` no-ops in production bundles built by Vite, esbuild, terser, etc. — scalar values come back unparsed even though dev mode parses them correctly ([#1565](https://github.com/eturino/apollo-link-scalars/issues/1565)).
+
+The cross-realm fix in 5.0.0 ([#1056](https://github.com/eturino/apollo-link-scalars/issues/1056)) replaced `instanceof` checks with `value.constructor.name === "GraphQLScalarType"`. Bundlers mangle class names in production, so every type guard returned `false`, the link's internal scalar map stayed empty, and parsing was skipped without errors. Type guards now read `value[Symbol.toStringTag]` first — graphql-js v16 exposes a string-literal getter on every type class that survives both minification and module-realm boundaries — and fall back to `constructor.name` for unminified non-graphql-js consumers.
+
+A new `apollo-v4-issue-1565` test-app exercises a `vite build && vite preview` bundle as part of the e2e suite, so the same regression cannot reach a release again.
+
+### Bug Fixes
+
+* use symbol tag and fallback to ctor name -> fix issues with minification in prod build ([292cd8d](https://github.com/eturino/apollo-link-scalars/commit/292cd8d5186ff1c4bfcfbd174d715782cb3b2da0)), closes [#1565](https://github.com/eturino/apollo-link-scalars/issues/1565)
+
 ## [5.0.0](https://github.com/eturino/apollo-link-scalars/compare/v4.0.3...v5.0.0) (2026-04-27)
 
 First release supporting `@apollo/client` v4 alongside v3, plus the new `reviveScalarsInCache` helper for JSON-persisted Apollo caches ([#760](https://github.com/eturino/apollo-link-scalars/issues/760)).
