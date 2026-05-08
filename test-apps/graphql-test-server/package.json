@@ -30,7 +30,7 @@
     "@eslint/js": "^10.0.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.2",
     "@types/ws": "^8.5.0",
     "eslint": "^10.0.0",
     "globals": "^17.5.0",
