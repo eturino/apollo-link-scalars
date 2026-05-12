@@ -48,7 +48,7 @@ importers:
         version: 3.3.0(@types/node@25.6.2)(typescript@6.0.3)
       dpdm:
         specifier: ^4.0.1
-        version: 4.0.1
+        version: 4.2.0
       es-toolkit:
         specifier: ^1.46.0
         version: 1.46.1
@@ -2714,8 +2714,8 @@ packages:
     resolution: {integrity: sha512-sCm11ak2oY6DglEPpCB8TixLjWAxd3kJTs6UIcSasNYxXdFPV+YKlye92c8H4kKFqV5qYMIh7d+cYecEg0dIkA==}
     engines: {node: '>=6'}
 
-  dpdm@4.0.1:
-    resolution: {integrity: sha512-9NutC+V6A/4GHgqsqRTMQNDlhipK3lyPWBJ8zIVT8lTncy71d1BzR7sbCO0Dv2zTZ4XSxvbEfMyd0NDDLU0+fw==}
+  dpdm@4.2.0:
+    resolution: {integrity: sha512-Vq862fZ9UE66rlr2VcMhU8ZstTH3ItqmniLSCtAeg6T2AYeB2oD3Z6lGjiFDjyUvxLbfLyBBNWagCLMehpmo5g==}
     hasBin: true
 
   dunder-proto@1.0.1:
@@ -3053,6 +3053,10 @@ packages:
 
   fs-extra@11.3.4:
     resolution: {integrity: sha512-CTXd6rk/M3/ULNQj8FBqBWHYBVYybQ3VPBw0xGKFe3tuH7ytT6ACnvzpIQ3UZtB8yvUKC2cXn1a+x+5EVQLovA==}
+    engines: {node: '>=14.14'}
+
+  fs-extra@11.3.5:
+    resolution: {integrity: sha512-eKpRKAovdpZtR1WopLHxlBWvAgPny3c4gX1G5Jhwmmw4XJj0ifSD5qB5TOo8hmA0wlRKDAOAhEE1yVPgs6Fgcg==}
     engines: {node: '>=14.14'}
 
   fs-extra@9.1.0:
@@ -7525,10 +7529,10 @@ snapshots:
       find-up: 3.0.0
       minimatch: 3.1.5
 
-  dpdm@4.0.1:
+  dpdm@4.2.0:
     dependencies:
       chalk: 5.6.2
-      fs-extra: 11.3.4
+      fs-extra: 11.3.5
       glob: 13.0.6
       ora: 9.4.0
       tslib: 2.8.1
@@ -8005,6 +8009,12 @@ snapshots:
   fresh@2.0.0: {}
 
   fs-extra@11.3.4:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.2.1
+      universalify: 2.0.1
+
+  fs-extra@11.3.5:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.2.1
