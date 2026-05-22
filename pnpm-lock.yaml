@@ -69,7 +69,7 @@ importers:
         version: 9.1.7
       knip:
         specifier: ^6.7.0
-        version: 6.14.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
+        version: 6.14.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)
       lint-staged:
         specifier: ^17.0.2
         version: 17.0.5
@@ -102,7 +102,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vitest:
         specifier: ^4.1.0
-        version: 4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       zen-observable-ts:
         specifier: ^1.1.0
         version: 1.1.0
@@ -139,7 +139,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -160,7 +160,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/apollo-v4-issue-1041:
     dependencies:
@@ -197,7 +197,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -218,7 +218,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/apollo-v4-issue-1565:
     dependencies:
@@ -252,7 +252,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -273,7 +273,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/apollo-v4-issue-bigint:
     dependencies:
@@ -310,7 +310,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -331,7 +331,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/apollo-v4-next-ssr:
     dependencies:
@@ -423,7 +423,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -444,7 +444,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/apollo-v4-react:
     dependencies:
@@ -481,7 +481,7 @@ importers:
         version: 19.2.3(@types/react@19.2.15)
       '@vitejs/plugin-react':
         specifier: ^6.0.1
-        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+        version: 6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       eslint:
         specifier: ^10.0.0
         version: 10.4.0(jiti@2.7.0)
@@ -502,7 +502,7 @@ importers:
         version: 8.59.4(eslint@10.4.0(jiti@2.7.0))(typescript@6.0.3)
       vite:
         specifier: ^8.0.11
-        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+        version: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   test-apps/graphql-test-server:
     dependencies:
@@ -3680,8 +3680,8 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
 
-  knip@6.14.1:
-    resolution: {integrity: sha512-SN3Ly0ixzj5CQkY/rc4OPHpWrCC0XRIIjgdP76G9Cni5k72ur5jBYOyvJuF5oPTM14v8eHcMUgPbElHa+lnR0g==}
+  knip@6.14.2:
+    resolution: {integrity: sha512-Vg3JhIINjZew1I7qAFI4UHemW1mc4azP/BxJvsq9eGDfxpGO7oVCuD/bsWkog9TO/ZwwJeAeOMFZ1kd9jnY9+Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -4664,6 +4664,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.1:
+    resolution: {integrity: sha512-rkVq3IXh+4FDGch+KwzX3aV9W3kO54GyEgpvBzSyctDA6Xtd7RJQV1xmXbeQp5v7+VzLOfVqiutSE6GICgPFvg==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.19.2:
     resolution: {integrity: sha512-VMbMxbDeehAxpOtWJXlcUS5E8iXh6QmN+BkRX1GARS3wRaXEEgzCcB10gTQazO42tpNIya8xIyNx8fll1OFPrg==}
     engines: {node: '>= 0.8.0'}
@@ -4726,6 +4731,10 @@ packages:
 
   shell-quote@1.8.3:
     resolution: {integrity: sha512-ObmnIF4hXNg1BqhnHmgbDETF8dLPCggZWBjkQfhZpbszZnYur5DUljTcCHii5LC3J5E0yeO/1LIMyH+UvHQgyw==}
+    engines: {node: '>= 0.4'}
+
+  shell-quote@1.8.4:
+    resolution: {integrity: sha512-VsC6n6vz1ihYYyZZwX7YZSF5l5x36ca17OC+a69h94YqB7X6XLwf+5MOgynYir2SLFUbl8gIYvBo8K8RoNQ6bQ==}
     engines: {node: '>= 0.4'}
 
   side-channel-list@1.0.1:
@@ -4958,8 +4967,8 @@ packages:
     resolution: {integrity: sha512-d79HhZya5Djd7am0q+W4RTsSU+D/aJzM+4Y4AGJGuGlgM2L6sx5ZvOYTmZjqPhrDrV6xJTtRSm1JCLj6V6LHLQ==}
     engines: {node: '>=14.16'}
 
-  terser@5.47.1:
-    resolution: {integrity: sha512-tPbLXTI6ohPASb/1YViL428oEHu6/qv1OxqYnfaonVCFHqx4+wCd95pHrQWsL5X4pl90CTyW9piSAsS2L0VoMw==}
+  terser@5.48.0:
+    resolution: {integrity: sha512-J/9An6vs9Us6wKRriSFXBWdRZapREHqFzdNUKk0pmu804EMR6dr6winwo7e5JDxN4xahxQsuysyYFwlwj4XN/Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -5354,8 +5363,8 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
-  ws@7.5.10:
-    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
+  ws@7.5.11:
+    resolution: {integrity: sha512-zS54Oen9bITtp7kp2XM3AydrCIq1D+HwJOuH+c+e4LfpL/lotP5osijd+UoMnxwAam1GN8R4KtLAyIrIcBNpiA==}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -6430,7 +6439,7 @@ snapshots:
       metro: 0.84.4
       metro-config: 0.84.4
       metro-core: 0.84.4
-      semver: 7.8.0
+      semver: 7.8.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -6459,7 +6468,7 @@ snapshots:
       nullthrows: 1.1.1
       open: 7.4.2
       serve-static: 1.16.3
-      ws: 7.5.10
+      ws: 7.5.11
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -6780,10 +6789,10 @@ snapshots:
       '@typescript-eslint/types': 8.59.4
       eslint-visitor-keys: 5.0.1
 
-  '@vitejs/plugin-react@6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))':
+  '@vitejs/plugin-react@6.0.2(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   '@vitest/coverage-v8@4.1.5(vitest@4.1.5)':
     dependencies:
@@ -6797,7 +6806,7 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+      vitest: 4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
 
   '@vitest/expect@4.1.5':
     dependencies:
@@ -6808,13 +6817,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
-  '@vitest/mocker@4.1.5(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.5(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.5
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.5':
     dependencies:
@@ -8611,7 +8620,7 @@ snapshots:
 
   kind-of@6.0.3: {}
 
-  knip@6.14.1(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0):
+  knip@6.14.2(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0):
     dependencies:
       fdir: 6.5.0(picomatch@4.0.4)
       formatly: 0.3.0
@@ -8929,7 +8938,7 @@ snapshots:
   metro-minify-terser@0.84.4:
     dependencies:
       flow-enums-runtime: 0.0.6
-      terser: 5.47.1
+      terser: 5.48.0
 
   metro-resolver@0.84.4:
     dependencies:
@@ -9035,7 +9044,7 @@ snapshots:
       serialize-error: 2.1.0
       source-map: 0.5.7
       throat: 5.0.0
-      ws: 7.5.10
+      ws: 7.5.11
       yargs: 17.7.2
     transitivePeerDependencies:
       - bufferutil
@@ -9525,8 +9534,8 @@ snapshots:
 
   react-devtools-core@6.1.5:
     dependencies:
-      shell-quote: 1.8.3
-      ws: 7.5.10
+      shell-quote: 1.8.4
+      ws: 7.5.11
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -9569,11 +9578,11 @@ snapshots:
       react-refresh: 0.14.2
       regenerator-runtime: 0.13.11
       scheduler: 0.27.0
-      semver: 7.8.0
+      semver: 7.8.1
       stacktrace-parser: 0.1.11
       tinyglobby: 0.2.16
       whatwg-fetch: 3.6.20
-      ws: 7.5.10
+      ws: 7.5.11
       yargs: 17.7.2
     optionalDependencies:
       '@types/react': 19.2.15
@@ -9777,6 +9786,8 @@ snapshots:
 
   semver@7.8.0: {}
 
+  semver@7.8.1: {}
+
   send@0.19.2:
     dependencies:
       debug: 2.6.9
@@ -9906,6 +9917,8 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shell-quote@1.8.3: {}
+
+  shell-quote@1.8.4: {}
 
   side-channel-list@1.0.1:
     dependencies:
@@ -10130,7 +10143,7 @@ snapshots:
       type-fest: 2.19.0
       unique-string: 3.0.0
 
-  terser@5.47.1:
+  terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
       acorn: 8.16.0
@@ -10359,7 +10372,7 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0):
+  vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -10371,14 +10384,14 @@ snapshots:
       esbuild: 0.28.0
       fsevents: 2.3.3
       jiti: 2.7.0
-      terser: 5.47.1
+      terser: 5.48.0
       tsx: 4.22.3
       yaml: 2.9.0
 
-  vitest@4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)):
+  vitest@4.1.5(@types/node@25.9.1)(@vitest/coverage-v8@4.1.5)(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.5
-      '@vitest/mocker': 4.1.5(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.5(vite@8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.5
       '@vitest/runner': 4.1.5
       '@vitest/snapshot': 4.1.5
@@ -10395,7 +10408,7 @@ snapshots:
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
       tinyrainbow: 3.1.0
-      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.47.1)(tsx@4.22.3)(yaml@2.9.0)
+      vite: 8.0.13(@types/node@25.9.1)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.3)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 25.9.1
@@ -10497,7 +10510,7 @@ snapshots:
 
   wrappy@1.0.2: {}
 
-  ws@7.5.10: {}
+  ws@7.5.11: {}
 
   ws@8.20.1: {}
 
