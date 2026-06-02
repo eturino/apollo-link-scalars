@@ -1,3 +1,6 @@
 packages:
   - "."
   - "test-apps/*"
+
+# Supply-chain hardening: refuse versions published < 5 days ago (7200 minutes).
+minimumReleaseAge: 7200
