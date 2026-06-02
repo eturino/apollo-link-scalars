@@ -4,3 +4,17 @@ packages:
 
 # Supply-chain hardening: refuse versions published < 5 days ago (7200 minutes).
 minimumReleaseAge: 7200
+
+# Security overrides (moved from package.json "pnpm" field, ignored by pnpm 11+).
+overrides:
+  "lodash@<4.17.23": "^4.17.23"
+  "tmp@<0.2.4": "^0.2.4"
+  "postcss@<8.5.10": "^8.5.10"
+
+# pnpm 10->11 changed the modules dir format; allow re-link without a TTY prompt.
+confirmModulesPurge: false
+
+allowBuilds:
+  '@apollo/protobufjs': false
+  esbuild: true
+  sharp: true
