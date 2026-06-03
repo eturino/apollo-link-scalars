@@ -51,7 +51,7 @@ importers:
         version: 4.2.0
       es-toolkit:
         specifier: ^1.46.0
-        version: 1.46.1
+        version: 1.47.0
       eslint:
         specifier: ^10.2.1
         version: 10.4.0(jiti@2.7.0)
@@ -2852,8 +2852,8 @@ packages:
     resolution: {integrity: sha512-w+5mJ3GuFL+NjVtJlvydShqE1eN3h3PbI7/5LAsYJP/2qtuMXjfL2LpHSRqo4b4eSF5K/DH1JXKUAHSB2UW50g==}
     engines: {node: '>= 0.4'}
 
-  es-toolkit@1.46.1:
-    resolution: {integrity: sha512-5eNtXOs3tbfxXOj04tjjseeWkRWaoCjdEI+96DgwzZoe6c9juL49pXlzAFTI72aWC9Y8p7168g6XIKjh7k6pyQ==}
+  es-toolkit@1.47.0:
+    resolution: {integrity: sha512-n1GuoD0WEQZMBk5tttoZSqwgyLx01oqa5XsBmCHwPyNe1S9jPBEmtR2pSgp2kJuWE3ciFZ6yRHmY4pM4C3OOkw==}
 
   esbuild@0.28.0:
     resolution: {integrity: sha512-sNR9MHpXSUV/XB4zmsFKN+QgVG82Cc7+/aaxJ8Adi8hyOac+EXptIp45QBPaVyX3N70664wRbTcLTOemCAnyqw==}
@@ -5941,7 +5941,7 @@ snapshots:
   '@commitlint/ensure@21.0.1':
     dependencies:
       '@commitlint/types': 21.0.1
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.0
 
   '@commitlint/execute-rule@20.0.0':
     optional: true
@@ -5989,7 +5989,7 @@ snapshots:
       '@commitlint/types': 21.0.1
       cosmiconfig: 9.0.1(typescript@6.0.3)
       cosmiconfig-typescript-loader: 6.3.0(@types/node@25.9.1)(cosmiconfig@9.0.1(typescript@6.0.3))(typescript@6.0.3)
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.0
       is-plain-obj: 4.1.0
       picocolors: 1.1.1
     transitivePeerDependencies:
@@ -6018,7 +6018,7 @@ snapshots:
     dependencies:
       '@commitlint/config-validator': 20.5.0
       '@commitlint/types': 20.5.0
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.0
       global-directory: 5.0.0
       import-meta-resolve: 4.2.0
       resolve-from: 5.0.0
@@ -6028,7 +6028,7 @@ snapshots:
     dependencies:
       '@commitlint/config-validator': 21.0.1
       '@commitlint/types': 21.0.1
-      es-toolkit: 1.46.1
+      es-toolkit: 1.47.0
       global-directory: 5.0.0
       resolve-from: 5.0.0
 
@@ -7813,7 +7813,7 @@ snapshots:
       is-date-object: 1.1.0
       is-symbol: 1.1.1
 
-  es-toolkit@1.46.1: {}
+  es-toolkit@1.47.0: {}
 
   esbuild@0.28.0:
     optionalDependencies:
