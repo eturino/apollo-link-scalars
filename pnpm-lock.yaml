@@ -81,10 +81,10 @@ importers:
         version: 9.0.0
       prettier:
         specifier: ^3.8.3
-        version: 3.8.3
+        version: 3.8.4
       prettier-plugin-organize-imports:
         specifier: ^4.3.0
-        version: 4.3.0(prettier@3.8.3)(typescript@6.0.3)
+        version: 4.3.0(prettier@3.8.4)(typescript@6.0.3)
       rxjs:
         specifier: ^7.8.2
         version: 7.8.2
@@ -4476,8 +4476,8 @@ packages:
       vue-tsc:
         optional: true
 
-  prettier@3.8.3:
-    resolution: {integrity: sha512-7igPTM53cGHMW8xWuVTydi2KO233VFiTNyF5hLJqpilHfmn8C8gPf+PS7dUT64YcXFbiMGZxS9pCSxL/Dxm/Jw==}
+  prettier@3.8.4:
+    resolution: {integrity: sha512-N2MylSdi48+5N/6S5j+maeHbUSIzzZ5uOcX5Hm4QpV8Dkb1HFjfAKTKX6yNPJQD9AhcT3ifHNB66tWTTJDi11Q==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4730,6 +4730,11 @@ packages:
 
   semver@7.8.2:
     resolution: {integrity: sha512-c8jsqUZm3omBOI66G90z1Dyw5z622G8oLG+omfsHBJf3CWQTlOcwOjvOG6wtiNfW6anKm/eA39LMwMtMez2TiQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.4:
+    resolution: {integrity: sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -6613,7 +6618,7 @@ snapshots:
       metro: 0.84.4
       metro-config: 0.84.4
       metro-core: 0.84.4
-      semver: 7.8.2
+      semver: 7.8.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -9728,12 +9733,12 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-organize-imports@4.3.0(prettier@3.8.3)(typescript@6.0.3):
+  prettier-plugin-organize-imports@4.3.0(prettier@3.8.4)(typescript@6.0.3):
     dependencies:
-      prettier: 3.8.3
+      prettier: 3.8.4
       typescript: 6.0.3
 
-  prettier@3.8.3: {}
+  prettier@3.8.4: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -9839,7 +9844,7 @@ snapshots:
       react-refresh: 0.14.2
       regenerator-runtime: 0.13.11
       scheduler: 0.27.0
-      semver: 7.8.2
+      semver: 7.8.4
       stacktrace-parser: 0.1.11
       tinyglobby: 0.2.17
       whatwg-fetch: 3.6.20
@@ -10051,6 +10056,9 @@ snapshots:
   semver@7.8.1: {}
 
   semver@7.8.2: {}
+
+  semver@7.8.4:
+    optional: true
 
   send@0.19.2:
     dependencies:
