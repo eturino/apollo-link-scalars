@@ -2,6 +2,7 @@ import type {
   GraphQLEnumType,
   GraphQLInputObjectType,
   GraphQLInputType,
+  GraphQLList,
   GraphQLScalarType,
   GraphQLSchema,
 } from "graphql";
@@ -17,6 +18,12 @@ import {
 import { isNone } from "./is-none";
 import { mapIfArray } from "./map-if-array";
 
+// `GraphQLInputType` minus `GraphQLNonNull`. graphql v17 brands its wrapper
+// classes, so without dropping the non-null member the compiler can no longer
+// narrow the walk down to `GraphQLInputObjectType`. v16 has no
+// `GraphQLNullableInputType` to reuse, hence the local spelling.
+type NullableInputType = GraphQLScalarType | GraphQLEnumType | GraphQLInputObjectType | GraphQLList<GraphQLInputType>;
+
 export class Serializer {
   constructor(
     readonly schema: GraphQLSchema,
@@ -26,7 +33,7 @@ export class Serializer {
   ) {}
 
   public serialize(value: any, type: GraphQLInputType): any {
-    const nullableType = ensureNullableTypeLike(type) as GraphQLInputType;
+    const nullableType = ensureNullableTypeLike(type) as NullableInputType;
     if (isNonNullTypeLike(type)) {
       return this.serializeInternal(value, nullableType);
     } else {
@@ -34,11 +41,11 @@ export class Serializer {
     }
   }
 
-  protected serializeNullable(value: any, type: GraphQLInputType): any {
+  protected serializeNullable(value: any, type: NullableInputType): any {
     return this.nullFunctions.serialize(this.serializeInternal(value, type));
   }
 
-  protected serializeInternal(value: any, type: GraphQLInputType): any {
+  protected serializeInternal(value: any, type: NullableInputType): any {
     if (isNone(value)) {
       return value;
     }

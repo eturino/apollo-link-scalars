@@ -25,7 +25,7 @@ function tag(value: unknown): string | undefined {
   return typeof ctor?.name === "string" ? ctor.name : undefined;
 }
 
-export function isNonNullTypeLike(type: GraphQLType | null | undefined): type is GraphQLNonNull<GraphQLType> {
+export function isNonNullTypeLike(type: GraphQLType | null | undefined): type is GraphQLNonNull<GraphQLNullableType> {
   return tag(type) === "GraphQLNonNull";
 }
 

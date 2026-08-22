@@ -15,7 +15,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["node"]
+    "types": ["node"],
+    // Apollo Client v3 peer-caps graphql at ^16 while the workspace root is on
+    // ^17. Without this, `apollo-link-scalars`' .d.ts resolves `graphql` from
+    // the root (v17) and its GraphQLSchema clashes with this app's v16 one.
+    "paths": {
+      "graphql": ["./node_modules/graphql"],
+      "graphql/*": ["./node_modules/graphql/*"]
+    }
   },
   "include": ["src", "e2e", "vite.config.ts"]
 }

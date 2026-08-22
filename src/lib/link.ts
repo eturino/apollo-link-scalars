@@ -1,6 +1,5 @@
 import { ApolloLink, type FetchResult, Observable, type Operation } from "@apollo/client/core";
-import type { GraphQLLeafType, GraphQLSchema, NamedTypeNode, TypeNode } from "graphql";
-import { GraphQLError } from "graphql/error/GraphQLError";
+import { GraphQLError, type GraphQLLeafType, type GraphQLSchema, type NamedTypeNode, type TypeNode } from "graphql";
 import type { FunctionsMap } from "../types/functions-map";
 import type { NullFunctions } from "../types/null-functions";
 import defaultNullFunctions from "./default-null-functions";

@@ -1,4 +1,4 @@
-import { mkdtempSync, cpSync, rmSync } from "node:fs";
+import { mkdtempSync, cpSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { createRequire } from "node:module";
@@ -6,6 +6,15 @@ import { gql, Observable, type Operation } from "@apollo/client/core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import introspectionSchemaResult from "./introspection.json";
 import { ScalarApolloLink } from "../link";
+
+// graphql v17 ships an `exports` map, so `graphql/package.json` is unresolvable,
+// and its `development` condition resolves the entry point into `__dev__/`.
+// Walk up from whatever entry the resolver picked to the real package root.
+function graphqlPackageRoot(): string {
+  let dir = path.dirname(require.resolve("graphql"));
+  while (!existsSync(path.join(dir, "package.json"))) dir = path.dirname(dir);
+  return dir;
+}
 
 function makeOperation(
   query = gql`
@@ -114,7 +123,7 @@ describe("ScalarApolloLink.request", () => {
   it("accepts schemas built from another graphql module realm", () => {
     const tmpRoot = mkdtempSync(path.join(tmpdir(), "graphql-realm-"));
     const copiedGraphqlDir = path.join(tmpRoot, "graphql");
-    const graphqlPackageDir = path.dirname(require.resolve("graphql/package.json"));
+    const graphqlPackageDir = graphqlPackageRoot();
 
     cpSync(graphqlPackageDir, copiedGraphqlDir, { recursive: true });
 

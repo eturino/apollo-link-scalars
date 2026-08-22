@@ -38,6 +38,12 @@ The 1.x family is considered deprecated and a [migration to 2.x or greater is re
 - New `reviveScalarsInCache` helper for re-applying custom `parseValue` to a JSON-restored Apollo cache. See [Rehydrating a persisted cache (`reviveScalarsInCache`)](#rehydrating-a-persisted-cache-revivescalarsincache).
 - No source-level breaking changes for code already using `withScalars` on `4.x`. Upgrading from `4.0.3` to `5.x` is a drop-in bump.
 
+### `graphql` v16 and v17
+
+`apollo-link-scalars` `v5.2+` supports `graphql` `16.x` and `17.x`. Note that
+`@apollo/client` v3 peer-caps `graphql` at `^16`, so `graphql` v17 requires
+`@apollo/client` v4.
+
 ### Breaking Change: removing `makeExecutableSchema`
 
 The versions that included `makeExecutableSchema` from `graphql-tools` are deprecated. This are the versions:

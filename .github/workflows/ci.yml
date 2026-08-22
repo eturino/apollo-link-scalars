@@ -23,17 +23,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        apollo-client: ["^3.8.0", "^4.0.0"]
+        # Apollo Client v3 peer-caps graphql at ^16, so there is no v3/gql17 row.
+        include:
+          - apollo-client: "^3.8.0"
+            graphql: "^16.8.0"
+          - apollo-client: "^4.0.0"
+            graphql: "^16.8.0"
+          - apollo-client: "^4.0.0"
+            graphql: "^17.0.0"
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
       - run: pnpm install --frozen-lockfile
-      - name: Pin @apollo/client to ${{ matrix.apollo-client }}
+      - name: Pin @apollo/client to ${{ matrix.apollo-client }} and graphql to ${{ matrix.graphql }}
         # -w targets the workspace root explicitly. Without it, pnpm in a
         # workspace refuses `add` at root with ERR_PNPM_ADDING_TO_ROOT.
-        run: pnpm add -w --save-dev "@apollo/client@$APOLLO_CLIENT_VERSION" graphql@^16.8.0
+        run: pnpm add -w --save-dev "@apollo/client@$APOLLO_CLIENT_VERSION" "graphql@$GRAPHQL_VERSION"
         env:
           APOLLO_CLIENT_VERSION: ${{ matrix.apollo-client }}
+          GRAPHQL_VERSION: ${{ matrix.graphql }}
       # Lib-only scope: the matrix row pins the root's apollo-client, which
       # would break the opposite-major test-app's tsc (its .d.ts imports
       # resolve against root). test-apps are covered by the `test` job.

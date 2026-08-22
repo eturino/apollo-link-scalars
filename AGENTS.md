@@ -2,7 +2,7 @@
 
 ## What this repo ships
 
-Custom Apollo Link that parses and serializes custom GraphQL scalars on the client. Supports Apollo Client v3 and v4. Also exposes `reviveScalarsInCache` for rehydrating scalar values in a JSON-persisted Apollo cache.
+Custom Apollo Link that parses and serializes custom GraphQL scalars on the client. Supports Apollo Client v3 and v4, and `graphql` 16 and 17. Also exposes `reviveScalarsInCache` for rehydrating scalar values in a JSON-persisted Apollo cache.
 
 Entry: `src/index.ts`. Main runtime type is `ScalarApolloLink` in `src/lib/link.ts`; helper is `withScalars(...)`.
 
@@ -45,7 +45,22 @@ Integration: `pnpm test:integration` (gated by `RUN_INTEGRATION=1`, specs in `sr
 
 E2E: Playwright root config. `pnpm e2e` = build then `playwright test`. Single worker, 2 retries, Chromium.
 
-Full matrix: `pnpm test:matrix` runs against Apollo v3 and v4 sequentially by swapping the installed `@apollo/client` version.
+Full matrix: `pnpm test:matrix` runs three rows sequentially (Apollo v3 + graphql 16, Apollo v4 + graphql 16, Apollo v4 + graphql 17) by swapping the root's installed `@apollo/client` / `graphql`. Lib-scope only (`test:lib` + `test:integration`) - pinning the root would break the opposite-major test-app's `tsc`. Each row leaves the root pinned; the last row wins, so re-run `pnpm install` after if you need the committed versions back.
+
+## graphql 16 vs 17 across the workspace
+
+The `graphql` major is not uniform in `test-apps/`, and it cannot be:
+
+- `apollo-v3-react` stays on `graphql` `^16` - `@apollo/client` v3 peer-caps at `^16`.
+- `graphql-test-server` stays on `graphql` `^16` - `@apollo/server` v5 peer-caps at `^16.11`.
+- Every `apollo-v4-*` app is on `graphql` `^17`.
+
+Two consequences worth knowing before touching this:
+
+- `apollo-v3-react/tsconfig.json` maps `paths` for `graphql` to its own `node_modules`. `apollo-link-scalars` is a workspace symlink, so its `.d.ts` would otherwise resolve `graphql` from the repo root (v17) and clash with the app's v16 `GraphQLSchema`.
+- `apollo-v4-next-ssr/next.config.ts` sets `transpilePackages: ["graphql"]`. graphql v17's `exports` map lists the `module` condition before `require`, so Next externalizes the server copy to `index.mjs` and then `require()`s it, which Node rejects with `ERR_INTERNAL_ASSERTION`.
+
+Also: graphql v17 ships an `exports` map, so `graphql/package.json` and deep paths like `graphql/error/GraphQLError` no longer resolve the way they did on v16. Import from `"graphql"`.
 
 ## Common scripts
 
