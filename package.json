@@ -126,7 +126,7 @@
     "typedoc": "^0.28.19",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0",
-    "vitest": "^4.1.0",
+    "vitest": "^5.0.1",
     "zen-observable-ts": "^1.1.0"
   },
   "packageManager": "pnpm@11.5.1",
