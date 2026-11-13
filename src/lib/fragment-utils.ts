@@ -27,9 +27,9 @@ function fieldNodeKeyTuple(fn: FieldNode): KeyTuple {
   const alias = fn.alias?.value;
   const name = fn.name.value;
   const selections = fn.selectionSet?.selections ?? [];
-  const selectionKeys = selections
-    .map((sn) => JSON.stringify(selectionKeyTuples(sn)))
-    .sort((a, b) => a.localeCompare(b));
+  // The keys only have to come out in the same order for the same set of selections, so
+  // compare them by code unit: a locale-aware comparison costs far more on some engines.
+  const selectionKeys = selections.map((sn) => JSON.stringify(selectionKeyTuples(sn))).sort();
   return [alias, name, selectionKeys];
 }
 

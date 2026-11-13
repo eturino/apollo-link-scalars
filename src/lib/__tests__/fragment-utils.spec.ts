@@ -1,6 +1,6 @@
-import { type FragmentDefinitionNode, Kind } from "graphql";
+import { type FragmentDefinitionNode, Kind, type OperationDefinitionNode, parse, print } from "graphql";
 import type { Dictionary } from "../../types/dictionary";
-import { fragmentMapFrom } from "../fragment-utils";
+import { fragmentMapFrom, replaceFragmentsOn } from "../fragment-utils";
 import type { ReducedFieldNode } from "../node-types";
 
 export const fragments: FragmentDefinitionNode[] = [
@@ -750,5 +750,32 @@ export const flatten: Dictionary<ReducedFieldNode[]> = {
 describe("fragmentMapFrom(fragmentList: FragmentDefinitionNode[]): Dictionary<ReducedFieldNode[]>", () => {
   it("returns an object with each Fragment name as key, and as value the list of all FieldNodes, replacing all fragment spreads for the actual Field nodes, deeply", () => {
     expect(fragmentMapFrom(fragments)).toEqual(flatten);
+  });
+});
+
+describe("replaceFragmentsOn(selections, fragmentMap): ReducedFieldNode[]", () => {
+  function reduced(query: string): string[] {
+    const operation = parse(query, { noLocation: true }).definitions[0] as OperationDefinitionNode;
+    return replaceFragmentsOn(operation.selectionSet.selections, {}).map((fn) => print(fn).replace(/\s+/g, " "));
+  }
+
+  it("keeps one of two fields that select the same sub-fields, whatever order each lists them in", () => {
+    expect(reduced("{ user { id name } user { name id } }")).toEqual(["user { id name }"]);
+    // "Zip" sorts before "id" by code unit and after it by locale: either order has to match itself
+    expect(reduced("{ user { id Zip _key } user { _key id Zip } user { Zip _key id } }")).toEqual([
+      "user { id Zip _key }",
+    ]);
+    expect(reduced("{ user { id team { id name } } user { team { name id } id } }")).toEqual([
+      "user { id team { id name } }",
+    ]);
+  });
+
+  it("keeps fields that differ in alias, name or sub-fields", () => {
+    expect(reduced("{ user { id } user { name } me: user { id } team { id } user { id } }")).toEqual([
+      "user { id }",
+      "user { name }",
+      "me: user { id }",
+      "team { id }",
+    ]);
   });
 });
