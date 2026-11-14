@@ -105,7 +105,7 @@
     "@playwright/test": "^1.65.0",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
-    "@vitest/coverage-v8": "^4.1.12",
+    "@vitest/coverage-v8": "^5.1.0",
     "commit-and-tag-version": "^13.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "dpdm": "^4.3.0",
@@ -126,7 +126,7 @@
     "typedoc": "^0.28.20",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.2",
-    "vitest": "^4.1.12",
+    "vitest": "^5.1.0",
     "zen-observable-ts": "^1.1.0"
   },
   "packageManager": "pnpm@11.28.11",
