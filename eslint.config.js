@@ -90,7 +90,7 @@ module.exports = [
   },
 
   {
-    files: ["src/__tests__/**/*.ts", "**/*.spec.ts"],
+    files: ["src/**/__tests__/**/*.ts", "**/*.spec.ts"],
     rules: {
       // Tests touch private helpers, assert on `any`, and sometimes
       // intentionally produce "unsafe" call sites. Disable the
@@ -112,6 +112,9 @@ module.exports = [
       // so turn the two offenders off wholesale for test files.
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
       "@typescript-eslint/no-unnecessary-condition": "off",
+      // graphql 16 types introspection enum fields as enums, graphql 17 as
+      // string unions, so the bundled introspection JSON only trips this on 16.
+      "@typescript-eslint/no-unsafe-enum-assignment": "off",
     },
   },
 
