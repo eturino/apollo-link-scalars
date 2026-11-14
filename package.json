@@ -129,8 +129,8 @@
     "vitest": "^4.1.12",
     "zen-observable-ts": "^1.1.0"
   },
-  "packageManager": "pnpm@11.5.1",
+  "packageManager": "pnpm@11.28.11",
   "volta": {
-    "node": "24.15.0"
+    "node": "24.22.2"
   }
 }
