@@ -14,7 +14,7 @@ Entry: `src/index.ts`. Main runtime type is `ScalarApolloLink` in `src/lib/link.
 - `test-apps/` — pnpm workspace packages that consume `apollo-link-scalars` via `workspace:*`
   - `graphql-test-server` — Apollo Server (express + graphql-ws) on port 5178. Mirrors the rickandmortyapi.com schema for reads and adds mutations + subscriptions on top. State partitioned by `X-Run-Id` header; missing header routes to a shared read-only seed. Used by the integration spec and all Vite-based test-apps.
   - `apollo-v3-react` — Vite + React, Apollo v3, port 5173. Hits the local test server for `character(id)`.
-  - `apollo-v4-react` — Vite + React, Apollo v4, port 5174. Hits the local test server for `character(id)`.
+  - `apollo-v4-react` — Vite + React, Apollo v4, port 5174. Hits the local test server for `character(id)`, plus a `createCharacter` mutation (custom `DateTime` serializer checked in the request body) and a `characterCreated` subscription over graphql-ws. Per-page `x-run-id` header and WS `connectionParams.runId` so writes go to an isolated store.
   - `apollo-v4-persisted-cache` — Vite + React, Apollo v4 with cache persistence, port 5175. Hits the local test server for `character(id)`.
   - `apollo-v4-next-ssr` — Next.js 16, Apollo v4 SSR, port 5176.
   - `apollo-v4-issue-1041` — Vite + React, Apollo v4, port 5177. Isolated repro for issue #1041 (cache-first with custom-serialized variables). Hosts its own minimal `events(at: DateTime)` GraphQL schema via vite `configureServer` middleware.

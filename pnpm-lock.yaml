@@ -460,6 +460,9 @@ importers:
       graphql:
         specifier: ^17.1.0
         version: 17.1.0
+      graphql-ws:
+        specifier: ^6.4.1
+        version: 6.4.1(graphql@17.1.0)(ws@8.22.2)
       react:
         specifier: ^19.3.1
         version: 19.3.1
@@ -7095,7 +7098,6 @@ snapshots:
       graphql: 17.1.0
     optionalDependencies:
       ws: 8.22.2
-    optional: true
 
   graphql@16.15.0: {}
 
