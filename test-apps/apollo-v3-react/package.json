@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.14.1",
-    "@graphql-tools/schema": "^10.1.5",
+    "@graphql-tools/schema": "^11.0.8",
     "apollo-link-scalars": "workspace:*",
     "graphql": "^16.15.0",
     "react": "^19.3.1",
