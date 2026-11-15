@@ -6,7 +6,6 @@
     "dev": "next dev --port 5176",
     "build": "next build",
     "start": "next start --port 5176",
-    "lint": "eslint . --max-warnings=0",
     "type-check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
@@ -20,13 +19,8 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
-    "eslint": "^10.14.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.14.0",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.2"
+    "typescript": "^7.0.2"
   }
 }

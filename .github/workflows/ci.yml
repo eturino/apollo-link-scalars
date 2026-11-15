@@ -48,6 +48,18 @@ jobs:
       - run: pnpm test:lib
       - run: pnpm test:integration
 
+  # The default toolchain is TypeScript 7. This job swaps every workspace
+  # package to TypeScript 6, so the build, the shipped .d.ts and the test apps
+  # that consume them stay checked on both majors. Lint stays on the default
+  # job: oxlint type-checks with its own TypeScript 7 either way.
+  typescript-6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:ts6
+
   # On `schedule`, decide whether the nightly e2e run has anything new to
   # verify. Avoids burning CI minutes re-testing an idle repo against a
   # live third-party endpoint. Skipped on `workflow_dispatch` (manual runs

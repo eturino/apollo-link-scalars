@@ -1,0 +1,12 @@
+{
+  "name": "typedoc-runner",
+  "private": true,
+  "description": "typedoc 0.28 cannot run on TypeScript 7, so it keeps its own locked TypeScript 6 here.",
+  "devDependencies": {
+    "typedoc": "0.28.20",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "typedoc": "typedoc"
+  }
+}

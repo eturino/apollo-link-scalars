@@ -1,7 +1,7 @@
 test
 tsconfig.json
 tsconfig.module.json
-.eslint*
+.oxlintrc.json
 .husky
 .travis.yml
 .github
