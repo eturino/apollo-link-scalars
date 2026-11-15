@@ -84,7 +84,7 @@ None.
 
 ## Last upgrade pass (2026-11-14)
 
-Base `a9fd40d` (master, CI red since 2026-11-12), gate 5 days, PR: none yet.
+Base `a9fd40d` (master, CI red since 2026-11-12), gate 5 days, PR: [#1737](https://github.com/eturino/apollo-link-scalars/pull/1737).
 
 Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnpm 10.33.1, and restored `pnpm-lock.yaml` from `514982f` because dependabot merges #1732, #1733 and #1734 left duplicated keys (`ERR_PNPM_BROKEN_LOCKFILE`).
 
@@ -143,7 +143,7 @@ Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnp
 - `@apollo/client` 4.x in `apollo-v3-react`: held by design (House rules).
 - `graphql` 17.x in `apollo-v3-react` and `graphql-test-server`: held by design (House rules).
 
-**Tested:** `pnpm test` (108 unit tests passed, 1 skipped; coverage 95.68% statements; lint, type-check and build across 8 test apps), `pnpm test:integration` (1 passed), `pnpm e2e` (9 passed across 7 projects), `pnpm test:matrix` (3 rows: Apollo 3 + graphql 16, Apollo 4 + graphql 16, Apollo 4 + graphql 17, each 108 unit + 1 integration passed).
+**Tested:** `pnpm test` (108 unit tests passed, 1 skipped; coverage 95.68% statements; lint, type-check and build across 8 test apps), `pnpm test:integration` (1 passed), `pnpm e2e` (10 passed across 7 projects), `pnpm test:matrix` (3 rows: Apollo 3 + graphql 16, Apollo 4 + graphql 16, Apollo 4 + graphql 17, each 108 unit + 1 integration passed).
 
 ## Upgrade history
 
