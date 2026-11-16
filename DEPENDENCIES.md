@@ -57,9 +57,7 @@ E2E against the 7 test apps. A bump needs `pnpm exec playwright install chromium
 
 ## Major Upgrades Blocked
 
-| Package | Current  | Latest  | Blocker                   | Since      | Re-checked | Last tried |
-| ------- | -------- | ------- | ------------------------- | ---------- | ---------- | ---------- |
-| `pnpm`  | 11.28.11 | 12.18.0 | Runtime major: its own PR. | 2026-11-14 | 2026-11-14 | -          |
+None.
 
 ## Open security advisories
 
@@ -139,6 +137,7 @@ Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnp
 
 ## Upgrade history
 
+- **2026-11-16**: pnpm 11.28.11 -> 12.19.0 in `mise.toml` and `packageManager`. pnpm 12 rejects the pnpm 11 setting `confirmModulesPurge` (dropped) and pins its own binary in `pnpm-lock.yaml`. Tested: `pnpm test`, `test:integration`, `e2e`, `test:matrix` and `test:ts6` on pnpm 12.
 - **2026-11-16**: Node 24.22.2 -> 26.13.1 in `mise.toml` and `volta`, no code change. Tested: `pnpm test`, `test:integration`, `e2e`, `test:matrix` and `test:ts6` on Node 26.
 - **2026-11-15**: `typescript` 7 in every package, ESLint replaced by oxlint, typedoc moved to `tools/typedoc` on TypeScript 6, `test:ts6` added. Tested: `pnpm test`, `test:integration` (1), `e2e` (10), `test:matrix` (3 rows) on 7, `test:ts6` on 6.0.3.
 - **2026-11-14**: lockfile repair + minor+patches + `vitest` v5 + `@graphql-tools/schema` v11 + action pins, dependabot version PRs stopped
