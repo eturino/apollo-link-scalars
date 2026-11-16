@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start --port 5176",
     "lint": "eslint . --max-warnings=0",
-    "type-check": "tsc --noEmit"
+    "type-check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@apollo/client": "^4.3.7",
