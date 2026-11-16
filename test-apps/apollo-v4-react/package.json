@@ -10,11 +10,11 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@apollo/client": "^4.3.7",
-    "@graphql-tools/schema": "^11.0.8",
+    "@apollo/client": "^4.3.8",
+    "@graphql-tools/schema": "^11.0.9",
     "apollo-link-scalars": "workspace:*",
     "graphql": "^17.1.0",
-    "graphql-ws": "^6.4.1",
+    "graphql-ws": "^6.4.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "rxjs": "^7.8.2"
@@ -24,6 +24,6 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.7"
+    "vite": "^8.3.8"
   }
 }

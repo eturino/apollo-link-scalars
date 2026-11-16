@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.14.1",
-    "@graphql-tools/schema": "^11.0.8",
+    "@graphql-tools/schema": "^11.0.9",
     "apollo-link-scalars": "workspace:*",
     "graphql": "^16.15.0",
     "react": "^19.3.1",
@@ -22,6 +22,6 @@
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.7"
+    "vite": "^8.3.8"
   }
 }
