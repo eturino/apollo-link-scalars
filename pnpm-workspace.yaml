@@ -12,9 +12,6 @@ overrides:
   "tmp@<0.2.4": "^0.2.4"
   "postcss@<8.5.10": "^8.5.10"
 
-# pnpm 10->11 changed the modules dir format; allow re-link without a TTY prompt.
-confirmModulesPurge: false
-
 allowBuilds:
   '@apollo/protobufjs': false
   esbuild: true
