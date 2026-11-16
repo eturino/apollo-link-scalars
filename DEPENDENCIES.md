@@ -2,7 +2,7 @@
 
 Last reviewed: 2026-11-14
 
-State file for the `upgrade-deps` skill (rules: `~/.agents/custom-skills/upgrade-deps/SKILL.md`).
+State file for the weekly dependency pass: what is pinned, what is held and why.
 Full per-pass detail lives in `git log -p DEPENDENCIES.md pnpm-lock.yaml`.
 
 ## House rules
@@ -12,7 +12,7 @@ Full per-pass detail lives in `git log -p DEPENDENCIES.md pnpm-lock.yaml`.
 - Gate: `pnpm-workspace.yaml` `minimumReleaseAge: 7200` (5 days).
 - Green gate: `pnpm test` (`test:lib` + `test:apps`), then `pnpm test:integration`, `pnpm e2e` (all 7 Playwright projects) and `pnpm test:matrix`. After the matrix, run `git checkout -- package.json pnpm-lock.yaml` and a frozen install: the matrix leaves the root pinned to its last row.
 - Commit prefixes: commitlint enforces conventional types, so dependency commits use `chore(deps):`, not `deps:`.
-- No dependabot. Upgrades run as a weekly agent pass (project Exx-OPNSRC). Dependabot was removed on 2026-11-14 after three auto-merged PRs left a broken `pnpm-lock.yaml` on master.
+- Dependabot opens security PRs only (`open-pull-requests-limit: 0` stops version PRs). Version upgrades run as a weekly pass recorded here, since three auto-merged Dependabot PRs left a broken `pnpm-lock.yaml` on master in 2026-11.
 - Nothing deploys on push. A release is a manual tag: see `RELEASING.md`.
 - Held majors by design (never bump these in a routine pass):
   - `@apollo/client` stays on 3.x in `test-apps/apollo-v3-react`. That app is the only v3 surface for the `3.x || 4.x` peer range.
@@ -57,7 +57,7 @@ E2E against the 7 test apps. A bump needs `pnpm exec playwright install chromium
 | Package      | Current  | Latest  | Blocker                                                                                                 | Since      | Re-checked | Last tried |
 | ------------ | -------- | ------- | ------------------------------------------------------------------------------------------------------- | ---------- | ---------- | ---------- |
 | `typescript` | 6.0.x    | 7.0.2   | `typescript-eslint` 8.72.2 peer caps `<6.1.0`, `typedoc` 0.28.20 caps `6.0.x`. [Details](#typescript-7) | 2026-11-14 | 2026-11-14 | 2026-11-14 |
-| `pnpm`       | 11.28.11 | 12.18.0 | Runtime major: needs Edu.                                                                               | 2026-11-14 | 2026-11-14 | -          |
+| `pnpm`       | 11.28.11 | 12.18.0 | Runtime major: its own PR.                                                                              | 2026-11-14 | 2026-11-14 | -          |
 
 ## Blocker Details
 
@@ -117,7 +117,7 @@ Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnp
 - `vitest`, `@vitest/coverage-v8` v5: no code change.
 - `@graphql-tools/schema` v11 (root and test apps): no code change.
 
-**GitHub Actions pins:** checkout v6.0.2 -> v7.0.1, upload-artifact v4 -> v7.0.2, mise-action v4.0.1 -> v5.2.7, action-gh-release v3.0.0 -> v3.0.4. Dependabot config and the CI `automerge` job removed.
+**GitHub Actions pins:** checkout v6.0.2 -> v7.0.1, upload-artifact v4 -> v7.0.2, mise-action v4.0.1 -> v5.2.7, action-gh-release v3.0.0 -> v3.0.4. Dependabot version PRs and the CI `automerge` job stopped.
 
 **Skipped this round**
 
@@ -133,7 +133,7 @@ Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnp
 | `@graphql-tools/schema` | 11.0.9  | inside the gate                       |
 | Node                    | 24.22.3 | published 2026-11-10, inside the gate |
 | `jdx/mise-action`       | v5.2.8  | published 2026-11-12, inside the gate |
-| pnpm                    | 12.x    | runtime major, needs Edu              |
+| pnpm                    | 12.x    | runtime major, its own PR             |
 
 **Nested refresh:** `pnpm update` inside the ranges. It also rewrote every caret specifier to the version already resolved (for example `prettier` `^3.9.10`, `dpdm` `^4.3.0`, `@apollo/server` and `express` in the test server), so the manifest diff is larger than the table above. **Security:** `pnpm audit --fix=update` left 2 moderate advisories open (above).
 
@@ -147,4 +147,4 @@ Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnp
 
 ## Upgrade history
 
-- **2026-11-14**: lockfile repair + minor+patches + `vitest` v5 + `@graphql-tools/schema` v11 + action pins, dependabot removed
+- **2026-11-14**: lockfile repair + minor+patches + `vitest` v5 + `@graphql-tools/schema` v11 + action pins, dependabot version PRs stopped
