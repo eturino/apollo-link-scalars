@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn"],
+  "plugins": ["typescript"],
   "categories": {
     "correctness": "off"
   },
@@ -179,7 +179,9 @@
       }
     ],
     "typescript/no-import-type-side-effects": "error",
-    "typescript/no-unnecessary-condition": "error"
+    "typescript/no-unnecessary-condition": "error",
+    "no-useless-assignment": "error",
+    "no-unexpected-multiline": "error"
   },
   "overrides": [
     {
