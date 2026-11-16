@@ -2,6 +2,46 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.2.0](https://github.com/eturino/apollo-link-scalars/compare/v5.1.0...v5.2.0) (2026-11-16)
+
+Adds `graphql` 17 support alongside 16, and makes fragment handling much faster on Hermes (React Native). The package is now built with TypeScript 7. CI checks that TypeScript 6 projects can still type-check against it, and that it loads on Node 20. No API changes.
+
+### Features
+
+* support graphql v17 alongside v16 ([019f53a](https://github.com/eturino/apollo-link-scalars/commit/019f53aacfd28251798acdbbc53822c7abaf9d6d)), closes [#1644](https://github.com/eturino/apollo-link-scalars/issues/1644)
+
+### Performance Improvements
+
+* sort selection keys by code unit, not by locale: 403 ms -> 4.3 ms for 400 keys on Hermes. Thanks @isaacrowntree ([#1735](https://github.com/eturino/apollo-link-scalars/issues/1735)) ([45f14b0](https://github.com/eturino/apollo-link-scalars/commit/45f14b0))
+
+### Bug Fixes
+
+* **deps:** bump @graphql-tools/schema from 10.1.0 to 10.1.1 ([#1666](https://github.com/eturino/apollo-link-scalars/issues/1666)) ([6963006](https://github.com/eturino/apollo-link-scalars/commit/6963006b3ead47cf1ea285f3f051ab0f140def9d))
+* **deps:** bump @graphql-tools/schema from 10.1.1 to 10.1.3 ([#1707](https://github.com/eturino/apollo-link-scalars/issues/1707)) ([454d34a](https://github.com/eturino/apollo-link-scalars/commit/454d34abe16bfb4378194a0ae879b49768c4c6ee))
+* **deps:** bump @graphql-tools/schema from 10.1.3 to 10.1.5 ([#1727](https://github.com/eturino/apollo-link-scalars/issues/1727)) ([3c86dd3](https://github.com/eturino/apollo-link-scalars/commit/3c86dd32c216b49e0dc0a0d1d107e60ea15384e3))
+* **deps:** bump apollo4-cache-persist from 1.0.10 to 1.0.11 ([#1617](https://github.com/eturino/apollo-link-scalars/issues/1617)) ([d096450](https://github.com/eturino/apollo-link-scalars/commit/d096450c4cf695f7e49754eb41b6e5be4bf83303))
+* **deps:** bump express from 5.2.1 to 5.3.0 ([#1716](https://github.com/eturino/apollo-link-scalars/issues/1716)) ([3d3eaad](https://github.com/eturino/apollo-link-scalars/commit/3d3eaad19ada064dcac71c3d9bb50ac9b5aba48e))
+* **deps:** bump graphql from 16.13.2 to 16.14.0 ([#1575](https://github.com/eturino/apollo-link-scalars/issues/1575)) ([9a96ca9](https://github.com/eturino/apollo-link-scalars/commit/9a96ca9094325eaa148419310037e04d801e1fbe))
+* **deps:** bump graphql from 16.14.0 to 16.14.1 ([#1632](https://github.com/eturino/apollo-link-scalars/issues/1632)) ([48712ce](https://github.com/eturino/apollo-link-scalars/commit/48712ce934026be3c239a8124dfa11f767a95358))
+* **deps:** bump graphql from 16.14.1 to 16.14.2 ([#1641](https://github.com/eturino/apollo-link-scalars/issues/1641)) ([bae6a69](https://github.com/eturino/apollo-link-scalars/commit/bae6a690371f5692eda01d6c4e47d865e18b059d))
+* **deps:** bump graphql-ws from 6.2.1 to 6.2.2 ([#1676](https://github.com/eturino/apollo-link-scalars/issues/1676)) ([616f711](https://github.com/eturino/apollo-link-scalars/commit/616f7116714ba50ed0deb892f3844a4b2c176b8a))
+* **deps:** bump graphql-ws from 6.2.2 to 6.3.0 ([#1693](https://github.com/eturino/apollo-link-scalars/issues/1693)) ([3ba4abc](https://github.com/eturino/apollo-link-scalars/commit/3ba4abca42a8adccaf77f2eda9d9ff0696916eb5))
+* **deps:** bump graphql-ws from 6.3.0 to 6.4.1 ([#1723](https://github.com/eturino/apollo-link-scalars/issues/1723)) ([d54f9e7](https://github.com/eturino/apollo-link-scalars/commit/d54f9e7ed38aebe1226fc1349fdd41391cc8a025))
+* **deps:** bump next from 16.2.4 to 16.2.5 ([#1576](https://github.com/eturino/apollo-link-scalars/issues/1576)) ([cbc5019](https://github.com/eturino/apollo-link-scalars/commit/cbc501954369dc7d0d66c3a5b7b95e97a2458c63))
+* **deps:** bump next from 16.2.5 to 16.2.6 ([#1583](https://github.com/eturino/apollo-link-scalars/issues/1583)) ([0a93acb](https://github.com/eturino/apollo-link-scalars/commit/0a93acb672eb05f906b14cde4715fc8ea8387b01))
+* **deps:** bump next from 16.2.6 to 16.2.9 ([#1642](https://github.com/eturino/apollo-link-scalars/issues/1642)) ([8fa8ede](https://github.com/eturino/apollo-link-scalars/commit/8fa8edef649090b10ff054683022601d38a5abcf))
+* **deps:** bump next from 16.3.1 to 16.3.4 ([#1654](https://github.com/eturino/apollo-link-scalars/issues/1654)) ([0c2206b](https://github.com/eturino/apollo-link-scalars/commit/0c2206b3db1a498f6ac5509182fa3fa48290177b))
+* **deps:** bump next from 16.3.4 to 16.3.5 ([#1672](https://github.com/eturino/apollo-link-scalars/issues/1672)) ([762569d](https://github.com/eturino/apollo-link-scalars/commit/762569d9bdee7c38cc40e064e8ea848adc8e158a))
+* **deps:** bump next from 16.3.5 to 16.3.6 ([#1691](https://github.com/eturino/apollo-link-scalars/issues/1691)) ([3bea7a9](https://github.com/eturino/apollo-link-scalars/commit/3bea7a90511d8194df6918b38b0c60c8d06ef939))
+* **deps:** bump next from 16.3.6 to 16.3.8 ([#1703](https://github.com/eturino/apollo-link-scalars/issues/1703)) ([12f61b5](https://github.com/eturino/apollo-link-scalars/commit/12f61b5de90ed76103e34f5866e0c44d926054c5))
+* **deps:** bump next from 16.3.8 to 16.4.0 ([#1711](https://github.com/eturino/apollo-link-scalars/issues/1711)) ([8f86036](https://github.com/eturino/apollo-link-scalars/commit/8f8603621d0d178826d83ae573cc03211e7d0c43))
+* **deps:** bump next from 16.4.0 to 16.4.1 ([#1720](https://github.com/eturino/apollo-link-scalars/issues/1720)) ([5bebaa4](https://github.com/eturino/apollo-link-scalars/commit/5bebaa4b1cdef2480cc6f0f19b50928e0fff449e))
+* **deps:** bump next from 16.4.1 to 16.4.2 ([#1731](https://github.com/eturino/apollo-link-scalars/issues/1731)) ([514982f](https://github.com/eturino/apollo-link-scalars/commit/514982f6e674a9db58b3d257edaf20aeafde1206))
+* **deps:** bump ws from 8.20.0 to 8.20.1 ([#1596](https://github.com/eturino/apollo-link-scalars/issues/1596)) ([1e53e2a](https://github.com/eturino/apollo-link-scalars/commit/1e53e2aa08cc25c572f590488399179ff5b1b820))
+* **deps:** bump ws from 8.20.1 to 8.21.0 ([#1613](https://github.com/eturino/apollo-link-scalars/issues/1613)) ([c38b496](https://github.com/eturino/apollo-link-scalars/commit/c38b49628ef60083f0e5b7956ded97d18e50ea6e))
+* **deps:** bump ws from 8.21.3 to 8.22.0 ([#1696](https://github.com/eturino/apollo-link-scalars/issues/1696)) ([63a9d77](https://github.com/eturino/apollo-link-scalars/commit/63a9d77ac848cdeb2a6919b97482dc798a268690))
+* **deps:** regenerate corrupt pnpm-lock.yaml ([b628987](https://github.com/eturino/apollo-link-scalars/commit/b628987f0ffd5e9d488f1364c5707efa01c97af4))
+
 ## [5.1.0](https://github.com/eturino/apollo-link-scalars/compare/v5.0.1...v5.1.0) (2026-05-06)
 
 Adds an opt-in `ensureSerializableVariables` flag to fix `TypeError: Do not know how to serialize a BigInt` when using `BigInt` GraphQL variables. The flag installs the standard MDN `BigInt.prototype.toJSON` shim only if no `toJSON` is already present. See the README's "Using `BigInt` variables" section for the full caveats.
