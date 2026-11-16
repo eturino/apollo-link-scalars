@@ -48,10 +48,11 @@ jobs:
       - run: pnpm test:lib
       - run: pnpm test:integration
 
-  # The default toolchain is TypeScript 7. This job swaps every workspace
-  # package to TypeScript 6, so the build, the shipped .d.ts and the test apps
-  # that consume them stay checked on both majors. Lint stays on the default
-  # job: oxlint type-checks with its own TypeScript 7 either way.
+  # The default toolchain is TypeScript 7. This job builds with 7, as npm
+  # ships it, then swaps every workspace package to TypeScript 6: the library
+  # still compiles on 6, and TypeScript 6 consumers (the test apps) type-check
+  # against the .d.ts that 7 emitted. Lint stays on the default job: oxlint
+  # type-checks with its own TypeScript 7 either way.
   typescript-6:
     runs-on: ubuntu-latest
     steps:

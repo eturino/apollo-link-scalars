@@ -77,7 +77,7 @@
     "clean": "trash build test",
     "prepare-release": "run-s reset test doc:html version doc:publish",
     "install:ts6": "pnpm -r --include-workspace-root add -D typescript@^6.0.3",
-    "test:ts6": "run-s install:ts6 build type-check test:unit test:apps:type-check test:apps:build"
+    "test:ts6": "run-s build install:ts6 type-check test:unit test:apps:type-check test:apps:build"
   },
   "scripts-info": {
     "info": "Display information about the package scripts",

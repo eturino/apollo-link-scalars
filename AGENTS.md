@@ -68,7 +68,7 @@ Also: graphql v17 ships an `exports` map, so `graphql/package.json` and deep pat
 - `pnpm test:lib` — build + oxlint (type-aware) + prettier check + unit + dep cycle check (dpdm) + dead code (knip) + type-check
 - `pnpm test:apps` — type-check + lint + build across all test-apps
 - `pnpm test:full` — `test` + `test:integration`
-- `pnpm test:ts6` — swaps every package to TypeScript 6 (the default is 7), then build + type-check + unit + test-apps type-check and build. Leaves the manifests on 6: `git checkout -- package.json pnpm-lock.yaml test-apps` and a frozen install after
+- `pnpm test:ts6` — builds with TypeScript 7 (what npm ships), then swaps every package to 6 and runs type-check + unit + test-apps type-check and build against that build. Leaves the manifests on 6: `git checkout -- package.json pnpm-lock.yaml test-apps` and a frozen install after
 - `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`, `apollo-v4-issue-1565`, `apollo-v4-issue-bigint`.
 
 ## Issue #1041 — cache-first with custom-serialized variables
