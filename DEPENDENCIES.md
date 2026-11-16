@@ -47,7 +47,7 @@ E2E against the 7 test apps. A bump needs `pnpm exec playwright install chromium
 | `vitest`, `@vitest/coverage-v8`                                                                | `^5.1.0`               | unit tests and coverage    |
 | `typescript`                                                                                   | `^7.0.2`               | compiler, 6 via `test:ts6` |
 | `oxlint`, `oxlint-tsgolint`                                                                    | `^1.93.0`, `^7.0.2006` | lint, type-aware           |
-| `prettier`, `prettier-plugin-organize-imports`                                                 | `^3.9.10`, `^4.3.0`    | format                     |
+| `prettier`                                                                                     | `^3.9.10`              | format                     |
 | `knip`, `dpdm`                                                                                 | `^6.44.2`, `^4.3.0`    | dead code, import cycles   |
 | `gh-pages` (typedoc: see House rules)                                                          | `^6.3.0`               | API docs site              |
 | `commit-and-tag-version`, `@commitlint/*`, `cz-conventional-changelog`, `husky`, `lint-staged` |                        | release and commit tooling |

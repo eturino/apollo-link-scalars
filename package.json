@@ -121,7 +121,6 @@
     "oxlint": "^1.93.0",
     "oxlint-tsgolint": "^7.0.2006",
     "prettier": "^3.9.10",
-    "prettier-plugin-organize-imports": "^4.3.0",
     "rxjs": "^7.8.2",
     "trash-cli": "^7.2.0",
     "typescript": "^7.0.2",
