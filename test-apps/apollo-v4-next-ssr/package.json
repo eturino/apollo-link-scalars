@@ -6,27 +6,21 @@
     "dev": "next dev --port 5176",
     "build": "next build",
     "start": "next start --port 5176",
-    "lint": "eslint . --max-warnings=0",
     "type-check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@apollo/client": "^4.3.7",
-    "@graphql-tools/schema": "^11.0.8",
+    "@apollo/client": "^4.3.8",
+    "@graphql-tools/schema": "^11.0.9",
     "apollo-link-scalars": "workspace:*",
     "graphql": "^17.1.0",
-    "next": "^16.4.5",
+    "next": "^16.4.6",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
-    "eslint": "^10.14.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.14.0",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.2"
+    "typescript": "^7.0.2"
   }
 }

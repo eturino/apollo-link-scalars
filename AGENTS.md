@@ -65,14 +65,16 @@ Also: graphql v17 ships an `exports` map, so `graphql/package.json` and deep pat
 ## Common scripts
 
 - `pnpm run build` — clean then `tsc` for main + module outputs in parallel
-- `pnpm test:lib` — build + eslint + prettier check + unit + dep cycle check (dpdm) + dead code (knip) + type-check
+- `pnpm test:lib` — build + oxlint (type-aware) + prettier check + unit + dep cycle check (dpdm) + dead code (knip) + type-check
 - `pnpm test:apps` — type-check + lint + build across all test-apps
 - `pnpm test:full` — `test` + `test:integration`
+- `pnpm test:ts6` — builds with TypeScript 7 (what npm ships), then swaps every package to 6 and runs type-check + unit + test-apps type-check and build against that build. Leaves the manifests on 6: `git checkout -- package.json pnpm-lock.yaml test-apps` and a frozen install after
 - `pnpm exec playwright test --project=<name>` — targeted e2e. Projects: `apollo-v3-react`, `apollo-v4-react`, `apollo-v4-persisted-cache`, `apollo-v4-next-ssr`, `apollo-v4-issue-1041`, `apollo-v4-issue-1565`, `apollo-v4-issue-bigint`.
 
 ## Issue #1041 — cache-first with custom-serialized variables
 
 **Bug:** `ScalarApolloLink.cleanVariables` mutated `operation.variables` in place, replacing Date-like instances with their custom-serialized string. Apollo internally uses that same variables object for cache-key identity and for cache writes, so a roundtrip `A → B → A` (fresh Date each time) would:
+
 - Write cache keyed on the custom serialized string (e.g. `"2023-08-19T00:00:00.000+00:00"`)
 - Miss on the third read because fresh Date stringifies via `toJSON` to ISO-Z (`"2023-08-19T00:00:00.000Z"`)
 - Fire a redundant network request despite `fetchPolicy: "cache-first"`
@@ -80,6 +82,7 @@ Also: graphql v17 ships an `exports` map, so `graphql/package.json` and deep pat
 **Fix:** shallow-clone `operation.variables` at the top of `cleanVariables` so the link serializes a detached copy, leaving Apollo's identity-bearing reference untouched.
 
 **Tests covering the regression:**
+
 - Unit: `src/__tests__/cache-first-serialized-variables.spec.ts` — reproduces deterministically with vitest.
 - E2E: `test-apps/apollo-v4-issue-1041/e2e/issue-1041.spec.ts` — requires a rebuilt `build/` to go RED on the unfixed source (see the build gotcha above).
 
@@ -92,6 +95,7 @@ The `apollo-v4-issue-1041` app is a dedicated, minimal repro: its `vite.config.t
 **Fix:** read `value[Symbol.toStringTag]` first (graphql-js v16 defines a getter on each type class returning the unminifiable string literal `"GraphQLScalarType"` etc.), and only fall back to `constructor.name` when no tag is present. Tag values are string literals, so they survive minification AND cross-realm.
 
 **Tests covering the regression:**
+
 - Unit: `src/lib/__tests__/graphql-type-guards.spec.ts` — covers real graphql-js instances, simulated minified instances (constructor renamed to `"a"` but `Symbol.toStringTag` preserved), and the constructor-name fallback.
 - E2E: `test-apps/apollo-v4-issue-1565/e2e/issue-1565.spec.ts` — runs against `vite build && vite preview` (NOT `vite dev`). The playwright project's `webServer` entry triggers the build per run; without this, the bug is invisible.
 
@@ -106,6 +110,7 @@ The `apollo-v4-issue-1565` app mirrors the user's repro from https://github.com/
 **Fix:** opt-in `ensureSerializableVariables` flag on `ScalarApolloLinkParams`. When `true`, the link installs a default `BigInt.prototype.toJSON` (calling `.toString()`) on first instantiation, but only if `toJSON` is not already defined. This is a process-wide side effect — required because Apollo's cache identity goes through plain `JSON.stringify` and there is no public hook to customize it. Wire format is still driven by the user's `BigInt` serializer in `typesMap`; the shim only governs how Apollo stringifies the original value for local cache identity.
 
 **Tests covering the regression:**
+
 - Unit: `src/__tests__/bigint-serialized-variables.spec.ts` — covers cache-first query (A → B → A), nested BigInt inside an input-object variable, the #1041 Date-stays-intact regression guard, and the prototype shim install.
 - E2E: `test-apps/apollo-v4-issue-bigint/e2e/issue-bigint.spec.ts` — runs against `vite dev` on port 5180. Hosts a `BigInt` scalar schema with `items(amount: BigInt)` query and `recordItem(amount: BigInt!)` mutation. Asserts cache hit on the third A read and that the mutation roundtrip resolves with a `bigint`-typed result.
 
@@ -114,6 +119,7 @@ The `apollo-v4-issue-1565` app mirrors the user's repro from https://github.com/
 `test-apps/graphql-test-server` is a small Apollo Server instance (express + graphql-ws on top of `@apollo/server` v5) that replaces the former dependency on `rickandmortyapi.com`.
 
 Key points:
+
 - Schema mirrors R&M reads (`Character`, `Location`, `Episode`, plus the `characters` / `locations` / `episodes` paginated queries) and adds `createCharacter` / `updateCharacter` / `deleteCharacter` mutations and `characterCreated` / `characterUpdated` subscriptions for exercising the link against writes and streaming.
 - State is partitioned by the `X-Run-Id` request header. Missing header routes to a shared read-only seed that mirrors a handful of real-API rows (Rick Sanchez at id=1, Morty at id=2, Summer at id=3, plus two locations and two episodes). Mutations against the shared store throw, so tests that need writes MUST send a runId.
 - The server exposes `GET /health` for liveness probes (playwright's webServer check). GraphQL lives at `/graphql`; WS subscriptions on the same path.

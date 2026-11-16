@@ -48,6 +48,32 @@ jobs:
       - run: pnpm test:lib
       - run: pnpm test:integration
 
+  # The default toolchain is TypeScript 7. This job builds with 7, as npm
+  # ships it, then swaps every workspace package to TypeScript 6: the library
+  # still compiles on 6, and TypeScript 6 consumers (the test apps) type-check
+  # against the .d.ts that 7 emitted. Lint stays on the default job: oxlint
+  # type-checks with its own TypeScript 7 either way.
+  typescript-6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:ts6
+
+  # engines.node promises >=20, but vitest, pnpm and graphql 17 need Node 22+.
+  # So install and build on the pinned Node, swap to the oldest peers
+  # (Apollo Client 3, graphql 16), then load the built package on Node 20.
+  node-20:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm add -w --save-dev "@apollo/client@^3.8.0" "graphql@^16.8.0"
+      - run: pnpm build
+      - run: mise exec node@20 -- node scripts/node20-smoke.cjs
+
   # On `schedule`, decide whether the nightly e2e run has anything new to
   # verify. Avoids burning CI minutes re-testing an idle repo against a
   # live third-party endpoint. Skipped on `workflow_dispatch` (manual runs
