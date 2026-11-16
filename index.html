@@ -1,4 +1,14 @@
-<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>apollo-link-scalars</title><meta name="description" content="Documentation for apollo-link-scalars"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">apollo-link-scalars</a><div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>apollo-link-scalars</h1></div><div class="tsd-panel tsd-typography"><h1 id="_" class="tsd-anchor-link"><code>apollo-link-scalars</code><a href="#_" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
+<!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>apollo-link-scalars</title><meta name="description" content="Documentation for apollo-link-scalars"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar">
+<div class="tsd-toolbar-contents container"><a href="index.html" class="title">apollo-link-scalars</a>
+<div id="tsd-toolbar-links"></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/>
+<ul role="listbox" id="tsd-search-results"></ul>
+<div id="tsd-search-status" aria-live="polite" aria-atomic="true">
+<div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header>
+<div class="container container-main">
+<div class="col-content">
+<div class="tsd-page-title">
+<h1>apollo-link-scalars</h1></div>
+<div class="tsd-panel tsd-typography"><h1 id="_" class="tsd-anchor-link"><code>apollo-link-scalars</code><a href="#_" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h1>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <p><a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square" alt="All Contributors"></a></p>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -23,6 +33,10 @@
 <li>New <code>reviveScalarsInCache</code> helper for re-applying custom <code>parseValue</code> to a JSON-restored Apollo cache. See <a href="#rehydrating-a-persisted-cache-revivescalarsincache">Rehydrating a persisted cache (<code>reviveScalarsInCache</code>)</a>.</li>
 <li>No source-level breaking changes for code already using <code>withScalars</code> on <code>4.x</code>. Upgrading from <code>4.0.3</code> to <code>5.x</code> is a drop-in bump.</li>
 </ul>
+<h3 id="v16-and-v17" class="tsd-anchor-link"><code>graphql</code> v16 and v17<a href="#v16-and-v17" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
+<p><code>apollo-link-scalars</code> <code>v5.2+</code> supports <code>graphql</code> <code>16.x</code> and <code>17.x</code>. Note that
+<code>@apollo/client</code> v3 peer-caps <code>graphql</code> at <code>^16</code>, so <code>graphql</code> v17 requires
+<code>@apollo/client</code> v4.</p>
 <h3 id="breaking-change-removing" class="tsd-anchor-link">Breaking Change: removing <code>makeExecutableSchema</code><a href="#breaking-change-removing" aria-label="Permalink" class="tsd-anchor-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/icons.svg#icon-anchor"></use></svg></a></h3>
 <p>The versions that included <code>makeExecutableSchema</code> from <code>graphql-tools</code> are deprecated. This are the versions:</p>
 <ul>
@@ -238,4 +252,66 @@
 <!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 <p>This project follows the <a href="https://github.com/all-contributors/all-contributors">all-contributors</a> specification. Contributions of any kind welcome!</p>
-</div></div><div class="col-sidebar"><div class="page-menu"><div class="tsd-navigation settings"><details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>Settings</h3></summary><div class="tsd-accordion-details"><div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span><ul id="tsd-filter-options"><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li><li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div><div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div><details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg><h3>On This Page</h3></summary><div class="tsd-accordion-details"><a href="#_"><span></span></a><ul><li><a href="#library-versions"><span>Library <wbr/>Versions</span></a></li><li><ul><li><a href="#apollo-client-v2-"><span>Apollo <wbr/>Client v2 -<wbr/>&gt;  </span></a></li><li><a href="#apollo-client-v3-and-v4-"><span>Apollo <wbr/>Client v3 and v4 -<wbr/>&gt;  </span></a></li><li><ul><li><a href="#whats-new-in"><span>What&#39;s new in </span></a></li></ul></li><li><a href="#breaking-change-removing"><span>Breaking <wbr/>Change: removing </span></a></li></ul></li><li><a href="#disclaimer-potential-cache-interaction"><span>Disclaimer: <wbr/>Potential cache interaction</span></a></li><li><a href="#installation"><span>Installation</span></a></li><li><a href="#what-it-does"><span>What <wbr/>It <wbr/>Does</span></a></li><li><a href="#working-examples"><span>Working <wbr/>Examples</span></a></li><li><a href="#usage"><span>Usage</span></a></li><li><ul><li><a href="#basic-setup"><span>Basic <wbr/>Setup</span></a></li><li><a href="#overriding-scalar-behavior-with"><span>Overriding <wbr/>Scalar <wbr/>Behavior <wbr/>With </span></a></li><li><a href="#options"><span>Options</span></a></li><li><ul><li><a href="#using-variables"><span>Using  variables</span></a></li></ul></li><li><a href="#end-to-end-example"><span>End-<wbr/>To-<wbr/>End <wbr/>Example</span></a></li><li><a href="#example-of-loading-a-schema"><span>Example of loading a schema</span></a></li><li><ul><li><a href="#synchronously-creating-a-link-instance-with-setup"><span>Synchronously creating a link instance with  setup</span></a></li><li><a href="#changing-the-behaviour-of-nullable-types"><span>Changing the behaviour of nullable types</span></a></li></ul></li><li><a href="#rehydrating-a-persisted-cache-"><span>Rehydrating a persisted cache ()</span></a></li></ul></li><li><a href="#acknowledgements"><span>Acknowledgements</span></a></li><li><a href="#development-commits-versioning-and-publishing"><span>Development, <wbr/>Commits, versioning and publishing</span></a></li><li><ul><li><a href="#commits-and-changelog"><span>Commits and <wbr/>CHANGELOG</span></a></li><li><a href="#release-process"><span>Release <wbr/>Process</span></a></li><li><a href="#first-release-special-cases"><span>First <wbr/>Release / <wbr/>Special <wbr/>Cases</span></a></li><li><a href="#publish-the-docs"><span>Publish the <wbr/>Docs</span></a></li><li><a href="#one-step-release-prep"><span>One-<wbr/>Step <wbr/>Release <wbr/>Prep</span></a></li></ul></li><li><a href="#contributors-✨"><span>Contributors ✨</span></a></li></ul></div></details></div><div class="site-menu"><nav class="tsd-navigation"><a href="modules.html">apollo-link-scalars</a><ul class="tsd-small-nested-navigation" id="tsd-nav-container"><li>Loading...</li></ul></nav></div></div></div><footer><p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer><div class="overlay"></div></body></html>
+</div></div>
+<div class="col-sidebar">
+<div class="page-menu">
+<div class="tsd-navigation settings">
+<details class="tsd-accordion"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>Settings</h3></summary>
+<div class="tsd-accordion-details">
+<div class="tsd-filter-visibility"><span class="settings-label">Member Visibility</span>
+<ul id="tsd-filter-options">
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-protected" name="protected"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Protected</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-inherited" name="inherited" checked/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>Inherited</span></label></li>
+<li class="tsd-filter-item"><label class="tsd-filter-input"><input type="checkbox" id="tsd-filter-external" name="external"/><svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true"><rect class="tsd-checkbox-background" width="30" height="30" x="1" y="1" rx="6" fill="none"></rect><path class="tsd-checkbox-checkmark" d="M8.35422 16.8214L13.2143 21.75L24.6458 10.25" stroke="none" stroke-width="3.5" stroke-linejoin="round" fill="none"></path></svg><span>External</span></label></li></ul></div>
+<div class="tsd-theme-toggle"><label class="settings-label" for="tsd-theme">Theme</label><select id="tsd-theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></div></div></details></div>
+<details open class="tsd-accordion tsd-page-navigation"><summary class="tsd-accordion-summary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-chevronDown"></use></svg>
+<h3>On This Page</h3></summary>
+<div class="tsd-accordion-details"><a href="#_"><span></span></a>
+<ul>
+<li><a href="#library-versions"><span>Library <wbr/>Versions</span></a></li>
+<li>
+<ul>
+<li><a href="#apollo-client-v2-"><span>Apollo <wbr/>Client v2 -<wbr/>&gt;  </span></a></li>
+<li><a href="#apollo-client-v3-and-v4-"><span>Apollo <wbr/>Client v3 and v4 -<wbr/>&gt;  </span></a></li>
+<li>
+<ul>
+<li><a href="#whats-new-in"><span>What&#39;s new in </span></a></li></ul></li>
+<li><a href="#v16-and-v17"><span> v16 and v17</span></a></li>
+<li><a href="#breaking-change-removing"><span>Breaking <wbr/>Change: removing </span></a></li></ul></li>
+<li><a href="#disclaimer-potential-cache-interaction"><span>Disclaimer: <wbr/>Potential cache interaction</span></a></li>
+<li><a href="#installation"><span>Installation</span></a></li>
+<li><a href="#what-it-does"><span>What <wbr/>It <wbr/>Does</span></a></li>
+<li><a href="#working-examples"><span>Working <wbr/>Examples</span></a></li>
+<li><a href="#usage"><span>Usage</span></a></li>
+<li>
+<ul>
+<li><a href="#basic-setup"><span>Basic <wbr/>Setup</span></a></li>
+<li><a href="#overriding-scalar-behavior-with"><span>Overriding <wbr/>Scalar <wbr/>Behavior <wbr/>With </span></a></li>
+<li><a href="#options"><span>Options</span></a></li>
+<li>
+<ul>
+<li><a href="#using-variables"><span>Using  variables</span></a></li></ul></li>
+<li><a href="#end-to-end-example"><span>End-<wbr/>To-<wbr/>End <wbr/>Example</span></a></li>
+<li><a href="#example-of-loading-a-schema"><span>Example of loading a schema</span></a></li>
+<li>
+<ul>
+<li><a href="#synchronously-creating-a-link-instance-with-setup"><span>Synchronously creating a link instance with  setup</span></a></li>
+<li><a href="#changing-the-behaviour-of-nullable-types"><span>Changing the behaviour of nullable types</span></a></li></ul></li>
+<li><a href="#rehydrating-a-persisted-cache-"><span>Rehydrating a persisted cache ()</span></a></li></ul></li>
+<li><a href="#acknowledgements"><span>Acknowledgements</span></a></li>
+<li><a href="#development-commits-versioning-and-publishing"><span>Development, <wbr/>Commits, versioning and publishing</span></a></li>
+<li>
+<ul>
+<li><a href="#commits-and-changelog"><span>Commits and <wbr/>CHANGELOG</span></a></li>
+<li><a href="#release-process"><span>Release <wbr/>Process</span></a></li>
+<li><a href="#first-release-special-cases"><span>First <wbr/>Release / <wbr/>Special <wbr/>Cases</span></a></li>
+<li><a href="#publish-the-docs"><span>Publish the <wbr/>Docs</span></a></li>
+<li><a href="#one-step-release-prep"><span>One-<wbr/>Step <wbr/>Release <wbr/>Prep</span></a></li></ul></li>
+<li><a href="#contributors-✨"><span>Contributors ✨</span></a></li></ul></div></details></div>
+<div class="site-menu">
+<nav class="tsd-navigation"><a href="modules.html">apollo-link-scalars</a>
+<ul class="tsd-small-nested-navigation" id="tsd-nav-container">
+<li>Loading...</li></ul></nav></div></div></div><footer>
+<p class="tsd-generator">Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></footer>
+<div class="overlay"></div></body></html>
