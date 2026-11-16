@@ -8,7 +8,7 @@ Full per-pass detail lives in `git log -p DEPENDENCIES.md pnpm-lock.yaml`.
 ## House rules
 
 - Package manager: pnpm, pinned in `mise.toml` and `package.json` `packageManager`. Node pinned in `mise.toml` and `package.json` `volta`. Keep all three in step.
-- Runtime: Node 24. `@types/node` follows the Node major only loosely: it tracks the newest `@types/node` the gate allows, because the library itself has `engines.node >=20` and no Node API surface.
+- Runtime: Node 24. `@types/node` follows the Node major only loosely: it tracks the newest `@types/node` the gate allows, because the library itself has `engines.node >=20` and no Node API surface. CI's `node-20` job loads the built package on Node 20 with Apollo Client 3 and graphql 16 (`scripts/node20-smoke.cjs`): vitest, pnpm and graphql 17 need Node 22+.
 - Gate: `pnpm-workspace.yaml` `minimumReleaseAge: 7200` (5 days).
 - Green gate: `pnpm test` (`test:lib` + `test:apps`), then `pnpm test:integration`, `pnpm e2e` (all 7 Playwright projects), `pnpm test:matrix` and `pnpm test:ts6`. After the matrix or `test:ts6`, run `git checkout -- package.json pnpm-lock.yaml test-apps` and a frozen install: both leave the manifests pinned to what they swapped in.
 - TypeScript: 7 is the default in every workspace package. `pnpm test:ts6` builds with 7, as npm ships it, then swaps every package to 6 and runs type-check, unit tests and the test apps' type-check and build. So the library compiles on 6, and TypeScript 6 consumers can use the `.d.ts` that 7 emits. CI runs it as the `typescript-6` job.
