@@ -63,12 +63,12 @@ E2E against the 7 test apps. A bump needs `pnpm exec playwright install chromium
 
 ## Open security advisories
 
-| Dependency path                                                    | Advisory                                                                 | Severity | Reason                             |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ---------------------------------- |
-| `glob` 13.0.7 (dev tooling)                                        | [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) | moderate | fix only in glob 14 (a major)      |
-| `minimatch` 10.2.6 (dev tooling, about 100 paths via eslint, dpdm) | [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) | moderate | fix only in minimatch 11 (a major) |
+| Dependency path                                        | Advisory                                                                 | Severity | Reason                             |
+| ------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ---------------------------------- |
+| `glob` 13.0.7 (dev tooling)                            | [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) | moderate | fix only in glob 14 (a major)      |
+| `minimatch` 10.2.6 (dev tooling, via typedoc and dpdm) | [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) | moderate | fix only in minimatch 11 (a major) |
 
-Re-checked 2026-11-14. Neither package ships in the npm payload.
+Re-checked 2026-11-16. Neither package ships in the npm payload.
 
 ## Active supply-chain exceptions
 
