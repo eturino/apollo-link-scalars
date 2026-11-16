@@ -1,9 +1,9 @@
 name: Upstream Major Watch
 
 # Weekly poke when @apollo/client or graphql ship a new major above
-# the current `peerDependencies` range. Dependabot is configured to
-# ignore major bumps for these packages (see .github/dependabot.yml),
-# so without this workflow a new upstream major would slip past us.
+# the current `peerDependencies` range. The weekly dependency pass holds
+# these majors on purpose (see DEPENDENCIES.md), so without this
+# workflow a new upstream major would slip past us.
 #
 # Behavior:
 # - reads current peer range from package.json
@@ -31,7 +31,7 @@ jobs:
     if: github.repository == 'eturino/apollo-link-scalars'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Check for new majors of @apollo/client and graphql
         env:
@@ -71,7 +71,7 @@ jobs:
             body=$(cat <<EOF
           \`$pkg\` has published **v$latest_major** (latest version: \`$latest\`). The current \`peerDependencies\` range is \`$peer_range\`, which excludes the new major.
 
-          Dependabot is configured to ignore major bumps for this package, so you have to drive the upgrade yourself.
+          The weekly dependency pass holds major bumps for this package on purpose, so you have to drive the upgrade yourself.
 
           Suggested upgrade flow:
 

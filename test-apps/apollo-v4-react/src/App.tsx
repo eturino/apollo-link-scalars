@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useMutation, useQuery, useSubscription } from "@apollo/client/react";
 import { useState } from "react";
 
 const GET_CHARACTER = gql`
@@ -45,6 +45,78 @@ function Character({ id }: { id: string }) {
   );
 }
 
+const CREATE_CHARACTER = gql`
+  mutation CreateCharacter($input: CreateCharacterInput!) {
+    createCharacter(input: $input) {
+      id
+      name
+      created
+    }
+  }
+`;
+
+const CHARACTER_CREATED = gql`
+  subscription CharacterCreated {
+    characterCreated {
+      id
+      name
+      created
+    }
+  }
+`;
+
+const CREATED_AT = new Date("2020-01-02T03:04:05.000Z");
+
+function describeCreated(created: unknown): { iso: string; isDate: string } {
+  return created instanceof Date
+    ? { iso: created.toISOString(), isDate: "true" }
+    : { iso: String(created), isDate: "false" };
+}
+
+function CreatedFeed() {
+  const { data, error } = useSubscription<{ characterCreated: Character }>(CHARACTER_CREATED);
+  if (error) return <p data-testid="sub-status">error: {error.message}</p>;
+  if (!data) return <p data-testid="sub-status">waiting</p>;
+  const { iso, isDate } = describeCreated(data.characterCreated.created);
+  return (
+    <dl>
+      <dt>subscription name</dt>
+      <dd data-testid="sub-name">{data.characterCreated.name}</dd>
+      <dt>subscription created (ISO)</dt>
+      <dd data-testid="sub-created-iso">{iso}</dd>
+      <dt>subscription created is Date</dt>
+      <dd data-testid="sub-created-is-date">{isDate}</dd>
+    </dl>
+  );
+}
+
+function CreateCharacter() {
+  const [create, { data, error }] = useMutation<{ createCharacter: Character }>(CREATE_CHARACTER);
+  const result = data ? describeCreated(data.createCharacter.created) : null;
+  return (
+    <section>
+      <button
+        data-testid="button-create"
+        type="button"
+        onClick={() => void create({ variables: { input: { name: "Squanchy", created: CREATED_AT } } })}
+      >
+        Create Squanchy
+      </button>
+      {error && <p data-testid="create-status">error: {error.message}</p>}
+      {data && result && (
+        <dl>
+          <dt>mutation name</dt>
+          <dd data-testid="create-name">{data.createCharacter.name}</dd>
+          <dt>mutation created (ISO)</dt>
+          <dd data-testid="create-created-iso">{result.iso}</dd>
+          <dt>mutation created is Date</dt>
+          <dd data-testid="create-created-is-date">{result.isDate}</dd>
+        </dl>
+      )}
+    </section>
+  );
+}
+
 export function App() {
   const [input, setInput] = useState("");
   const [id, setId] = useState("");
@@ -60,18 +132,15 @@ export function App() {
       >
         <label>
           Character id:{" "}
-          <input
-            data-testid="input-id"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="1"
-          />
+          <input data-testid="input-id" value={input} onChange={(e) => setInput(e.target.value)} placeholder="1" />
         </label>{" "}
         <button data-testid="button-fetch" type="submit">
           Fetch
         </button>
       </form>
       <Character id={id} />
+      <CreateCharacter />
+      <CreatedFeed />
     </main>
   );
 }

@@ -28,3 +28,4 @@ test-apps/*/tsconfig.tsbuildinfo
 
 # Git Worktrees
 .worktrees/
+test-apps/*/next-env.d.ts
