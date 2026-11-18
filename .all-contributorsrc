@@ -129,6 +129,25 @@
         "code",
         "platform"
       ]
+    },
+    {
+      "login": "isaacrowntree",
+      "name": "Isaac Rowntree",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11435437?v=4",
+      "profile": "https://isaacrowntree.com",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    },
+    {
+      "login": "Alfredo-Delgado",
+      "name": "Alfredo Delgado",
+      "avatar_url": "https://avatars.githubusercontent.com/u/798836?v=4",
+      "profile": "http://adelgado.org",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
