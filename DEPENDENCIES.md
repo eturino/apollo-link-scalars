@@ -1,6 +1,6 @@
 # Dependency State
 
-Last reviewed: 2026-11-14
+Last reviewed: 2026-11-18
 
 State file for the weekly dependency pass: what is pinned, what is held and why.
 Full per-pass detail lives in `git log -p DEPENDENCIES.md pnpm-lock.yaml`.
@@ -46,8 +46,8 @@ E2E against the 7 test apps. A bump needs `pnpm exec playwright install chromium
 | `@playwright/test`                                                                             | `^1.65.0`              | e2e                        |
 | `vitest`, `@vitest/coverage-v8`                                                                | `^5.1.0`               | unit tests and coverage    |
 | `typescript`                                                                                   | `^7.0.2`               | compiler, 6 via `test:ts6` |
-| `oxlint`, `oxlint-tsgolint`                                                                    | `^1.93.0`, `^7.0.2006` | lint, type-aware           |
-| `prettier`                                                                                     | `^3.9.10`              | format                     |
+| `oxlint`, `oxlint-tsgolint`                                                                    | `^1.93.0`, `^7.0.2007` | lint, type-aware           |
+| `prettier`                                                                                     | `^3.10.1`              | format                     |
 | `knip`, `dpdm`                                                                                 | `^6.44.2`, `^4.3.0`    | dead code, import cycles   |
 | `gh-pages` (typedoc: see House rules)                                                          | `^6.3.0`               | API docs site              |
 | `commit-and-tag-version`, `@commitlint/*`, `cz-conventional-changelog`, `husky`, `lint-staged` |                        | release and commit tooling |
@@ -61,82 +61,54 @@ None.
 
 ## Open security advisories
 
-| Dependency path                                        | Advisory                                                                 | Severity | Reason                             |
-| ------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ---------------------------------- |
-| `glob` 13.0.7 (dev tooling)                            | [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) | moderate | fix only in glob 14 (a major)      |
-| `minimatch` 10.2.6 (dev tooling, via typedoc and dpdm) | [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) | moderate | fix only in minimatch 11 (a major) |
+| Dependency path                                                                                        | Advisory                                                                 | Severity | Reason                                                                        |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | -------- | ----------------------------------------------------------------------------- |
+| `picomatch` 4.0.7 (dev tooling, via `fast-glob`/`micromatch` under `trash-cli`, `gh-pages` and others) | [GHSA-fc5q-39xc-vjpf](https://github.com/advisories/GHSA-fc5q-39xc-vjpf) | high     | no patched version (vulnerable `<=4.0.7`, latest is 4.0.7)                    |
+| `glob` 13.0.7 (dev tooling, via dpdm)                                                                  | [GHSA-3g3m-2fjr-6pw4](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4) | moderate | fix only in glob 14 (a major); newest dpdm 4.3.0 requires `^13`               |
+| `minimatch` 10.2.6 (dev tooling, via typedoc and dpdm)                                                 | [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249) | moderate | fix only in minimatch 11 (a major); newest typedoc 0.28.20 requires `^10.2.5` |
 
-Re-checked 2026-11-16. Neither package ships in the npm payload.
+Re-checked 2026-11-18. None of these packages ships in the npm payload.
 
 ## Active supply-chain exceptions
 
 None.
 
-## Last upgrade pass (2026-11-14)
+## Last upgrade pass (2026-11-18)
 
-Base `a9fd40d` (master, CI red since 2026-11-12), gate 5 days, PR: [#1737](https://github.com/eturino/apollo-link-scalars/pull/1737).
-
-Before the pass: removed a stale `.mise.toml` that shadowed `mise.toml` with pnpm 10.33.1, and restored `pnpm-lock.yaml` from `514982f` because dependabot merges #1732, #1733 and #1734 left duplicated keys (`ERR_PNPM_BROKEN_LOCKFILE`).
+Base `5219a0b` (master), gate 5 days, PR: none yet.
 
 **Upgraded**
 
-| Package                                              | From    | To       | Notes                                                                                    |
-| ---------------------------------------------------- | ------- | -------- | ---------------------------------------------------------------------------------------- |
-| `@apollo/client` (root, v4 apps)                     | 4.2.12  | 4.3.7    |                                                                                          |
-| `graphql` (root, v4 apps)                            | 17.0.2  | 17.1.0   |                                                                                          |
-| `graphql` (v3 app, test server)                      | 16.14.2 | 16.15.0  | held on 16 by design                                                                     |
-| `@commitlint/cli`, `@commitlint/config-conventional` | 21.2.3  | 21.2.4   |                                                                                          |
-| `@playwright/test`                                   | 1.64.1  | 1.65.0   |                                                                                          |
-| `@types/node`                                        | 26.6.5  | 26.6.6   |                                                                                          |
-| `@types/react`, `@types/react-dom`                   | 19.2.x  | 19.3.0   |                                                                                          |
-| `react`, `react-dom`                                 | 19.2.8  | 19.3.1   |                                                                                          |
-| `@vitejs/plugin-react`                               | 6.1.2   | 6.3.0    |                                                                                          |
-| `vite`                                               | 8.3.4   | 8.3.7    |                                                                                          |
-| `next`                                               | 16.4.2  | 16.4.5   |                                                                                          |
-| `ws`                                                 | 8.22.0  | 8.22.2   |                                                                                          |
-| `es-toolkit`                                         | 1.52.0  | 1.53.2   |                                                                                          |
-| `eslint`                                             | 10.13.0 | 10.14.0  |                                                                                          |
-| `globals`                                            | 17.13.0 | 17.14.0  |                                                                                          |
-| `knip`                                               | 6.41.0  | 6.44.2   |                                                                                          |
-| `typescript-eslint`                                  | 8.70.1  | 8.72.2   | new rule `no-unsafe-enum-assignment` turned off in test files (fires only on graphql 16) |
-| Node                                                 | 24.16.0 | 24.22.2  | `mise.toml` and `volta`                                                                  |
-| pnpm                                                 | 11.5.1  | 11.28.11 | `mise.toml` and `packageManager`                                                         |
+| Package           | From     | To       | Notes                            |
+| ----------------- | -------- | -------- | -------------------------------- |
+| `prettier`        | 3.9.10   | 3.10.1   |                                  |
+| `oxlint-tsgolint` | 7.0.2006 | 7.0.2007 |                                  |
+| pnpm              | 12.19.0  | 12.20.0  | `mise.toml` and `packageManager` |
 
-**Majors landed**
+**Majors landed:** none.
 
-- `vitest`, `@vitest/coverage-v8` v5: no code change.
-- `@graphql-tools/schema` v11 (root and test apps): no code change.
-
-**GitHub Actions pins:** checkout v6.0.2 -> v7.0.1, upload-artifact v4 -> v7.0.2, mise-action v4.0.1 -> v5.2.7, action-gh-release v3.0.0 -> v3.0.4. Dependabot version PRs and the CI `automerge` job stopped.
+**GitHub Actions pins:** `jdx/mise-action` v5.2.7 -> v5.2.8 (Windows-only install fix).
 
 **Skipped this round**
 
-| Package                 | Wanted  | Reason                                |
-| ----------------------- | ------- | ------------------------------------- |
-| `next`                  | 16.4.6  | published 2026-11-09, inside the gate |
-| `vite`                  | 8.3.8   | inside the gate                       |
-| `ws`                    | 8.23.0  | inside the gate                       |
-| `@playwright/test`      | 1.65.1  | inside the gate                       |
-| `eslint`                | 10.15.0 | inside the gate                       |
-| `knip`                  | 6.45.1  | inside the gate                       |
-| `@apollo/client`        | 4.3.8   | inside the gate                       |
-| `@graphql-tools/schema` | 11.0.9  | inside the gate                       |
-| Node                    | 24.22.3 | published 2026-11-10, inside the gate |
-| `jdx/mise-action`       | v5.2.8  | published 2026-11-12, inside the gate |
-| pnpm                    | 12.x    | runtime major, its own PR             |
+| Package           | Wanted  | Reason                                |
+| ----------------- | ------- | ------------------------------------- |
+| pnpm              | 12.21.0 | published 2026-11-13, inside the gate |
+| `jdx/mise-action` | v5.2.9  | published 2026-11-16, inside the gate |
 
-**Nested refresh:** `pnpm update` inside the ranges. It also rewrote every caret specifier to the version already resolved (for example `prettier` `^3.9.10`, `dpdm` `^4.3.0`, `@apollo/server` and `express` in the test server), so the manifest diff is larger than the table above. **Security:** `pnpm audit --fix=update` left 2 moderate advisories open (above).
+**Nested refresh:** skipped. `pnpm update` re-resolved `@graphql-tools/utils` under `@apollo/server` from 12.1.0 down to 10.10.0, which brings in [GHSA-7mx3-vvmw-hjmv](https://github.com/advisories/GHSA-7mx3-vvmw-hjmv) (high, fixed only in 12.0.1+). The lockfile keeps 12.1.0. **Security:** no advisory fixable in range: 3 open (above).
 
 **Still outdated after this pass**
 
-- `typescript` 7: landed on 2026-11-15 (Upgrade history).
+- pnpm 12.21.0: inside the gate.
 - `@apollo/client` 4.x in `apollo-v3-react`: held by design (House rules).
 - `graphql` 17.x in `apollo-v3-react` and `graphql-test-server`: held by design (House rules).
 
-**Tested:** `pnpm test` (108 unit tests passed, 1 skipped; coverage 95.68% statements; lint, type-check and build across 8 test apps), `pnpm test:integration` (1 passed), `pnpm e2e` (10 passed across 7 projects), `pnpm test:matrix` (3 rows: Apollo 3 + graphql 16, Apollo 4 + graphql 16, Apollo 4 + graphql 17, each 108 unit + 1 integration passed).
+**Tested:** `pnpm test` (110 unit tests passed, 1 skipped; lint, type-check and build across 8 test apps), `pnpm test:integration` (1 passed), `pnpm e2e` (10 passed across 7 projects), `pnpm test:matrix` (3 rows, each 110 unit + 1 integration passed), `pnpm test:ts6` (passed). `pnpm audit`: 1 high, 2 moderate, all open with reasons above.
 
 ## Upgrade history
 
+- **2026-11-18**: minor+patches, pnpm 12.20.0, `jdx/mise-action` v5.2.8, `picomatch` high advisory recorded (no fix exists)
 - **2026-11-16**: pnpm 11.28.11 -> 12.19.0 in `mise.toml` and `packageManager`. pnpm 12 rejects the pnpm 11 setting `confirmModulesPurge` (dropped) and pins its own binary in `pnpm-lock.yaml`. Tested: `pnpm test`, `test:integration`, `e2e`, `test:matrix` and `test:ts6` on pnpm 12.
 - **2026-11-16**: Node 24.22.2 -> 26.13.1 in `mise.toml` and `volta`, no code change. Tested: `pnpm test`, `test:integration`, `e2e`, `test:matrix` and `test:ts6` on Node 26.
 - **2026-11-15**: `typescript` 7 in every package, ESLint replaced by oxlint, typedoc moved to `tools/typedoc` on TypeScript 6, `test:ts6` added. Tested: `pnpm test`, `test:integration` (1), `e2e` (10), `test:matrix` (3 rows) on 7, `test:ts6` on 6.0.3.
