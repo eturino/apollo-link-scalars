@@ -119,15 +119,15 @@
     "npm-run-all": "^4.1.5",
     "open-cli": "^9.0.0",
     "oxlint": "^1.93.0",
-    "oxlint-tsgolint": "^7.0.2006",
-    "prettier": "^3.9.10",
+    "oxlint-tsgolint": "^7.0.2007",
+    "prettier": "^3.10.1",
     "rxjs": "^7.8.2",
     "trash-cli": "^7.2.0",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0",
     "zen-observable-ts": "^1.1.0"
   },
-  "packageManager": "pnpm@12.19.0",
+  "packageManager": "pnpm@12.20.0",
   "volta": {
     "node": "26.13.1"
   }
